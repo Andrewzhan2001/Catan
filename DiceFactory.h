@@ -6,11 +6,12 @@
 #include <map>
 #include <set>
 #include <memory>
-#include "GameFactory.h"
 
-class DiceFactory : public GameFactory{
+class Dice;
 
+class DiceFactory{
+  
  public:
-  std::unique_ptr<GameObject> createObject(std::string objectType) override;
+  std::unique_ptr<Dice> createObject(std::string objectType);
 };
 #endif

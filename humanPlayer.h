@@ -1,16 +1,16 @@
-#ifndef FAIRDICE
-#define FAIRDICE
+#ifndef HUMANPLAYER
+#define HUMANPLAYER
 #include <iostream>
 #include <string>
 #include <vector>
 #include <map>
 #include <set>
 #include <memory>
-#include "Dice.h"
+#include "Player.h"
 
-class FairDice : public Dice{
+class humanPlayer : public Player{
 
  public:
-  void setseed(size_t seed) override;
+  
 };
 #endif

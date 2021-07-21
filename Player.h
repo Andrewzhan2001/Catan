@@ -6,11 +6,9 @@
 #include <map>
 #include <set>
 #include <memory>
-#include "GameObject.h"
 
-class Player : public GameObject{
+class Player {
 
  public:
-  
 };
 #endif

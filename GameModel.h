@@ -1,5 +1,5 @@
-#ifndef GAMEModel
-#define GAMEModel
+#ifndef GAMEMODEL
+#define GAMEMODEL
 #include <iostream>
 #include <string>
 #include <vector>

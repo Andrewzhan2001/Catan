@@ -5,12 +5,12 @@
 #include <vector>
 #include <map>
 #include <set>
-class Board;
+class GameModel;
 
 class SetBoardStrategy{
 
  public:
 
-  virtual void loadBoard(Board *b);
+  virtual void loadBoard(GameModel *gm);
 };
 #endif

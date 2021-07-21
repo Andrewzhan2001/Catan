@@ -6,9 +6,8 @@
 #include <map>
 #include <set>
 #include <memory>
-#include "GameObject.h"
-
-class LoadedDice : public GameObject{
+#include "Dice.h"
+class LoadedDice : public Dice{
 
  public:
 };

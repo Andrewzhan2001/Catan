@@ -10,7 +10,7 @@
 #include <memory>
 #include <algorithm>
 #include "Controller.h"
-#include "randomSet.h"
+#include "randomLoad.h"
 #include "Setfromfile.h"
 #include "loadFromBoard.h"
 using namespace std;
@@ -50,8 +50,8 @@ int main(int argc, char const *argv[]) {
       control.loadStrategy(fb);
     } else {
       // if both command not found, default randomboard
-      randomSet rs;
-      control.loadStrategy(rs);
+      randomLoad rl;
+      control.loadStrategy(rl);
     }
   }
   control.play();

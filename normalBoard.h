@@ -1,16 +1,16 @@
-#ifndef FAIRDICE
-#define FAIRDICE
+#ifndef NORMALBOARD
+#define NORMALBOARD
 #include <iostream>
 #include <string>
 #include <vector>
 #include <map>
 #include <set>
 #include <memory>
-#include "Dice.h"
+#include "Board.h"
 
-class FairDice : public Dice{
+class normalBoard : public Board{
 
  public:
-  void setseed(size_t seed) override;
+
 };
 #endif

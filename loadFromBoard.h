@@ -6,11 +6,11 @@
 #include <map>
 #include <set>
 #include "SetBoardStrategy.h"
-class Board;
+class GameModel;
 class loadFromBoard : public SetBoardStrategy{
 
  public:
 
-  void loadBoard(Board *b) override;
+  void loadBoard(GameModel *gm) override;
 };
 #endif

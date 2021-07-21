@@ -7,10 +7,10 @@
 #include <set>
 #include "SetBoardStrategy.h"
 
-class Board;
+class GameModel;
 class Setfromfile : public SetBoardStrategy {
 
  public:
-  void loadBoard(Board *b) override;
+  void loadBoard(GameModel *bm) override;
 };
 #endif

@@ -1,5 +1,5 @@
-#ifndef RANDOMSET
-#define RANDOMSET
+#ifndef RANDOMLOAD
+#define RANDOMLOAD
 #include <iostream>
 #include <string>
 #include <vector>
@@ -7,12 +7,12 @@
 #include <set>
 #include "SetBoardStrategy.h"
 
-class Board;
+class GameModel;
 
 class randomLoad : public SetBoardStrategy{
 
  public:
 
-  void loadBoard(Board *b) override;
+  void loadBoard(GameModel *bm) override;
 };
 #endif

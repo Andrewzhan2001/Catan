@@ -6,9 +6,8 @@
 #include <map>
 #include <set>
 #include <memory>
-#include "GameObject.h"
 
-class Board : public GameObject{
+class Board {
 
  public:
 
