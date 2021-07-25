@@ -11,5 +11,6 @@ class Dice {
 
  public:
   virtual void setseed(size_t seed);
+  virtual int getNum();
 };
 #endif
