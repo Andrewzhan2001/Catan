@@ -11,6 +11,7 @@
 class normalBoard : public Board{
 
  public:
-
+normalBoard();
+bool validVertex(int x) override;
 };
 #endif
