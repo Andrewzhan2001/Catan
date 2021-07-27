@@ -40,7 +40,7 @@ public:
   bool attempbuild(int x, char type);
   // loses half of resources randoml
   // NEEDS TO OUTPUT THE MESSAGE ACCORDING TO ASSIGNMENT RULE
-  void loseHalf();
+  void loseHalf(size_t seed);
   // determines whether given stuff(roads, residences) belongs to the player
   bool belongs(int x, char type);
   // prints buildings of the player according to project guidline

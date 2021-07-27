@@ -11,9 +11,11 @@
 
 class GameModel{
   int number; // total number of players 
+  size_t seed = 0; // for random generator
+  std::default_random_engine rng{seed};
   std::vector<std::unique_ptr<Player>> players;
   std::unique_ptr<Board> b;
-  std::unique_ptr<Dice> d;
+  std::vector<std::unique_ptr<Dice>> d;
   int currentTurn;
   int diceNum;
   
@@ -23,6 +25,8 @@ class GameModel{
   // constructor
   // each player chooses two places for basement
   void initial(); 
+  // set the random seed;
+  void setseed();
   // switches turn from 1,2,3,4 
   void switches(); 
   // create a residence/road at location x

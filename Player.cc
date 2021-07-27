@@ -6,7 +6,7 @@ Player::Player(std::string color)
                                                {"GLASS", 0},
                                                {"HEAT", 0},
                                                {"WIFI", 0}}},
-      roads{0}, residences{0} {}
+      roads{}, residences{} {}
 
 void Player::modifyResources(std::string type, int amount) {
   for (auto it : resources) {
@@ -25,6 +25,7 @@ int Player::getResources(std::string type) {
   for (auto it : resources) {
     if (it.first == type) {
       retval = it.second;
+      break;
     }
   }
   return retval;
@@ -95,7 +96,7 @@ bool Player::attempbuild(int x, char type) {
   return true;
 }
 
-void Player::loseHalf() {
+void Player::loseHalf(size_t seed) {
   int total = getTotal();
   if (total >= 10) {
     total /= 2;
