@@ -8,6 +8,7 @@
 #include "Board.h"
 #include "Dice.h"
 #include "Player.h"
+#include <fstream>
 
 class GameModel{
   int number; // total number of players 
@@ -15,13 +16,19 @@ class GameModel{
   std::default_random_engine rng{seed};
   std::vector<std::unique_ptr<Player>> players;
   std::unique_ptr<Board> b;
+  // d[0] is fair dice, d[1] is loaded dice
   std::vector<std::unique_ptr<Dice>> d;
+  // 0 represents fair dice, 1 represents loaded dice
+  int currentDice;
   int currentTurn;
   int diceNum;
   
   Player *getPlayer(int idx);
 
   public:
+  void setSeed(size_t n);
+  std::string getCurColor();
+  Player *getCurPlayer();
   // constructor
   // each player chooses two places for basement
   void initial(); 
@@ -33,13 +40,17 @@ class GameModel{
   void create(int x, std::string type);
   // prints current turn
   void printTurn();
-  int rollDice(std::string type);
+  void setDice(std::string type);
+  int rollDice();
   void printPlayers();
   void printBuildings();
   void buildRoad(int x);
   void buildBasement(int x);
   void upgrade(int x);
   void update();
-  void exchange(int p, std::string type1, std::string type2);
+  void exchange(std::string type, std::string type1, std::string type2);
+  bool ifWin();
+  void printData();
+  void saveFile(std::ofstream &out);
 };
 #endif

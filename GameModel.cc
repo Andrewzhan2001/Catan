@@ -4,6 +4,10 @@ Player *GameModel::getPlayer(int idx) {
   return players[idx].get();
 }
 
+void GameModel::setSeed(size_t n) {
+  this->seed = n;
+}
+
 std::string getColor(int idx) {
   if (idx == 0) {
     return "Blue";
@@ -12,7 +16,20 @@ std::string getColor(int idx) {
   } else if (idx == 2) {
     return "Orange";
   } else {
-    return "Red";
+    return "Yellow";
+  }
+}
+
+
+int getPlayerNum(std::string type) {
+  if (type == "Blue") {
+    return 0;
+  } else if (type == "Red") {
+    return 1;
+  } else if (type == "Orange") {
+    return 2;
+  } else {
+    return 3;
   }
 }
 
@@ -29,7 +46,7 @@ void GameModel::initial() {
       if (b->validVertex(n)) {
         // is a valid vertex
         cur->addBasement(n);
-        b->create(i, n, "basement");
+        b->create(i, n, "Basement");
         break;
       }
     }
@@ -46,7 +63,7 @@ void GameModel::initial() {
       if (b->validVertex(n)) {
         // is a valid vertex
         cur->addBasement(n);
-        b->create(i, n, "basement");
+        b->create(i, n, "Basement");
         break;
       }
     }
@@ -65,9 +82,23 @@ void GameModel::printTurn() {
   cur->printStatus();
 }
 
-int GameModel::rollDice(std::string type) {
-  // construct dices according to type
-  diceNum = d->getNum();
+void GameModel::setDice(std::string type) {
+  if (type == "fair") {
+    currentDice = 0;
+  } else if (type == "load") {
+    currentDice = 1;
+  }
+}
+
+int GameModel::rollDice() {
+  Dice *cur = d[currentDice].get();
+  if (currentDice == 0) {
+    // fair dice, roll twice
+    diceNum += cur->getNum();
+    diceNum += cur->getNum();
+  } else {
+    diceNum += cur->getNum();
+  }
 }
 
 void GameModel::printPlayers() {
@@ -81,14 +112,14 @@ void GameModel::printBuildings() {
   cur->printBuildings();
 }
 
-void GameModel::buildRoad(int x) { create(x, "road"); }
+void GameModel::buildRoad(int x) { create(x, "Road"); }
 
-void GameModel::buildBasement(int x) { create(x, "basement"); }
+void GameModel::buildBasement(int x) { create(x, "Basement"); }
 
 void GameModel::create(int x, std::string type) {
   Player *cur = getPlayer(currentTurn);
   if (b->canBuild(currentTurn, x, type)) {
-    if (cur->attempbuild(x, type)) {
+    if (cur->attempbuild(x, type[0])) {
       b->create(currentTurn, x, type);
     }
   }
@@ -107,7 +138,7 @@ void GameModel::update() {
   if (diceNum == 7) {
     for (auto &p : players) {
       if (p->getTotal() >= 10) {
-       p->loseHalf();
+       p->loseHalf(seed);
       }
     }
     std::cout << "Choose where to place the GEESE.";
@@ -124,7 +155,7 @@ void GameModel::update() {
         if (i == currentTurn) {
           continue;
         } 
-        if (getPlayer(i)->belongs(x, "basement")) {
+        if (getPlayer(i)->belongs(x, 'B')) {
           lists.emplace_back(getColor(i));
         }   
       }
@@ -158,7 +189,7 @@ void GameModel::update() {
     std::vector<std::pair<std::string, int>> neighbours = b->getResidences(diceNum);
     for (auto n : neighbours) {
       for (auto &p : players) {
-        if (p->belongs(n.second, "basement")) {
+        if (p->belongs(n.second, 'B')) {
           p->award(n.second, n.first);
         }
       }
@@ -166,21 +197,34 @@ void GameModel::update() {
   }
 }
 
-void GameModel::exchange(int p, std::string type1, std::string type2) {
+void GameModel::exchange(std::string color, std::string type1, std::string type2) {
   std::cout << getColor(currentTurn);
-  std::cout << " offers " << getColor(p);
+  std::cout << " offers " << color;
   std::cout << " one " << type1 << " for one " << type2 << ".\n";
-  std::cout << "Does " << getColor(p) << " accept this offer?\n";
+  std::cout << "Does " << color << " accept this offer?\n";
   std::string cmd;
   while (std::cin >> cmd) {
     if (cmd == "yes") {
       getPlayer(currentTurn)->modifyResources(type1, -1);
       getPlayer(currentTurn)->modifyResources(type2, 1);
-      getPlayer(p)->modifyResources(type1, 1);
-      getPlayer(p)->modifyResources(type2, -1);
+      getPlayer(getPlayerNum(color))->modifyResources(type1, 1);
+      getPlayer(getPlayerNum(color))->modifyResources(type2, -1);
       break;
     } else if (cmd == "no") {
       break;
     }
   }
+}
+
+bool GameModel::ifWin() {
+  for (auto &p : players) {
+    if (p->getPoints() >= 10) {
+      return true;
+    }
+  }
+  return false;
+}
+
+void GameModel::saveFile(std::ofstream &out) {
+  out << currentTurn << '\n';
 }
