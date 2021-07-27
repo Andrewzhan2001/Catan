@@ -8,5 +8,3 @@
 using namespace std;
 
 void setseed(size_t seed){}
-
-int getNum(){}

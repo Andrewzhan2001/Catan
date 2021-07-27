@@ -10,6 +10,6 @@
 class Dice {
  public:
   virtual void setseed(size_t seed);
-  virtual int getNum();
+  virtual int getNum() = 0;
 };
 #endif
