@@ -9,6 +9,8 @@
 #include "Tile.h"
 
 class Board {
+  
+ protected:
   std::vector<std::string> vertex;
   std::vector<std::string> edge;
   std::vector<std::unique_ptr<Tile>> tiles;

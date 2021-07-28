@@ -10,13 +10,13 @@
 
 class Player {
   int buildpoints;
+  int dicenum;
   std::string color;
   std::vector<std::pair<std::string, int>> resources;
   std::vector<int> roads; // store the edges of the roads
   std::vector<std::pair<int, char>> residences;
-
 public:
-  Player(std::string color);
+  Player();
   // modifies the certain type of resources by given amounts
   // If amount > 0, then awards the player;
   // If amount < 0, then the player uses resourses;
@@ -30,8 +30,14 @@ public:
   int getTotal();
   // returns buildpoints
   int getPoints();
+
+  void setDiceNum(int dicenum);
+
+  int getDiceNum();
   // returns color
   std::string getColor();
+
+  void setColor(std::string color);
   // determines if the player has enough resources to build certain
   //   type of stuff(basement, house, tower, road). If the player
   //   has enough resources, modify resources, roads/residences,

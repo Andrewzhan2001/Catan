@@ -12,7 +12,7 @@ void Controller::loadStrategy(SetBoardStrategy sbs) {
   sbs.loadBoard(gm.get());
 }
 
-void Controller::play() {
+bool Controller::play() {
   // at beginning of game, assign each player with two basements
   gm->initial();
   while (!gm->ifWin()) {

@@ -1,4 +1,5 @@
 #include "GameModel.h"
+#include <random>
 
 Player *GameModel::getPlayer(int idx) {
   return players[idx].get();
@@ -6,6 +7,7 @@ Player *GameModel::getPlayer(int idx) {
 
 void GameModel::setSeed(size_t n) {
   this->seed = n;
+  rng = std::default_random_engine{n};
 }
 
 std::string getColor(int idx) {

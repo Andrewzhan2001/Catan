@@ -1,7 +1,9 @@
 #include "Player.h"
+#include <string>
 
-Player::Player(std::string color)
-    : buildpoints{0}, color{color}, resources{{{"BRICK", 0},
+
+Player::Player()
+    : buildpoints{0}, color{""}, resources{{{"BRICK", 0},
                                                {"ENERGY", 0},
                                                {"GLASS", 0},
                                                {"HEAT", 0},
@@ -41,7 +43,13 @@ int Player::getTotal() {
 
 int Player::getPoints() { return buildpoints; }
 
+void Player::setDiceNum(int dicenum) { this->dicenum = dicenum;}
+
+int Player::getDiceNum() {return dicenum;}
+
 std::string Player::getColor() { return color; }
+
+void Player::setColor(std::string color) { this->color = color; }
 
 bool Player::attempbuild(int x, char type) {
   // store the buildingpoint that needs to be added, only add

@@ -15,6 +15,6 @@ class Controller{
  public:
   void setseed(size_t seed); // set the seed for random value;
   void loadStrategy(SetBoardStrategy sbs); // use stategy sbs to load the board
-  void play();// start the game
+  bool play();// start the game
 };
 #endif
