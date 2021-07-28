@@ -207,3 +207,20 @@ void Player::award(int x, std::string type) {
   // for debug:
   std::cout << "no residence build at " << x << std::endl;
 }
+
+void Player::printData(std::ostream &out) {
+  out << resources[0].second << " " << resources[1].second << " ";
+  out << resources[2].second << " " << resources[3].second << " ";
+  out << resources[4].second << " " << "r ";
+  for (auto p : roads) {
+    out << p << " ";
+  }
+  out << "h ";
+  for (size_t i = 0; i < residences.size(); ++i) {
+    if (i != residences.size() - 1) {
+      out << residences[i].first << " " << residences[i].second << " ";
+    } else {
+      out << residences[i].first << " " << residences[i].second;
+    }
+  }
+}

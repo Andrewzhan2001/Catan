@@ -63,6 +63,7 @@ public:
   void award(int x, std::string type);
   // loses one resoucres randomly, see 3.6
   std::string loseOneResourceRandomly();
+  void printData(std::ostream &out);
   virtual ~Player() = 0;
 };
 #endif

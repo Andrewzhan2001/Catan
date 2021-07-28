@@ -1,6 +1,7 @@
 #include "Controller.h"
 #include <string>
 #include "SetBoardStrategy.h"
+#include <fstream>
 using namespace std;
 
 void Controller::setseed(size_t seed) {
@@ -10,6 +11,12 @@ void Controller::setseed(size_t seed) {
 
 void Controller::loadStrategy(SetBoardStrategy sbs) {
   sbs.loadBoard(gm.get());
+}
+
+void Controller::saveFile(std::string fname) {
+  ofstream fout(fname);
+  gm->saveFile(fout);
+  fout.close();
 }
 
 bool Controller::play() {
@@ -22,8 +29,8 @@ bool Controller::play() {
       std::string cmd;
       cin >> cmd;
       if (cin.eof()) {
-        // saving files
-        return;
+        saveFile();
+        return false;
       } else if (cmd == "load" || cmd == "fair") {
         gm->setDice(cmd);
       } else if (cmd == "roll") {
@@ -38,9 +45,8 @@ bool Controller::play() {
       std::string cmd;
       cin >> cmd;
       if (cin.eof()) {
-        // saving files
-        // NEEDS  TO BE MODIFIED
-        return;
+        saveFile();
+        return false;
       }
       if (cmd == "board") {
         // print board
@@ -54,27 +60,24 @@ bool Controller::play() {
         int idx;
         cin >> idx;
         if (cin.eof()) {
-          // saving files
-          // NEEDS  TO BE MODIFIED
-          return;
+          saveFile();
+          return false;
         }
         gm->buildRoad(idx);
       } else if (cmd == "build-res") {
         int idx;
         cin >> idx;
         if (cin.eof()) {
-          // saving files
-          // NEEDS  TO BE MODIFIED
-          return;
+          saveFile();
+          return false;
         }
         gm->buildBasement(idx);
       } else if (cmd == "improve") {
         int idx;
         cin >> idx;
         if (cin.eof()) {
-          // saving files
-          // NEEDS  TO BE MODIFIED
-          return;
+          saveFile();
+          return false;
         }
         gm->upgrade(idx);
       } else if (cmd == "trade") {
@@ -83,17 +86,22 @@ bool Controller::play() {
         std::string take;
         cin >> color >> give >> take;
         if (cin.eof()) {
-          //saving files
-          // NEEDS TO BE MODIFIED
+          saveFile();
+          return false;
         }
         gm->exchange(color, give, take);
       } else if (cmd == "next") {
         gm->switches();
         break;
       } else if (cmd == "save") {
-        // save
-        // NEEDS TO BE UPDATE
-        return;
+        std::string name;
+        cin >> name;
+        if (cin.eof()) {
+          saveFile();
+          return false;
+        }
+        saveFile(name);
+        return false;
       } else if (cmd == "help") {
         cout << "Valid commands:\n";
         cout << "board\nstatus\nresidences\n";
@@ -104,5 +112,13 @@ bool Controller::play() {
         cout << "next\nsave <file>\nhelp\n";
       }
     }
-  }    
+  }
+  cout << "Would you like to play again?\n";
+  std::string cmd;
+  cin >> cmd;
+  if (cmd == "yes") {
+    return true;
+  } else if (cmd == "no") {
+    return false;
+  }
 }

@@ -229,4 +229,8 @@ bool GameModel::ifWin() {
 
 void GameModel::saveFile(std::ofstream &out) {
   out << currentTurn << '\n';
+  for (auto &p : players) {
+    p->printData(out);
+    out << '\n';
+  }
 }

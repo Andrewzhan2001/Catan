@@ -26,6 +26,7 @@ class GameModel{
   Player *getPlayer(int idx);
 
   public:
+  GameModel();
   void setSeed(size_t n);
   std::string getCurColor();
   Player *getCurPlayer();
