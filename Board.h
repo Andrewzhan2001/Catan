@@ -26,7 +26,7 @@ class Board {
    // gets all residence of tile x  
    virtual std::vector<int> getNeighbours(int x);
    // find the tile that has vertex/edge i 
-   int findTile(std::string type, int x);
+   std::vector<int> findTile(std::string type, int x);
    // determines whether player with color can build a basement/road 
    //   at location x.
    // Note: type could only be either "road" or "basement"
@@ -41,9 +41,6 @@ class Board {
    // upgrades to house from basement, upgrades to tower from house 
    //   and does nothing if location x is already a tower
    virtual void upgradeLevel(char color, int x);
-   // returns a vector of tiles that have a tile value x
-   //  Note: this method is useful for getNeighbour, could be private
-   virtual std::vector<int> getTile(int x);
    // returns a vector of residences that are adjacent to the tiles
    //  with tile value x, the string type represents the kind of resources
    //  will be awarded for this location

@@ -10,7 +10,7 @@
 
 class Tile {
   int tileNum;
-  int resource; 
+  std::string resource; 
   int value;
   bool geese; // indicate whether there is a geese on this tile
   std::vector<int> vertex;
@@ -21,7 +21,7 @@ class Tile {
   Tile(int tileNum, int resource, int value);
   int getTileNum();
   int getValue();
-  int getResource();
+  std::string getResource();
 void setGeese(bool has); // set geese true if has is true, otherwise false
 // return vertex at index, return the residence if has eg: "BH", 
 // otherwise return the vertex number eg:"0"

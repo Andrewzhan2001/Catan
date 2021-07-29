@@ -66,7 +66,7 @@ Tile::Tile(int tileNum, int resource, int value) : tileNum{tileNum}, resource{re
 
 int Tile::getTileNum() {return tileNum;}
 int Tile::getValue(){return value;}
-int Tile::getResource(){return resource;}
+std::string Tile::getResource(){return resource;}
 void Tile::setGeese(bool has) {geese = has;}
 
 bool Tile::has(std::string type, int index) {
@@ -81,91 +81,45 @@ bool Tile::has(std::string type, int index) {
   return retval;
 }
 
-/* std::string Tile::getVertex(int index) {
-  std::string v = "";
- auto it = find(vertex.begin(),vertex.end(),index);
-  if (it != vertex.end()) { 
-    if(it->second != "") {
-      v = it.second;
-      } else {
-        v = std::to_string(it->first);
-      }
-  }
-  return v;
-}
-
-char Tile::getEdge(int index) {
-  char v;
- auto it = edge.find(index);
-  if (it != edge.end()) { 
-    if(it->second != '\0') {
-     v = i.second;
-      } else {
-        v = '0'+ it->first;
-      }
-  }
-  return v;
-} */
-
-bool Tile::notOccupied (std::string type, int index) {
-  if(has(type, index)) {
-if((type == "vertex") && ((vertex.find(index))->second == "" )) {
-    return true;
-} else if ((type == "road") && ((edge.find(index))->second == '/0' )) {
-    return true;
-} else {
-    return false;
-  }
-}
-  return false;
-}
-
-std::vector<int> Tile::getNeighbours() {
-  std::vector<int> neighbours;
-for(auto &i: vertex) {
-  if(i.second != "") {
-neighbours.push_back(i.first);
-  }
-}
-return neighbours;
-}
-
 std::vector<int> Tile::getAdjacentVertex(int edgeIndex) {
   std::vector<int> adjacentVertex;
- for(int i = 0; i < edge.size(); i++) {
- if(edgeIndex == edge.begin()) { 
-   if(i == 0) {
-adjacentVertex.push_back(vertex[0]);
-adjacentVertex.push_back(vertex[1]);
-   } else if (i == edge.size()) {
-     adjacentVertex.push_back(vertex[4]);
-adjacentVertex.push_back(vertex[6]);
-   } else {
-     adjacentVertex.push_back(vertex[i-1]);
-adjacentVertex.push_back(vertex[i+1]);
-   }
- }
- }
-  
-}
-/* 
-void Tile::buildResidence(std::string residence, int index){
-  for(auto & i: vertex) {
-    if(i->first == index) {
-      i->second = residence;
+  for (int i = 0; i < edge.size(); i++) {
+    // find the edge 
+    if (edgeIndex == edge[i]) {
+      if (i == 0) {
+        adjacentVertex.push_back(vertex[0]);
+        adjacentVertex.push_back(vertex[1]);
+      } else if (i == edge.size()) {
+        adjacentVertex.push_back(vertex[4]);
+        adjacentVertex.push_back(vertex[6]);
+      } else {
+        adjacentVertex.push_back(vertex[i - 1]);
+        adjacentVertex.push_back(vertex[i + 1]);
+      }
     }
   }
+  return adjacentVertex;
 }
- */
-/* 
-void Tile::buildRoad(char color, int index) {
-  for(auto & i: edge) {
-    if(i->first == index) {
-      i->second = color;
+
+std::vector<int> Tile::getAdjacentEdge(int edgeIndex) {
+  std::vector<int> adjacentEdge;
+  for (int i = 0; i < vertex.size(); i++) {
+    // find the vertex 
+    if (edgeIndex == vertex[i]) {
+      if(i == 0) { // if it's the first vertex
+adjacentEdge.push_back(edge[0]);
+        adjacentEdge.push_back(edge[1]);
+      } else if(i == 5) {
+adjacentEdge.push_back(edge[5]);
+        adjacentEdge.push_back(edge[4]);
+      } else {
+        adjacentEdge.push_back(edge[i-1]);
+        adjacentEdge.push_back(edge[i+1]);
+      }
     }
   }
+  return adjacentEdge;
 }
- */
 
 
 vector<string> Tile::printTile(vector<string> vertexs, vector<string> edges) {
