@@ -1,9 +1,10 @@
 #include "Tile.h"
 #include <algorithm>
 #include <vector>
+#include <string>
 using namespace std;
 
-Tile::Tile(int tileNum, int resource, int value) : tileNum{tileNum}, resource{resource}, value{value}, geese{false} {
+Tile::Tile(int tileNum, std::string resource, int value) : tileNum{tileNum}, resource{resource}, value{value}, geese{false} {
   if(tileNum == 0) {
     vertex = {0,1,3,4,8,9}; 
     edge = {0,1,2,6,7,10};
@@ -107,10 +108,10 @@ std::vector<int> Tile::getAdjacentEdge(int edgeIndex) {
     // find the vertex 
     if (edgeIndex == vertex[i]) {
       if(i == 0) { // if it's the first vertex
-adjacentEdge.push_back(edge[0]);
+        adjacentEdge.push_back(edge[0]);
         adjacentEdge.push_back(edge[1]);
       } else if(i == 5) {
-adjacentEdge.push_back(edge[5]);
+        adjacentEdge.push_back(edge[5]);
         adjacentEdge.push_back(edge[4]);
       } else {
         adjacentEdge.push_back(edge[i-1]);
@@ -121,6 +122,13 @@ adjacentEdge.push_back(edge[5]);
   return adjacentEdge;
 }
 
+std::vector<int> Tile::getVertex() {
+  std::vector<int> vertices;
+  for (auto i : vertex) {
+    vertices.push_back(i);
+  }
+  return vertices;
+}
 
 vector<string> Tile::printTile(vector<string> vertexs, vector<string> edges) {
   vector<string> output{"|  |--  --|  |",

@@ -9,7 +9,8 @@
 #include "Tile.h"
 
 class Board {
-  
+ private:
+  bool notOccupied(std::string type, int x);
  protected:
   std::vector<std::string> vertex;
   std::vector<std::string> edge;

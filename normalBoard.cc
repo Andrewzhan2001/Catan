@@ -73,5 +73,4 @@ void normalBoard::printBoard(std::ostream &out) {
   {
     out << i << endl;
   }
-  
 }
