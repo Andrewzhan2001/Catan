@@ -49,7 +49,7 @@ class Board {
    //  will be awarded for this location
    virtual std::vector<std::pair<std::string, int>> getResidences(int x) = 0;
 
+   virtual void printBoard(std::ostream &out) = 0;
    virtual ~Board() = 0;
-   
 };
 #endif

@@ -166,3 +166,69 @@ void Tile::buildRoad(char color, int index) {
   }
 }
  */
+
+
+vector<string> Tile::printTile(vector<string> vertexs, vector<string> edges) {
+  vector<string> output{"|  |--  --|  |",
+                        "  |         | ",
+                        "              ",
+                        "  |         | ",
+                        "|  |      |  |",
+                        "  |         | ",
+                        "              ",
+                        "  |         | ",
+                        "|  |--  --|  |",};
+  // put tileNum into output
+  if (tileNum >= 10) {
+    output[2].replace(6,2,to_string(tileNum));
+  } else {
+    output[2].replace(7,1,to_string(tileNum));
+  }
+  // put resources into output
+  output[3].replace(5,7,resource);
+
+  // put value into output
+  if (value != 7) {
+    if (value >= 10) {
+      output[4].replace(6,2,to_string(tileNum));
+    } else {
+      output[4].replace(7,1,to_string(tileNum));
+    }
+  }
+
+  // put geese into output
+  if (geese = true) {
+    if (value == 7) {
+      output[4].replace(5,5, "GEESE");
+    } else {
+      output[5].replace(5,5, "GEESE");
+    }
+    
+  }
+  
+  // put vertices into output
+  int x = 0, y = 1;
+  for (auto &&i : this->vertex) {
+    output[x].replace(y,2,vertexs[i],0,2);
+    y+=10;
+    if (y > 11) {
+      x+= 4;
+      y = 1;
+    }
+  }
+
+  // put edges into output
+  x = 2;
+  y = 1;
+  for (int i = 1; i < 5; i++) {
+    output[x].replace(y,2,edges[this->edge[i]],0,2);
+    y+=10;
+    if (y > 11) {
+      x+= 4;
+      y = 1;
+    }
+  }
+  output[0].replace(6,2,edges[this->edge[0]],0,2);
+  output[8].replace(6,2,edges[this->edge[5]],0,2);
+  return output;
+}

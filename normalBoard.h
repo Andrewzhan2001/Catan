@@ -9,11 +9,15 @@
 #include "Board.h"
 
 class normalBoard : public Board{
-  std::vector<std::string> vertex;
-  std::vector<std::string> edge;
-  std::vector<std::unique_ptr<Tile>> tiles;
+
+std::vector<std::string> temp; // just use to temporary store printing staff
+void resettemp();// reset to all blank
+
+// put each tile at specific location in temp
+void OutputTile(int x, int y, std::vector<std::string> tilegraph);
  public:
 normalBoard();
 bool validVertex(int x) override;
+void printBoard(std::ostream &out) override;
 };
 #endif

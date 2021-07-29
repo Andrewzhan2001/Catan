@@ -6,6 +6,8 @@
 #include <map>
 #include <set>
 #include <memory>
+#include "Board.h"
+
 class Tile {
   int tileNum;
   int resource; 
@@ -40,5 +42,13 @@ bool has(std::string type, int index);
 bool notOccupied (std::string type, int index); 
 /* void buildResidence(std::string residence, int index); // build residence 
 void buildRoad(char color, int index);  */
+
+
+
+
+std::vector<std::string> printTile(std::vector<std::string> vertexs, 
+                                   std::vector<std::string> edges);
+
+friend Board;
 };
 #endif
