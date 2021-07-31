@@ -1,5 +1,15 @@
 #include "GameModel.h"
 #include <random>
+#include <memory>
+
+GameModel::GameModel() {
+  std::vector<std::unique_ptr<Player>> players;
+  for (int i = 0; i < 4; ++i) {
+    auto p = std::make_unique<Player>();
+    players.emplace_back(p);
+  }
+  this->players = players;
+}
 
 Player *GameModel::getPlayer(int idx) {
   return players[idx].get();
