@@ -55,6 +55,11 @@ void Player::setResource (std::vector<std::pair<std::string, int>> &r) {
   resources = r;
 }
 
+void Player::setseed(size_t seed) {
+  this->seed = seed;
+  this->rng = std::default_random_engine{seed};
+}
+
 bool Player::attempbuild(int x, char type) {
   // store the buildingpoint that needs to be added, only add
   // if has enough resource
@@ -108,14 +113,12 @@ bool Player::attempbuild(int x, char type) {
   return true;
 }
 
-void Player::loseHalf(size_t seed) {
+void Player::loseHalf() {
   int total = getTotal();
   if (total >= 10) {
     total /= 2;
     std::cout << "Builder " << getColor() << " loses " << total
               << " resources to the geese. They lose:" << std::endl;
-    std::random_device rd;  // obtain a random number from hardware
-    std::mt19937 gen(rd()); // seed the generator
     while (total > 0) {     // make sure the sum of deduction is half
       for (auto &i : resources) {
         int max = total;
@@ -123,9 +126,9 @@ void Player::loseHalf(size_t seed) {
           max = i.second;
         }
         std::uniform_int_distribution<> distr(0, max); // define the range
-        modifyResources(i.first, -distr(gen)); // generate number and modify
-        std::cout << distr(gen) << " " << i.first << std::endl;
-        total -= distr(gen);
+        modifyResources(i.first, -distr(rng)); // generate number and modify
+        std::cout << distr(rng) << " " << i.first << std::endl;
+        total -= distr(rng);
         if (total <= 0) { // half has been deducted
           return;
         }
@@ -227,4 +230,18 @@ void Player::printData(std::ostream &out) {
       out << residences[i].first << " " << residences[i].second;
     }
   }
+}
+
+std::string Player::loseOneResourceRandomly() {
+  std::vector<int> hasResource; // store the index of resource that builder has num > 0
+  int idx = 0;
+  for(auto &i: resources) {
+    if(i.second > 0) { // player has this resource
+hasResource.push_back(idx);
+  }
+  idx++;
+  }
+ std::uniform_int_distribution<int> dist(0, hasResource.size() - 1);
+ std::string random_resource = resources[dist(rng)].first;
+ return random_resource;
 }

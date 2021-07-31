@@ -15,6 +15,8 @@ class Player {
   std::vector<std::pair<std::string, int>> resources;
   std::vector<int> roads; // store the edges of the roads
   std::vector<std::pair<int, char>> residences;
+  size_t seed = 0;
+  std::default_random_engine rng{seed};
 public:
   Player();
   // returns the number of certain resources of the player
@@ -26,6 +28,7 @@ public:
    // returns color
   std::string getColor();
 int getDiceNum();
+void setseed(size_t seed);
 void setDiceNum(int dicenum);
 void setResource (std::vector<std::pair<std::string, int>> &r);
 void setColor(std::string color);
@@ -44,7 +47,7 @@ void setColor(std::string color);
   bool attempbuild(int x, char type);
   // loses half of resources randoml
   // NEEDS TO OUTPUT THE MESSAGE ACCORDING TO ASSIGNMENT RULE
-  void loseHalf(size_t seed);
+  void loseHalf();
   // determines whether given stuff(roads, residences) belongs to the player
   bool belongs(int x, char type);
   // prints buildings of the player according to project guidline
@@ -59,7 +62,7 @@ void setColor(std::string color);
   // gives the player certain amounts of resources based on what location
   //  x is
   void award(int x, std::string type);
-  // loses one resoucres randomly, see 3.6
+  // loses one resoucres randomly, return the resource type see 3.6
   std::string loseOneResourceRandomly();
   void printData(std::ostream &out);
   virtual void chooseInt(int n);
