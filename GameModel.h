@@ -22,12 +22,11 @@ class GameModel{
   int currentDice;
   int currentTurn;
   int diceNum;
-  
-  Player *getPlayer(int idx);
 
   public:
   GameModel();
   void setSeed(size_t n);
+  Player *getPlayer(int idx);
   std::string getCurColor();
   Player *getCurPlayer();
   Board *getBoard();

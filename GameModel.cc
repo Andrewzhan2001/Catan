@@ -1,12 +1,13 @@
 #include "GameModel.h"
 #include <random>
 #include <memory>
-
+#include "PlayerFactory.h"
 GameModel::GameModel() {
   std::vector<std::unique_ptr<Player>> players;
   for (int i = 0; i < 4; ++i) {
-    auto p = std::make_unique<Player>();
-    players.emplace_back(p);
+    PlayerFactory pf;
+    auto p = pf.createObject("humanPlayer");
+    players.emplace_back(std::move(p));
   }
   this->players = players;
 }
