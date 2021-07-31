@@ -11,6 +11,6 @@
 class humanPlayer : public Player{
 
  public:
-  
+   void chooseInt(int m) override;
 };
 #endif

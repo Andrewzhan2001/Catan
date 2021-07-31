@@ -62,6 +62,7 @@ void setColor(std::string color);
   // loses one resoucres randomly, see 3.6
   std::string loseOneResourceRandomly();
   void printData(std::ostream &out);
+  virtual void chooseInt(int n);
   virtual ~Player() = 0;
 };
 #endif

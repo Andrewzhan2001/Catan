@@ -23,7 +23,7 @@ bool Controller::play() {
   // at beginning of game, assign each player with two basements
   gm->initial();
   while (!gm->ifWin()) {
-    cout << "Builder " << gm->getCurColor() << "'s turn.\n";
+    cout << "Builder " << gm->getCurColor() << "'s turn." << endl;
     gm->printTurn();
     while (true) {
       std::string cmd;
@@ -38,7 +38,7 @@ bool Controller::play() {
         // This ends the "Beginning of the turn".
         break;
       } else {
-        cout << "Invalid command.\n";
+        cout << "Invalid command." << endl;
       }
     }
     while (true) {
@@ -103,17 +103,21 @@ bool Controller::play() {
         saveFile(name);
         return false;
       } else if (cmd == "help") {
-        cout << "Valid commands:\n";
-        cout << "board\nstatus\nresidences\n";
-        cout << "build-road <edge#>\n";
-        cout << "build-res <housing#>\n";
-        cout << "improve <housing#>\n";
-        cout << "trade <colour> <give> <take>\n";
-        cout << "next\nsave <file>\nhelp\n";
+        cout << "Valid commands:" << endl;
+        cout << "board" << endl;
+        cout << "status" << endl;
+        cout << "residences" << endl;
+        cout << "build-road <edge#>" << endl;
+        cout << "build-res <housing#>" << endl;
+        cout << "improve <housing#>" << endl;
+        cout << "trade <colour> <give> <take>" << endl;
+        cout << "next" << endl;
+        cout << "save <file>" << endl;
+        cout << "help" << endl;
       }
     }
   }
-  cout << "Would you like to play again?\n";
+  cout << "Would you like to play again?" << endl;
   std::string cmd;
   cin >> cmd;
   if (cmd == "yes") {

@@ -5,7 +5,7 @@ Player *GameModel::getPlayer(int idx) {
   return players[idx].get();
 }
 
-Board *getBoard();Board *getBoard() {
+Board *GameModel::getBoard() {
   return b.get();
 }
 void GameModel::setSeed(size_t n) {
@@ -47,10 +47,11 @@ void GameModel::initial() {
     Player *cur = getPlayer(i);
     std::string color = getColor(i);
     std::cout << "Builder " << color << ", ";
-    std::cout << "where do you want to build a basement?\n";
+    std::cout << "where do you want to build a basement?" << std::endl;
     int n;
     // reads in an integer as a vertex
-    while (std::cin >> n) {
+    while (true) {
+      cur->chooseInt(n);
       if (b->validVertex(n)) {
         // is a valid vertex
         cur->addBasement(n);
@@ -64,10 +65,11 @@ void GameModel::initial() {
     Player *cur = getPlayer(i);
     std::string color = getColor(i);
     std::cout << "Builder " << color << ", ";
-    std::cout << "where do you want to build a basement?\n";
+    std::cout << "where do you want to build a basement?" << std::endl;
     int n;
     // reads in an integer as a vertex
-    while (std::cin >> n) {
+    while (true) {
+      cur->chooseInt(n);
       if (b->validVertex(n)) {
         // is a valid vertex
         cur->addBasement(n);
@@ -143,6 +145,7 @@ void GameModel::upgrade(int x) {
 }
 
 void GameModel::update() {
+  Player *cur = getPlayer(currentTurn);
   if (diceNum == 7) {
     for (auto &p : players) {
       if (p->getTotal() >= 10) {
@@ -151,7 +154,8 @@ void GameModel::update() {
     }
     std::cout << "Choose where to place the GEESE.";
     int n;
-    while (std::cin >> n) {
+    while (true) {
+      cur->chooseInt(n);
       if(b->validVertex(n)) {
         b->setGeese(n);
       }
@@ -182,9 +186,14 @@ void GameModel::update() {
           std::cout << ",";
         }
       }
-      std::cout << "]\n";
-      std::cout << "Choose a builder to steal from.\n";
-      std::cin >> n;
+      std::cout << "]" << std::endl;
+      std::cout << "Choose a builder to steal from." << std::endl;
+      while (true) {
+        cur->chooseInt(n);
+        if (0 <= n && n < (players.size() - 1)) {
+          break;
+        }
+      }
       std::string type = getPlayer(n)->loseOneResourceRandomly();
       getPlayer(currentTurn)->modifyResources(type, 1);
       std::cout << "Builder ";
@@ -208,8 +217,8 @@ void GameModel::update() {
 void GameModel::exchange(std::string color, std::string type1, std::string type2) {
   std::cout << getColor(currentTurn);
   std::cout << " offers " << color;
-  std::cout << " one " << type1 << " for one " << type2 << ".\n";
-  std::cout << "Does " << color << " accept this offer?\n";
+  std::cout << " one " << type1 << " for one " << type2 << "." << std::endl;
+  std::cout << "Does " << color << " accept this offer?" << std::endl;
   std::string cmd;
   while (std::cin >> cmd) {
     if (cmd == "yes") {
@@ -234,9 +243,9 @@ bool GameModel::ifWin() {
 }
 
 void GameModel::saveFile(std::ofstream &out) {
-  out << currentTurn << '\n';
+  out << currentTurn << std::endl;
   for (auto &p : players) {
     p->printData(out);
-    out << '\n';
+    out << std::endl;
   }
 }
