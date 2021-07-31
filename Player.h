@@ -62,7 +62,7 @@ void setColor(std::string color);
   // gives the player certain amounts of resources based on what location
   //  x is
   void award(int x, std::string type);
-  // loses one resoucres randomly, return the resource type see 3.6
+  // loses one resoucres randomly, return the resource type lost see 3.6
   std::string loseOneResourceRandomly();
   void printData(std::ostream &out);
   virtual void chooseInt(int n);
