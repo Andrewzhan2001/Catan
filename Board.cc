@@ -1,13 +1,24 @@
 #include "Board.h"
+#include "Tile.h"
 void Board::setGeese(int x) { tiles[x]->setGeese(true); }
+
+void Board::setVertex(int idx, std::string builder, std::string residence) {
+  vertex[idx] = builder + residence;
+}
+
+void Board::setEdge(int idx, std::string builder) { edge[idx] = builder + "R"; }
+
+void Board::setTile(int n, std::string resource, int value) {
+  tiles[n]->setResourceValue(resource, value);
+}
 
 bool Board::notOccupied(std::string type, int x) {
   bool retval = false;
   if (type == "vertex") {
-      // true if vertex x is still its index, not name 
-      retval = (vertex[x] == std::to_string(x));
+    // true if vertex x is still its index, not name
+    retval = (vertex[x] == std::to_string(x));
   } else if (type == "edge") {
-      retval = (edge[x] == std::to_string(x));
+    retval = (edge[x] == std::to_string(x));
   } else {
     std::cerr << "invalid parameter of notOccupied function" << std::endl;
   }
@@ -18,9 +29,9 @@ std::vector<int> Board::getNeighbours(int x) {
   std::vector<int> n;
   // get all vertex of tile x, find those who have residence on it
   for (auto &i : tiles[x]->getVertex()) {
-  if(!notOccupied("vertex", i)) {
+    if (!notOccupied("vertex", i)) {
       n.push_back(i);
-  }
+    }
   }
   return n;
 }
@@ -38,15 +49,15 @@ std::vector<int> Board::findTile(std::string type, int x) {
 }
 
 bool Board::canBuild(char color, int x, std::string type) {
-  if(!notOccupied(type, x)) { // if this place is occupied by someone
+  if (!notOccupied(type, x)) { // if this place is occupied by someone
     return false;
   }
   if (type == "road") {
-    // find all adjacent vertex 
-     std::vector<int> adj;
-    for(auto &it : findTile("edge", x)){ // find all tiles that has edge x
-    std::vector<int> b = tiles[it]->getAdjacentVertex(x);
-    adj.insert(adj.end(), b.begin(), b.end());
+    // find all adjacent vertex
+    std::vector<int> adj;
+    for (auto &it : findTile("edge", x)) { // find all tiles that has edge x
+      std::vector<int> b = tiles[it]->getAdjacentVertex(x);
+      adj.insert(adj.end(), b.begin(), b.end());
     }
     for (auto i : adj) {
       if (!notOccupied("vertex", i)) { // if adjacent vertex is occupied
@@ -57,14 +68,14 @@ bool Board::canBuild(char color, int x, std::string type) {
   } else if (type == "basement") {
     // find all adjacent edges
     std::vector<int> adjE;
-    for(auto &it : findTile("vertex", x)){
+    for (auto &it : findTile("vertex", x)) {
       std::vector<int> be = tiles[it]->getAdjacentEdge(x);
-adjE.insert(adjE.end(), be.begin(), be.end());
+      adjE.insert(adjE.end(), be.begin(), be.end());
     }
     for (auto i : adjE) {
       // if find any one of the adjacent edges is occupied by the same owner
-      if (!notOccupied("edge", i) && (edge[i][0] == color)) { 
-       return true;
+      if (!notOccupied("edge", i) && (edge[i][0] == color)) {
+        return true;
       }
     }
   }
@@ -73,12 +84,11 @@ adjE.insert(adjE.end(), be.begin(), be.end());
 }
 
 void Board::create(char color, int x, std::string type) {
+  std::string color_str(1, color);
   if (type == "road") {
-       std::string color_str(1,color);
-      edge[x] = color_str;
+    edge[x] = color_str + "R";
   } else if (type == "basement") {
-     std::string color_str(1,color);
-      vertex[x] = color_str + "B";
+    vertex[x] = color_str + "B";
   }
 }
 

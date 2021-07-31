@@ -51,6 +51,10 @@ std::string Player::getColor() { return color; }
 
 void Player::setColor(std::string color) { this->color = color; }
 
+void Player::setResource (std::vector<std::pair<std::string, int>> &r) {
+  resources = r;
+}
+
 bool Player::attempbuild(int x, char type) {
   // store the buildingpoint that needs to be added, only add
   // if has enough resource

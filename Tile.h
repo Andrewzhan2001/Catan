@@ -18,12 +18,13 @@ class Tile {
   std::vector<int> edge;  // store the owner of the road on the edge eg: B,R,O,Y
  
   public:
-  Tile(int tileNum, std::string resource, int value);
+  Tile(int tileNum);
   int getTileNum();
   int getValue();
   std::string getResource();
   std::vector<int> getVertex();
-  void setGeese(bool has); // set geese true if has is true, otherwise false
+  void setGeese(bool has); 
+  void setResourceValue(std::string r, int v);
 // return vertex at index, return the residence if has eg: "BH", 
 // otherwise return the vertex number eg:"0"
 

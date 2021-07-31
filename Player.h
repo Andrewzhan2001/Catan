@@ -17,6 +17,18 @@ class Player {
   std::vector<std::pair<int, char>> residences;
 public:
   Player();
+  // returns the number of certain resources of the player
+  int getResources(std::string type);
+  // returns the number of total resources of the player
+  int getTotal();
+  // returns buildpoints
+  int getPoints();
+   // returns color
+  std::string getColor();
+int getDiceNum();
+void setDiceNum(int dicenum);
+void setResource (std::vector<std::pair<std::string, int>> &r);
+void setColor(std::string color);
   // modifies the certain type of resources by given amounts
   // If amount > 0, then awards the player;
   // If amount < 0, then the player uses resourses;
@@ -24,20 +36,6 @@ public:
   // adds location x as a basement for the player
   // Note: this method is only used at the beginning of the game
   void addBasement(int x);
-  // returns the number of certain resources of the player
-  int getResources(std::string type);
-  // returns the number of total resources of the player
-  int getTotal();
-  // returns buildpoints
-  int getPoints();
-
-  void setDiceNum(int dicenum);
-
-  int getDiceNum();
-  // returns color
-  std::string getColor();
-
-  void setColor(std::string color);
   // determines if the player has enough resources to build certain
   //   type of stuff(basement, house, tower, road). If the player
   //   has enough resources, modify resources, roads/residences,

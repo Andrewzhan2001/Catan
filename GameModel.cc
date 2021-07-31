@@ -5,11 +5,17 @@ Player *GameModel::getPlayer(int idx) {
   return players[idx].get();
 }
 
+Board *getBoard();Board *getBoard() {
+  return b.get();
+}
 void GameModel::setSeed(size_t n) {
   this->seed = n;
   rng = std::default_random_engine{n};
 }
 
+ void GameModel::setTurn(int turn) {
+   currentTurn = turn;
+ }
 std::string getColor(int idx) {
   if (idx == 0) {
     return "Blue";

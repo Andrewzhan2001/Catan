@@ -30,6 +30,9 @@ class GameModel{
   void setSeed(size_t n);
   std::string getCurColor();
   Player *getCurPlayer();
+  Board *getBoard();
+  void setTurn(int turn);
+  void setDice(std::string type);
   // constructor
   // each player chooses two places for basement
   void initial(); 
@@ -41,7 +44,6 @@ class GameModel{
   void create(int x, std::string type);
   // prints current turn
   void printTurn();
-  void setDice(std::string type);
   int rollDice();
   void printPlayers();
   void printBuildings();

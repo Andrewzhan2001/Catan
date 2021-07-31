@@ -4,7 +4,7 @@
 #include <string>
 using namespace std;
 
-Tile::Tile(int tileNum, std::string resource, int value) : tileNum{tileNum}, resource{resource}, value{value}, geese{false} {
+Tile::Tile(int tileNum) : tileNum{tileNum}, resource{""}, value{0}, geese{false} {
   if(tileNum == 0) {
     vertex = {0,1,3,4,8,9}; 
     edge = {0,1,2,6,7,10};
@@ -68,7 +68,12 @@ Tile::Tile(int tileNum, std::string resource, int value) : tileNum{tileNum}, res
 int Tile::getTileNum() {return tileNum;}
 int Tile::getValue(){return value;}
 std::string Tile::getResource(){return resource;}
+
 void Tile::setGeese(bool has) {geese = has;}
+void Tile::setResourceValue(std::string r, int v){
+  resource = r;
+  value = v;
+}
 
 bool Tile::has(std::string type, int index) {
   bool retval;
