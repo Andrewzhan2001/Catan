@@ -1,5 +1,6 @@
 #include "normalBoard.h"
 #include "Board.h"
+#include "Tile.h"
 using namespace std;
 
 normalBoard::normalBoard() :Board{} {
@@ -23,13 +24,66 @@ normalBoard::normalBoard() :Board{} {
 
 bool normalBoard::validVertex(int x) {
   if ((x >= 0) && (x <= 53)) { // the last vertex is 53
-    for (auto &it : tiles) {
-      if (it->notOccupied("vertex", x)) {
+      if (notOccupied("vertex", x)) {
+        return true;
+    }
+  }
+  return false;
+}
+
+bool normalBoard::canBuild(char color, int x, std::string type) {
+  if (!notOccupied(type, x)) { // if this place is occupied by someone
+    return false;
+  }
+  if (type == "road") {
+    // find all adjacent vertex
+    std::vector<int> adj;
+    for (auto &it : findTile("edge", x)) { // find all tiles that has edge x
+      std::vector<int> b = tiles[it]->getAdjacentVertex(x);
+      adj.insert(adj.end(), b.begin(), b.end());
+    }
+    for (auto i : adj) {
+      if (!notOccupied("vertex", i)) { // if adjacent vertex is occupied
+        return (vertex[i][0] ==
+                color); // check if it's owned by the same color user
+      }
+    }
+  } else if (type == "basement") {
+    // find all adjacent edges
+    std::vector<int> adjE;
+    for (auto &it : findTile("vertex", x)) {
+      std::vector<int> be = tiles[it]->getAdjacentEdge(x);
+      adjE.insert(adjE.end(), be.begin(), be.end());
+    }
+    for (auto i : adjE) {
+      // if find any one of the adjacent edges is occupied by the same owner
+      if (!notOccupied("edge", i) && (edge[i][0] == color)) {
         return true;
       }
     }
   }
-  return false;
+  // if not satisfied any condition
+  return true;
+}
+
+std::vector<std::pair<std::string, int>> normalBoard::getResidences(int x) {
+  // find all tiles that has value x
+  std::vector<int> tilesV;
+  int n = 0;
+  for (auto &i : tiles) {
+    if (i->getValue() == x) {
+      tilesV.push_back(n);
+    }
+    n++;
+  }
+  // find all residences of tileV
+  std::vector<std::pair<std::string, int>> result;
+  for (auto &it : tilesV) {
+    for (auto &i : getNeighbours(it)) {
+      result.push_back(std::make_pair(tiles[it]->getResource(), i));
+    }
+  }
+  return result;
 }
 
 void normalBoard::resettemp() {

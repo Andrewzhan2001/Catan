@@ -18,6 +18,8 @@ void OutputTile(int x, int y, std::vector<std::string> tilegraph);
  public:
 normalBoard();
 bool validVertex(int x) override;
+bool canBuild(char color, int x, std::string type) override;
+std::vector<std::pair<std::string, int>> getResidences(int x) override;
 void printBoard(std::ostream &out) override;
 };
 #endif

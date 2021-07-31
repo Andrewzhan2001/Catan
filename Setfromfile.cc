@@ -45,7 +45,7 @@ void Setfromfile::loadBoard(GameModel *bm) {
           {"WIFI", numWifi}};
       builder->setResource(resource);
       // set roads
-      ss >> r;
+      ss >> r; // read "r"
       while (true) {
         ss >> road;
         if (!ss) { // read "h"

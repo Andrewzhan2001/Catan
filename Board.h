@@ -9,12 +9,11 @@
 
 class Tile;
 class Board {
- private:
-  bool notOccupied(std::string type, int x);
  protected:
   std::vector<std::string> vertex;
   std::vector<std::string> edge;
   std::vector<std::unique_ptr<Tile>> tiles;
+  bool notOccupied(std::string type, int x);// check whether vertex/road is occupied by other
  public:
    // set Geese to tile x
    virtual void setGeese(int x);

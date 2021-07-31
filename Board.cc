@@ -48,41 +48,6 @@ std::vector<int> Board::findTile(std::string type, int x) {
   return tilen;
 }
 
-bool Board::canBuild(char color, int x, std::string type) {
-  if (!notOccupied(type, x)) { // if this place is occupied by someone
-    return false;
-  }
-  if (type == "road") {
-    // find all adjacent vertex
-    std::vector<int> adj;
-    for (auto &it : findTile("edge", x)) { // find all tiles that has edge x
-      std::vector<int> b = tiles[it]->getAdjacentVertex(x);
-      adj.insert(adj.end(), b.begin(), b.end());
-    }
-    for (auto i : adj) {
-      if (!notOccupied("vertex", i)) { // if adjacent vertex is occupied
-        return (vertex[i][0] ==
-                color); // check if it's owned by the same color user
-      }
-    }
-  } else if (type == "basement") {
-    // find all adjacent edges
-    std::vector<int> adjE;
-    for (auto &it : findTile("vertex", x)) {
-      std::vector<int> be = tiles[it]->getAdjacentEdge(x);
-      adjE.insert(adjE.end(), be.begin(), be.end());
-    }
-    for (auto i : adjE) {
-      // if find any one of the adjacent edges is occupied by the same owner
-      if (!notOccupied("edge", i) && (edge[i][0] == color)) {
-        return true;
-      }
-    }
-  }
-  // if not satisfied any condition
-  return true;
-}
-
 void Board::create(char color, int x, std::string type) {
   std::string color_str(1, color);
   if (type == "road") {
@@ -109,22 +74,3 @@ void Board::upgradeLevel(char color, int x) {
   }
 }
 
-std::vector<std::pair<std::string, int>> Board::getResidences(int x) {
-  // find all tiles that has value x
-  std::vector<int> tilesV;
-  int n = 0;
-  for (auto &i : tiles) {
-    if (i->getValue() == x) {
-      tilesV.push_back(n);
-    }
-    n++;
-  }
-  // find all residences of tileV
-  std::vector<std::pair<std::string, int>> result;
-  for (auto &it : tilesV) {
-    for (auto &i : getNeighbours(it)) {
-      result.push_back(std::make_pair(tiles[it]->getResource(), i));
-    }
-  }
-  return result;
-}

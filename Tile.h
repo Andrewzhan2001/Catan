@@ -32,8 +32,6 @@ class Tile {
 
  // return edge at index, return the road if has eg: 'B', otherwise return the road number eg:'0'
 /* char getEdge(int index); */
-// return all the residences index
-std::vector<int> getNeighbours(); 
 std::vector<int> getAdjacentEdge(int edgeIndex);
 // return all adjacent vertex of edge i
 std::vector<int> getAdjacentVertex(int edgeIndex); 
@@ -41,8 +39,6 @@ std::vector<int> getAdjacentVertex(int edgeIndex);
 // if type is vertex/edge, check if it has vertex/edge index
 // if type is residence, check if it has residence at vertex index
 bool has(std::string type, int index);
-// check whether vertex/road is occupied by other
-bool notOccupied (std::string type, int index); 
 /* void buildResidence(std::string residence, int index); // build residence 
 void buildRoad(char color, int index);  */
 
