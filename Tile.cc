@@ -69,7 +69,7 @@ int Tile::getTileNum() {return tileNum;}
 int Tile::getValue(){return value;}
 std::string Tile::getResource(){return resource;}
 
-void Tile::setGeese(bool has) {geese == has;}
+void Tile::setGeese(bool has) {geese = has;}
 void Tile::setResourceValue(std::string r, int v){
   resource = r;
   value = v;
