@@ -1,5 +1,14 @@
+#include <string>
+#include <vector>
+#include <memory>
 #include "Board.h"
 #include "Tile.h"
+
+Board::Board(){
+  for (int i = 0; i < 19; i++) {
+    tiles.emplace_back(std::make_unique<Tile>(i));
+  }
+}
 
 int Board::getTileNum() { return tiles.size(); }
 
@@ -69,9 +78,9 @@ bool Board::canUpgrade(char color, int x) {
 
 void Board::upgradeLevel(char color, int x) {
   if (canUpgrade(color, x)) {
-    if (vertex[x][1] = 'B') {
+    if (vertex[x][1] == 'B') {
       vertex[x][1] = 'H';
-    } else if (vertex[x][1] = 'H') {
+    } else if (vertex[x][1] == 'H') {
       vertex[x][1] = 'T';
     }
   }

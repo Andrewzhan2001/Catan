@@ -65,7 +65,6 @@ void setColor(std::string color);
   // loses one resoucres randomly, return the resource type lost see 3.6
   std::string loseOneResourceRandomly();
   void printData(std::ostream &out);
-  virtual bool chooseInt(int n);
-  virtual ~Player() = 0;
+  virtual bool chooseInt(int& n) = 0;
 };
 #endif

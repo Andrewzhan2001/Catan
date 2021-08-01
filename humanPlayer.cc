@@ -1,6 +1,6 @@
 #include "humanPlayer.h"
 
-bool humanPlayer::chooseInt(int n) {
+bool humanPlayer::chooseInt(int& n) {
   while (true) {
     if (!(std::cin >> n)) {
       if (std::cin.eof()) {

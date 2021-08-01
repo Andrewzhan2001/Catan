@@ -11,6 +11,6 @@
 class humanPlayer : public Player{
 
  public:
-   bool chooseInt(int m) override;
+   bool chooseInt(int& n) override;
 };
 #endif

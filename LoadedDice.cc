@@ -2,6 +2,7 @@
 #include <random>
 #include <algorithm>
 #include "LoadedDice.h"
+#include "Dice.h"
 using namespace std;
 
 

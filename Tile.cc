@@ -76,7 +76,7 @@ void Tile::setResourceValue(std::string r, int v){
 }
 
 bool Tile::has(std::string type, int index) {
-  bool retval;
+  bool retval = false;
   if(type == "vertex") {
     retval = (find(vertex.begin(),vertex.end(),index) != vertex.end());
   } else if(type == "edge") {
@@ -89,7 +89,7 @@ bool Tile::has(std::string type, int index) {
 
 std::vector<int> Tile::getAdjacentVertex(int edgeIndex) {
   std::vector<int> adjacentVertex;
-  for (int i = 0; i < edge.size(); i++) {
+  for (size_t i = 0; i < edge.size(); i++) {
     // find the edge 
     if (edgeIndex == edge[i]) {
       if (i == 0) {
@@ -109,7 +109,7 @@ std::vector<int> Tile::getAdjacentVertex(int edgeIndex) {
 
 std::vector<int> Tile::getAdjacentEdge(int edgeIndex) {
   std::vector<int> adjacentEdge;
-  for (int i = 0; i < vertex.size(); i++) {
+  for (size_t i = 0; i < vertex.size(); i++) {
     // find the vertex 
     if (edgeIndex == vertex[i]) {
       if(i == 0) { // if it's the first vertex
@@ -164,7 +164,7 @@ vector<string> Tile::printTile(vector<string> vertexs, vector<string> edges) {
   }
 
   // put geese into output
-  if (geese = true) {
+  if (geese == true) {
     if (value == 7) {
       output[4].replace(5,5, "GEESE");
     } else {

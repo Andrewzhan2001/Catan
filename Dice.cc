@@ -7,4 +7,4 @@
 #include "Dice.h"
 using namespace std;
 
-void setseed(size_t seed){}
+void Dice::setseed(size_t seed){}

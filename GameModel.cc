@@ -2,15 +2,19 @@
 #include <random>
 #include <memory>
 #include "PlayerFactory.h"
+#include "BoardFactory.h"
+#include "DiceFactory.h"
 
 GameModel::GameModel() {
-  std::vector<std::unique_ptr<Player>> players;
   for (int i = 0; i < 4; ++i) {
     PlayerFactory pf;
-    auto p = pf.createObject("humanPlayer");
-    players.emplace_back(std::move(p));
+    players.emplace_back(pf.createObject("humanPlayer"));
   }
-  this->players = players;
+  BoardFactory bf;
+  b = bf.createObject("normalBoard");
+  DiceFactory df;
+  d.emplace_back(df.createObject("FairDice"));
+  d.emplace_back(df.createObject("LoadedDice"));
 }
 
 Player *GameModel::getPlayer(int idx) {
@@ -19,6 +23,14 @@ Player *GameModel::getPlayer(int idx) {
 
 Board *GameModel::getBoard() {
   return b.get();
+}
+
+std::string GameModel::getCurColor() {
+  return nullptr;
+}
+
+Player *GameModel::getCurPlayer(){
+  return nullptr;
 }
 
 size_t GameModel::getSeed() { return seed; }
@@ -64,7 +76,7 @@ void GameModel::initial() {
     std::string color = getColor(i);
     std::cout << "Builder " << color << ", ";
     std::cout << "where do you want to build a basement?" << std::endl;
-    int n;
+    int n = -1;
     // reads in an integer as a vertex
     while (true) {
       if (!(cur->chooseInt(n))) {
@@ -89,7 +101,7 @@ void GameModel::initial() {
     std::string color = getColor(i);
     std::cout << "Builder " << color << ", ";
     std::cout << "where do you want to build a basement?" << std::endl;
-    int n;
+    int n = -1;
     // reads in an integer as a vertex
     while (true) {
       if (!(cur->chooseInt(n))) {
@@ -139,6 +151,7 @@ int GameModel::rollDice() {
   } else {
     diceNum += cur->getNum();
   }
+  return diceNum;
 }
 
 void GameModel::printPlayers() {
@@ -185,13 +198,13 @@ void GameModel::update() {
       }
     }
     std::cout << "Choose where to place the GEESE." << std::endl;
-    int n;
+    int n = -1;
     while (true) {
       if (!(cur->chooseInt(n))) {
         saveFile();
         return;
       } else {
-        if (n >= b->getTileNum() || b < 0) {
+        if (n >= b->getTileNum() || n < 0) {
           std::cout << "Invalid tile number!Please input again!" << std::endl;
         } else {
           b->setGeese(n);
@@ -219,7 +232,7 @@ void GameModel::update() {
       std::cout << "Builder ";
       std::cout << getColor(currentTurn);
       std::cout << "can choose to steal from ["; 
-      for (int i = 0; i < lists.size(); ++i) {
+      for (size_t i = 0; i < lists.size(); ++i) {
         std::cout << lists[i];
         if (i != lists.size() - 1) {
           std::cout << ",";
@@ -232,7 +245,7 @@ void GameModel::update() {
           saveFile();
           return;
         } else {
-          if (0 <= n && n < (players.size() - 1)) {
+          if (0 <= n && n < (int)(players.size() - 1)) {
             break;
           } else {
             std::cout << "Invalid player number!Please input again!" << std::endl;

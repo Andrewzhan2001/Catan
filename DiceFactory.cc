@@ -7,5 +7,7 @@
       return std::make_unique<FairDice>();
     } else if(objectType == "LoadedDice") {
       return std::make_unique<LoadedDice>();
+    } else {
+      return nullptr;
     }
   }

@@ -3,6 +3,9 @@
 #include <sstream>
 #include <fstream>
 #include <string>
+
+loadFromBoard::loadFromBoard(std::string file):file{file} {}
+
 void loadFromBoard::loadBoard(GameModel *gm) {
   Board *b = gm->getBoard();
   int tile_resource, tile_value;

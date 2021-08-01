@@ -6,8 +6,8 @@
 #include <map>
 #include <set>
 #include <memory>
+#include "Tile.h"
 
-class Tile;
 class Board {
  protected:
   std::vector<std::string> vertex;
@@ -15,6 +15,7 @@ class Board {
   std::vector<std::unique_ptr<Tile>> tiles;
   bool notOccupied(std::string type, int x);// check whether vertex/road is occupied by other
  public:
+   Board();
    // get number of tiles
    int getTileNum();
    // set Geese to tile x
@@ -30,7 +31,7 @@ class Board {
    //   1. The vertex must be in range
    //   2. The vertex has not been occupied
    // IF INVALID, OUTPUTS "You cannot build here."
-   virtual bool validVertex(int x);
+   virtual bool validVertex(int x) = 0;
    // gets all residence of tile x  
    virtual std::vector<int> getNeighbours(int x);
    // find all the tiles that has vertex/edge i 
@@ -55,6 +56,5 @@ class Board {
    virtual std::vector<std::pair<std::string, int>> getResidences(int x) = 0;
 
    virtual void printBoard(std::ostream &out) = 0;
-   virtual ~Board() = 0;
 };
 #endif

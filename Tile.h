@@ -6,7 +6,7 @@
 #include <map>
 #include <set>
 #include <memory>
-#include "Board.h"
+class Board;
 
 class Tile {
   int tileNum;
@@ -48,6 +48,6 @@ void buildRoad(char color, int index);  */
 std::vector<std::string> printTile(std::vector<std::string> vertexs, 
                                    std::vector<std::string> edges);
 
-friend Board;
+friend class Board;
 };
 #endif

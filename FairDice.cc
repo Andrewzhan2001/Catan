@@ -2,6 +2,7 @@
 #include <random>
 #include <algorithm>
 #include "FairDice.h"
+#include "Dice.h"
 using namespace std;
 
 void FairDice::setseed(size_t seed) {

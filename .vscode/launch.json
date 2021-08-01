@@ -9,7 +9,7 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
-      "args": ["rererewr", "123213"],
+      "args": ["-seed", "123213", "-random_board"],
       "stopAtEntry": false,
       "cwd": "${fileDirname}",
       "environment": [],

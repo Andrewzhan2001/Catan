@@ -1,8 +1,13 @@
-#include "Controller.h"
 #include <string>
-#include "SetBoardStrategy.h"
 #include <fstream>
+#include <memory>
+#include "SetBoardStrategy.cc"
+#include "Controller.h"
+#include "GameModel.cc"
+
 using namespace std;
+
+Controller::Controller():gm{make_unique<GameModel>()}{}
 
 void Controller::setseed(size_t seed) {
   this->seed = seed;
@@ -121,6 +126,8 @@ bool Controller::play() {
   if (cmd == "yes") {
     return true;
   } else if (cmd == "no") {
+    return false;
+  } else {
     return false;
   }
 }

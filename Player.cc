@@ -95,7 +95,7 @@ bool Player::attempbuild(int x, char type) {
     }
     if (it->second < 0) { // if not enough resource
       // recover modified numbers
-      for (int i = 0; i < oldNum.size(); i++) {
+      for (size_t i = 0; i < oldNum.size(); i++) {
         resources[i].second = oldNum[i];
       }
       std::cout << "You do not have enough resources" << std::endl;
