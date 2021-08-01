@@ -44,7 +44,7 @@ class Board {
    virtual void create(char color, int x, std::string type);
    // determines whether player with color can upgrade residence
    //   at location x.
-   virtual bool canUpgrade(char color, int x) = 0;
+   virtual bool canUpgrade(char color, int x);
    // upgrades the residence at location x for player with color
    // upgrades to house from basement, upgrades to tower from house 
    //   and does nothing if location x is already a tower
