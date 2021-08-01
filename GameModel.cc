@@ -31,7 +31,7 @@ std::string GameModel::getCurColor() {
 }
 
 Player *GameModel::getCurPlayer(){
-  return nullptr;
+  return getPlayer(currentTurn);
 }
 
 size_t GameModel::getSeed() { return seed; }
@@ -81,7 +81,7 @@ void GameModel::initial() {
     // reads in an integer as a vertex
     while (true) {
       if (!(cur->chooseVertex(n))) {
-        // end-of-file signale reaches
+        // end-of-file signal reaches
         saveFile();
         return;
       } else {
@@ -97,9 +97,10 @@ void GameModel::initial() {
     }
     ++i;
   }
-  while (i > 0) {
-    Player *cur = getPlayer(i);
-    std::string color = getColor(i);
+  int j = 3;
+  while (j >= 0) {
+    Player *cur = getPlayer(j);
+    std::string color = getColor(j);
     std::cout << "Builder " << color << ", ";
     std::cout << "where do you want to build a basement?" << std::endl;
     int n = -1;
@@ -120,7 +121,7 @@ void GameModel::initial() {
         }
       }
     }
-    --i;
+    --j;
   }
 }
 
@@ -321,4 +322,8 @@ void GameModel::saveFile(std::string filename) {
     fout << std::endl;
   }
   fout.close();
+}
+
+void GameModel::printBoard() {
+  b->printBoard(std::cout);
 }

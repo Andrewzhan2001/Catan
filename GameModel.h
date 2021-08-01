@@ -53,5 +53,6 @@ class GameModel{
   bool ifWin();
   // void printData();
   void saveFile(std::string filename = "backup.sv");
+  void printBoard();
 };
 #endif

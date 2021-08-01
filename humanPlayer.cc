@@ -7,6 +7,8 @@ bool humanPlayer::chooseVertex(int& n) {
         return false;
       }
       std::cout << "Not an integer!Please input an intger!" << std::endl;
+      std::cin.clear();
+      std::cin.ignore();
     } else {
       return true;
     }
@@ -20,6 +22,8 @@ bool humanPlayer::chooseTile(int &n) {
         return false;
       }
       std::cout << "Not an integer!Please input an intger!" << std::endl;
+      std::cin.clear();
+      std::cin.ignore();
     } else {
       return true;
     }
@@ -33,6 +37,8 @@ bool humanPlayer::choosePlayer(int &n) {
         return false;
       }
       std::cout << "Not an integer!Please input an intger!" << std::endl;
+      std::cin.clear();
+      std::cin.ignore();
     } else {
       return true;
     }

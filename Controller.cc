@@ -52,9 +52,7 @@ bool Controller::play() {
         return false;
       }
       if (cmd == "board") {
-        // print board
-        // NEEDS TO BE MODIFIED
-        cout << "board\n";
+        gm->printBoard();
       } else if (cmd == "status") {
         gm->printPlayers();
       } else if (cmd == "residences") {
