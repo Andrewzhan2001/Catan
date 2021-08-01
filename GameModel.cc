@@ -4,6 +4,7 @@
 #include "PlayerFactory.h"
 #include "BoardFactory.h"
 #include "DiceFactory.h"
+#include <algorithm>
 
 GameModel::GameModel() {
   for (int i = 0; i < 4; ++i) {
@@ -79,7 +80,7 @@ void GameModel::initial() {
     int n = -1;
     // reads in an integer as a vertex
     while (true) {
-      if (!(cur->chooseInt(n))) {
+      if (!(cur->chooseVertex(n))) {
         // end-of-file signale reaches
         saveFile();
         return;
@@ -104,7 +105,7 @@ void GameModel::initial() {
     int n = -1;
     // reads in an integer as a vertex
     while (true) {
-      if (!(cur->chooseInt(n))) {
+      if (!(cur->chooseVertex(n))) {
         // end-of-file signale reaches
         saveFile();
         return;
@@ -200,7 +201,7 @@ void GameModel::update() {
     std::cout << "Choose where to place the GEESE." << std::endl;
     int n = -1;
     while (true) {
-      if (!(cur->chooseInt(n))) {
+      if (!(cur->chooseTile(n))) {
         saveFile();
         return;
       } else {
@@ -220,7 +221,11 @@ void GameModel::update() {
           continue;
         } 
         if (getPlayer(i)->belongs(x, 'B')) {
-          lists.emplace_back(getColor(i));
+          std::string col = getPlayer(i)->getColor();
+          auto it = find(lists.begin(), lists.end(), col);
+          if (it != lists.end()) {
+            lists.emplace_back(getPlayer(i)->getColor());
+          }
         }   
       }
     }
@@ -241,12 +246,20 @@ void GameModel::update() {
       std::cout << "]" << std::endl;
       std::cout << "Choose a builder to steal from." << std::endl;
       while (true) {
-        if (!(cur->chooseInt(n))) {
+        if (!(cur->choosePlayer(n))) {
           saveFile();
           return;
         } else {
           if (0 <= n && n < (int)(players.size() - 1)) {
-            break;
+            std::string c = getPlayer(n)->getColor();
+            auto it = find(lists.begin(), lists.end(), c);
+            if (it == lists.end()) {
+              // not found
+              std::cout <<  "You cannot steal from this player.";
+              std::cout << "Please input again." << std::endl;
+            } else {
+              break;
+            }
           } else {
             std::cout << "Invalid player number!Please input again!" << std::endl;
           }

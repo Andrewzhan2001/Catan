@@ -11,6 +11,8 @@
 class humanPlayer : public Player{
 
  public:
-   bool chooseInt(int& n) override;
+  bool chooseVertex(int& n) override;
+  bool chooseTile(int &n) override;
+  bool choosePlayer(int &n) override;
 };
 #endif
