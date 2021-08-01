@@ -26,7 +26,7 @@ Board *GameModel::getBoard() {
 }
 
 std::string GameModel::getCurColor() {
-  return nullptr;
+  return getCurPlayer()->getColor();
 }
 
 Player *GameModel::getCurPlayer(){

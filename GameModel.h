@@ -36,8 +36,6 @@ class GameModel{
   // constructor
   // each player chooses two places for basement
   void initial(); 
-  // set the random seed;
-  void setseed();
   // switches turn from 1,2,3,4 
   void switches(); 
   // create a residence/road at location x
@@ -53,7 +51,7 @@ class GameModel{
   void update();
   void exchange(std::string type, std::string type1, std::string type2);
   bool ifWin();
-  void printData();
+  // void printData();
   void saveFile(std::string filename = "backup.sv");
 };
 #endif

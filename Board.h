@@ -56,5 +56,6 @@ class Board {
    virtual std::vector<std::pair<std::string, int>> getResidences(int x) = 0;
 
    virtual void printBoard(std::ostream &out) = 0;
+
 };
 #endif

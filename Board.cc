@@ -10,7 +10,7 @@ Board::Board(){
   }
 }
 
-int Board::getTileNum() { return tiles.size(); }
+int Board::getTileNum() {  return tiles.size(); }
 
 void Board::setGeese(int x) { tiles[x]->setGeese(true); }
 
@@ -85,4 +85,5 @@ void Board::upgradeLevel(char color, int x) {
     }
   }
 }
+
 

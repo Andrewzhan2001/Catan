@@ -3,11 +3,7 @@
 #include "Tile.h"
 using namespace std;
 
-normalBoard::normalBoard() :Board{} {
-  for (int i = 0; i < 19; i++) {
-    tiles.push_back(std::make_unique<Tile>(i));
-  }
-
+normalBoard::normalBoard() : Board{} {
   for (int i = 0; i < 53; i++) {
     string space = " ";
     space = space + to_string(i);

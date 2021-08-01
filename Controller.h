@@ -18,5 +18,8 @@ class Controller{
   void loadStrategy(SetBoardStrategy sbs); // use stategy sbs to load the board
   void saveFile(std::string fname = "backup.sv");
   bool play();// start the game
+
+  // for debug
+  void print();
 };
 #endif

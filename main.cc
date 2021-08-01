@@ -51,6 +51,7 @@ int main(int argc, char const *argv[]) {
         control->loadStrategy(rl);
       }
     }
+    control->print();
     state = control->play();
   }
   return 0;

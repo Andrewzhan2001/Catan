@@ -7,7 +7,7 @@
 
 using namespace std;
 
-Controller::Controller():gm{make_unique<GameModel>()}{}
+Controller::Controller(): gm{make_unique<GameModel>()}{}
 
 void Controller::setseed(size_t seed) {
   this->seed = seed;
@@ -130,4 +130,9 @@ bool Controller::play() {
   } else {
     return false;
   }
+}
+
+void Controller::print() {
+  Board *bb = gm->getBoard();
+  bb->printBoard(std::cout);
 }

@@ -12,7 +12,7 @@ class GameModel;
 class randomLoad : public SetBoardStrategy{
 
  public:
-
+  randomLoad();
   void loadBoard(GameModel *bm) override;
 };
 #endif

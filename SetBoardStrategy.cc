@@ -9,4 +9,5 @@ SetBoardStrategy::SetBoardStrategy()
         {3, "HEAT"},  {4, "WIFI"},   {5, "PARK"}},
   builders{{0, "Blue"}, {1, "Red"}, {2, "Orange"}, {3, "Yellow"}}
 {}
+
 void SetBoardStrategy::loadBoard(GameModel *gm){};

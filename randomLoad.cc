@@ -3,6 +3,9 @@
 #include <string>
 #include <random>
 #include <algorithm>
+
+randomLoad::randomLoad() : SetBoardStrategy() {}
+
 void randomLoad::loadBoard(GameModel *gm) {
   Board *b = gm->getBoard();
   std::default_random_engine rng{gm->getSeed()};
