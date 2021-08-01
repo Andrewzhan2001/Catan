@@ -13,7 +13,7 @@ bool humanPlayer::chooseVertex(int& n) {
   }
 }
 
-bool chooseTile(int &n) {
+bool humanPlayer::chooseTile(int &n) {
   while (true) {
     if (!(std::cin >> n)) {
       if (std::cin.eof()) {
@@ -26,7 +26,7 @@ bool chooseTile(int &n) {
   }
 }
 
-bool choosePlayer(int &n) {
+bool humanPlayer::choosePlayer(int &n) {
   while (true) {
     if (!(std::cin >> n)) {
       if (std::cin.eof()) {
