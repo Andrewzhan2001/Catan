@@ -20,35 +20,33 @@ int main(int argc, char const *argv[]) {
   while (state) {
     auto ctr = make_unique<Controller>();
     Controller *control = ctr.get();
-    vector<pair<string,size_t>> command;
+    vector<pair<string,string>> command;
     for (size_t i = 1; i < argc; i++) { // add command to the vector of pairs
       string first = argv[i];
       if (first == "-random-board") {
-        command.emplace_back(first,0);
+        command.emplace_back(first,"");
       } else if(first == "-seed" || first == "-load" || first == "-board"){
         ++i;
-        string second = argv[i];
-        size_t number = stoi(second);
-        command.emplace_back(first,number);
+        command.emplace_back(first,argv[i]);
       }
     }
     // use find_if to find specific command in the vector
     auto it = find_if(command.begin(), command.end(),
       [](const pair<string, size_t>& element){ return element.first == "-seed";});
     if(it != command.end()) {
-      control->setseed(it.base()->second);
+      control->setseed(stoi(it.base()->second));
     }
-    auto it = find_if(command.begin(), command.end(),
+    auto itt = find_if(command.begin(), command.end(),
       [](const pair<string, size_t>& element){ return element.first == "-load";});
-    if(it != command.end()) {
-      Setfromfile sf;
+    if(itt != command.end()) {
+      Setfromfile sf{itt.base()->second};
       control->loadStrategy(sf);
     } else {
       //if do not find command line -load check whether here is -board
-      auto itt = find_if(command.begin(), command.end(),
+      auto ittt = find_if(command.begin(), command.end(),
       [](const pair<string, size_t>& element){ return element.first == "-board";});
-      if(itt != command.end()) {
-        loadFromBoard fb;
+      if(ittt != command.end()) {
+        loadFromBoard fb{ittt.base()->second};
         control->loadStrategy(fb);
       } else {
         // if both command not found, default randomboard

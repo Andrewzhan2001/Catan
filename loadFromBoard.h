@@ -8,9 +8,9 @@
 #include "SetBoardStrategy.h"
 class GameModel;
 class loadFromBoard : public SetBoardStrategy{
-
+  std::string file;
  public:
-
+  loadFromBoard(std::string file);
   void loadBoard(GameModel *gm) override;
 };
 #endif

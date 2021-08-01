@@ -9,8 +9,9 @@
 
 class GameModel;
 class Setfromfile : public SetBoardStrategy {
-
+  std::string file;
  public:
+  Setfromfile(std::string file);
   void loadBoard(GameModel *bm) override;
 };
 #endif

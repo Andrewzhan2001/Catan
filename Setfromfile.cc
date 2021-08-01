@@ -4,6 +4,8 @@
 #include <map>
 #include <sstream>
 #include <string>
+Setfromfile::Setfromfile(std::string file):file{file} {}
+
 void Setfromfile::loadBoard(GameModel *bm) {
   Board *b = bm->getBoard();
   int CurTurn, numBricks, numEnergies, numGlass, numHeat, numWifi, road,
