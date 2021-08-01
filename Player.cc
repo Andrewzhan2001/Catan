@@ -11,8 +11,16 @@ Player::Player()
       roads{}, residences{} {}
 
 void Player::modifyResources(std::string type, int amount) {
-  for (auto it : resources) {
-    if (it.first == type) {
+  for (auto &it : resources) {
+    bool same = true;
+    int len = it.first.length();
+    for (int i = 0; i < len; ++i) {
+      if (type[i] != it.first[i]) {
+        same = false;
+        break;
+      }
+    }
+    if (same) {
       it.second += amount;
     }
   }

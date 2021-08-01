@@ -281,9 +281,14 @@ void GameModel::update() {
     std::cout << "yes" << std::endl;
     std::vector<std::pair<std::string, int>> neighbours = b->getResidences(diceNum);
     for (auto n : neighbours) {
+      std::cout << n.first << std::endl;
+      std::cout << n.second << std::endl;
+    }
+    std::cout << std::endl;
+    for (auto n : neighbours) {
       for (auto &p : players) {
-        if (p->belongs(n.second, 'B')) {
-          p->award(n.second, n.first);
+        if (p.get()->belongs(n.second, 'B')) {
+          p.get()->award(n.second, n.first);
         }
       }
     }
