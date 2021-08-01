@@ -4,11 +4,6 @@
 #include "Board.h"
 #include "Tile.h"
 
-Board::Board(){
-  for (int i = 0; i < 19; i++) {
-    tiles.emplace_back(std::make_unique<Tile>(i));
-  }
-}
 
 int Board::getTileNum() {  return tiles.size(); }
 
@@ -22,6 +17,15 @@ void Board::setEdge(int idx, std::string builder) { edge[idx] = builder + "R"; }
 
 void Board::setTile(int n, std::string resource, int value) {
   tiles[n]->setResourceValue(resource, value);
+}
+
+void Board::setGeeseOnTile(int tilenum) {
+  for (auto &&i : tiles) {
+    if (i->geese == true) {
+      i->setGeese(false);
+    }
+  }
+  tiles[tilenum]->setGeese(true);
 }
 
 bool Board::notOccupied(std::string type, int x) {

@@ -157,9 +157,9 @@ vector<string> Tile::printTile(vector<string> vertexs, vector<string> edges) {
   // put value into output
   if (value != 7) {
     if (value >= 10) {
-      output[4].replace(6,2,to_string(tileNum));
+      output[4].replace(6,2,to_string(value));
     } else {
-      output[4].replace(7,1,to_string(tileNum));
+      output[4].replace(7,1,to_string(value));
     }
   }
 

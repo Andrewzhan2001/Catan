@@ -15,7 +15,6 @@ class Board {
   std::vector<std::unique_ptr<Tile>> tiles;
   bool notOccupied(std::string type, int x);// check whether vertex/road is occupied by other
  public:
-   Board();
    // get number of tiles
    int getTileNum();
    // set Geese to tile x
@@ -26,6 +25,8 @@ class Board {
    void setEdge(int idx, std::string builder);
    // set tile x resource and value
    void setTile(int n, std::string resource, int value);
+
+   void setGeeseOnTile(int tilenum);
    // determines whether int x represents a valid vertex 
    // A valid vertex must satisfy: 
    //   1. The vertex must be in range

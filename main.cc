@@ -36,19 +36,19 @@ int main(int argc, char const *argv[]) {
     auto itt = find_if(command.begin(), command.end(),
       [](const pair<string, string>& element){ return element.first == "-load";});
     if(itt != command.end()) {
-      Setfromfile sf{itt.base()->second};
-      control->loadStrategy(sf);
+      auto sf = make_unique<Setfromfile>(itt.base()->second);
+      control->loadStrategy(sf.get());
     } else {
       //if do not find command line -load check whether here is -board
       auto ittt = find_if(command.begin(), command.end(),
       [](const pair<string, string>& element){ return element.first == "-board";});
       if(ittt != command.end()) {
-        loadFromBoard fb{ittt.base()->second};
-        control->loadStrategy(fb);
+        auto fb = make_unique<loadFromBoard>(ittt.base()->second);
+        control->loadStrategy(fb.get());
       } else {
         // if both command not found, default randomboard
-        randomLoad rl;
-        control->loadStrategy(rl);
+        auto rl = make_unique<randomLoad>();
+        control->loadStrategy(rl.get());
       }
     }
     control->print();

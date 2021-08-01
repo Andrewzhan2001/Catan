@@ -3,8 +3,7 @@
 #include <string>
 #include <random>
 #include <algorithm>
-
-randomLoad::randomLoad() : SetBoardStrategy() {}
+#include <iostream>
 
 void randomLoad::loadBoard(GameModel *gm) {
   Board *b = gm->getBoard();
@@ -21,21 +20,26 @@ The values on the board will have one tile with value 2, one tile with the value
 4, 5, 6, 8, 9, 10, and 11.
 */
   std::vector<std::string> resources = {
-      "WIFI",  "WIFI",  "WIFI",  "HEAT",   "HEAT",   "HEAT",   "BRICK",
-      "BRICK", "BRICK", "BRICK", "ENERGY", "ENERGY", "ENERGY", "ENERGY",
-      "GLASS", "GLASS", "GLASS", "GLASS",  "PARK"};
+      "WIFI   ",  "WIFI   ",  "WIFI   ",  "HEAT   ",   "HEAT   ",   "HEAT   ",   "BRICK  ",
+      "BRICK  ", "BRICK  ", "BRICK  ", "ENERGY ", "ENERGY ", "ENERGY ", "ENERGY ",
+      "GLASS  ", "GLASS  ", "GLASS  ", "GLASS  ",  "PARK   "};
   std::vector<int> values = {2, 12, 3, 3, 4, 4,  5,  5,  6,
                              6, 8,  8, 9, 9, 10, 10, 11, 11};
   std::shuffle(resources.begin(), resources.end(), rng);
   std::shuffle(values.begin(), values.end(), rng);
   // find park tile and set to value 7;
-  auto it = find(resources.begin(), resources.end(), "PARK");
+  auto it = find(resources.begin(), resources.end(), "PARK   ");
   int index = it - resources.begin();
-  b->setTile(index, "PARK", 7);
+  b->setTile(index, *it, 7);
+  b->setGeese(index);
   // remove park from resources since already set
-  resources.erase(resources.begin() + index);
+  /* resources.erase(resources.begin() + index); */
   // set the other 18 tiles
-  for (int i = 0; i < 18; i++) {
-    b->setTile(i, resources[i], values[i]);
+  for (int i = 0,k = 0; i < 19; i++,k++) {
+    if (i != index) {
+      b->setTile(i, resources[i], values[k]);
+    } else {
+      k--;
+    }
   }
 }

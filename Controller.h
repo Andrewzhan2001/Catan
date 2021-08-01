@@ -15,7 +15,7 @@ class Controller{
  public:
   Controller();
   void setseed(size_t seed); // set the seed for random value;
-  void loadStrategy(SetBoardStrategy sbs); // use stategy sbs to load the board
+  void loadStrategy(SetBoardStrategy *sbs); // use stategy sbs to load the board
   void saveFile(std::string fname = "backup.sv");
   bool play();// start the game
 
