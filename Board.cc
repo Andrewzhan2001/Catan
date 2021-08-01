@@ -1,11 +1,10 @@
-#include <string>
-#include <vector>
-#include <memory>
 #include "Board.h"
 #include "Tile.h"
+#include <memory>
+#include <string>
+#include <vector>
 
-
-int Board::getTileNum() {  return tiles.size(); }
+int Board::getTileNum() { return tiles.size(); }
 
 void Board::setGeese(int x) { tiles[x]->setGeese(true); }
 
@@ -30,11 +29,17 @@ void Board::setGeeseOnTile(int tilenum) {
 
 bool Board::notOccupied(std::string type, int x) {
   bool retval = false;
+  std::string original = " ";
+  if (x < 10) {
+    original = original + std::to_string(x);
+  } else {
+    original = std::to_string(x);
+  }
   if (type == "vertex") {
     // true if vertex x is still its index, not name
-    retval = (vertex[x] == std::to_string(x));
+    retval = (vertex[x] == original);
   } else if (type == "edge") {
-    retval = (edge[x] == std::to_string(x));
+    retval = (edge[x] == original);
   } else {
     std::cerr << "invalid parameter of notOccupied function" << std::endl;
   }
@@ -89,5 +94,3 @@ void Board::upgradeLevel(char color, int x) {
     }
   }
 }
-
-
