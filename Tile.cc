@@ -152,7 +152,7 @@ vector<string> Tile::printTile(vector<string> vertexs, vector<string> edges) {
     output[2].replace(7,1,to_string(tileNum));
   }
   // put resources into output
-  output[3].replace(5,7,resource);
+  output[3].replace(5,resource.length(),resource);
 
   // put value into output
   if (value != 7) {
