@@ -4,11 +4,11 @@
 #include <vector>
 #include <memory>
 #include <algorithm>
-#include "Controller.cc"
-#include "SetBoardStrategy.cc"
-#include "randomLoad.cc"
-#include "Setfromfile.cc"
-#include "loadFromBoard.cc"
+#include "Controller.h"
+#include "SetBoardStrategy.h"
+#include "randomLoad.h"
+#include "Setfromfile.h"
+#include "loadFromBoard.h"
 using namespace std;
 
 int main(int argc, char const *argv[]) {
@@ -18,12 +18,12 @@ int main(int argc, char const *argv[]) {
     Controller *control = ctr.get();
     vector<pair<string,string>> command;
     for (int i = 1; i < argc; i++) { // add command to the vector of pairs
-      string first = argv[i];
+      string first(argv[i]);
       if (first == "-random-board") {
         command.emplace_back(first,"");
       } else if(first == "-seed" || first == "-load" || first == "-board"){
         ++i;
-        string second = argv[i];
+        string second(argv[i]);
         command.emplace_back(first,second);
       }
     }

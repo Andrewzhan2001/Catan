@@ -1,9 +1,9 @@
 #include <string>
 #include <fstream>
 #include <memory>
-#include "SetBoardStrategy.cc"
+#include "SetBoardStrategy.h"
 #include "Controller.h"
-#include "GameModel.cc"
+#include "GameModel.h"
 
 using namespace std;
 
