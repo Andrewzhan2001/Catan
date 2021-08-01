@@ -7,7 +7,7 @@
 #include <set>
 #include <memory>
 
-
+class Player;
 class PlayerFactory{
 
  public:
