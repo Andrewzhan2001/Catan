@@ -73,7 +73,7 @@ void Board::create(char color, int x, std::string type) {
   std::string color_str(1, color);
   if (type == "road") {
     edge[x] = color_str + "R";
-  } else if (type == "basement") {
+  } else if (type == "Basement") {
     vertex[x] = color_str + "B";
   }
 }

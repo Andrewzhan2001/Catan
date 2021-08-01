@@ -90,7 +90,7 @@ void GameModel::initial() {
         } else {
           // is a valid vertex
           cur->addBasement(n);
-          b->create(i, n, "Basement");
+          b->create(color[0], n, "Basement");
           break;
         }
       }
@@ -116,7 +116,7 @@ void GameModel::initial() {
         } else {
           // is a valid vertex
           cur->addBasement(n);
-          b->create(i, n, "Basement");
+          b->create(color[0], n, "Basement");
           break;
         }
       }
@@ -173,11 +173,12 @@ void GameModel::buildBasement(int x) { create(x, "Basement"); }
 
 void GameModel::create(int x, std::string type) {
   Player *cur = getPlayer(currentTurn);
+  std::string col = cur->getColor();
   if (!(b->canBuild(currentTurn, x, type))) {
     std::cout << "You cannot build here!" << std::endl;
   } else {
     if (cur->attempbuild(x, type[0])) {
-      b->create(currentTurn, x, type);
+      b->create(col[0], x, type);
     }
   }
 }

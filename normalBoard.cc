@@ -45,7 +45,7 @@ bool normalBoard::canBuild(char color, int x, std::string type) {
   if (!notOccupied(type, x)) { // if this place is occupied by someone
     return false;
   }
-  if (type == "road") {
+  if (type == "Road") {
     // find all adjacent vertex
     std::vector<int> adj;
     for (auto &it : findTile("edge", x)) { // find all tiles that has edge x
@@ -58,7 +58,7 @@ bool normalBoard::canBuild(char color, int x, std::string type) {
                 color); // check if it's owned by the same color user
       }
     }
-  } else if (type == "basement") {
+  } else if (type == "Basement") {
     // find all adjacent edges
     std::vector<int> adjE;
     for (auto &it : findTile("vertex", x)) {

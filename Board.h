@@ -39,10 +39,10 @@ class Board {
    std::vector<int> findTile(std::string type, int x);
    // determines whether player with color can build a basement/road 
    //   at location x.
-   // Note: type could only be either "road" or "basement"
+   // Note: type could only be either "Road" or "Basement"
    virtual bool canBuild(char color, int x, std::string type) = 0;
    // creates a basement/road at location x for player with color
-   // Note: type could only be either "road" or "basement"
+   // Note: type could only be either "Road" or "Basement"
    virtual void create(char color, int x, std::string type);
    // determines whether player with color can upgrade residence
    //   at location x.
