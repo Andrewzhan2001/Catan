@@ -44,6 +44,7 @@ bool Controller::play() {
         cout << "Invalid command." << endl;
       }
     }
+    gm->update();
     while (true) {
       std::string cmd;
       cin >> cmd;

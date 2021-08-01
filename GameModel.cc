@@ -145,6 +145,7 @@ void GameModel::setDice(std::string type) {
 }
 
 int GameModel::rollDice() {
+  diceNum = 0;
   Dice *cur = d[currentDice].get();
   if (currentDice == 0) {
     // fair dice, roll twice
@@ -193,6 +194,7 @@ void GameModel::upgrade(int x) {
 }
 
 void GameModel::update() {
+  std::cout << diceNum << std::endl;
   Player *cur = getPlayer(currentTurn);
   if (diceNum == 7) {
     for (auto &p : players) {
@@ -276,6 +278,7 @@ void GameModel::update() {
       std::cout << getColor(n) << " .";
     }
   } else {
+    std::cout << "yes" << std::endl;
     std::vector<std::pair<std::string, int>> neighbours = b->getResidences(diceNum);
     for (auto n : neighbours) {
       for (auto &p : players) {
