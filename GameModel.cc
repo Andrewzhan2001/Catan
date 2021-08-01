@@ -20,6 +20,9 @@ Player *GameModel::getPlayer(int idx) {
 Board *GameModel::getBoard() {
   return b.get();
 }
+
+size_t GameModel::getSeed() { return seed; }
+
 void GameModel::setSeed(size_t n) {
   this->seed = n;
   rng = std::default_random_engine{n};

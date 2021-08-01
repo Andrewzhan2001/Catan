@@ -30,6 +30,7 @@ class GameModel{
   std::string getCurColor();
   Player *getCurPlayer();
   Board *getBoard();
+  size_t getSeed();
   void setTurn(int turn);
   void setDice(std::string type);
   // constructor
