@@ -15,6 +15,8 @@ class Board {
   std::vector<std::unique_ptr<Tile>> tiles;
   bool notOccupied(std::string type, int x);// check whether vertex/road is occupied by other
  public:
+   // get number of tiles
+   int getTileNum();
    // set Geese to tile x
    virtual void setGeese(int x);
    // set vertex at index as builder+residence type

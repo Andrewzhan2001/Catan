@@ -1,9 +1,14 @@
 #include "humanPlayer.h"
 
-void humanPlayer::chooseInt(int n) {
+bool humanPlayer::chooseInt(int n) {
   while (true) {
-    if (std::cin >> n) {
-      break;
+    if (!(std::cin >> n)) {
+      if (std::cin.eof()) {
+        return false;
+      }
+      std::cout << "Not an integer!Please input an intger!" << std::endl;
+    } else {
+      return true;
     }
   }
 }

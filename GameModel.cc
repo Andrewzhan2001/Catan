@@ -2,6 +2,7 @@
 #include <random>
 #include <memory>
 #include "PlayerFactory.h"
+
 GameModel::GameModel() {
   std::vector<std::unique_ptr<Player>> players;
   for (int i = 0; i < 4; ++i) {
@@ -24,9 +25,10 @@ void GameModel::setSeed(size_t n) {
   rng = std::default_random_engine{n};
 }
 
- void GameModel::setTurn(int turn) {
-   currentTurn = turn;
- }
+void GameModel::setTurn(int turn) {
+  currentTurn = turn;
+}
+
 std::string getColor(int idx) {
   if (idx == 0) {
     return "Blue";
@@ -62,12 +64,19 @@ void GameModel::initial() {
     int n;
     // reads in an integer as a vertex
     while (true) {
-      cur->chooseInt(n);
-      if (b->validVertex(n)) {
-        // is a valid vertex
-        cur->addBasement(n);
-        b->create(i, n, "Basement");
-        break;
+      if (!(cur->chooseInt(n))) {
+        // end-of-file signale reaches
+        saveFile();
+        return;
+      } else {
+        if (!(b->validVertex(n))) {
+          std::cout << "You cannot build here." << std::endl;
+        } else {
+          // is a valid vertex
+          cur->addBasement(n);
+          b->create(i, n, "Basement");
+          break;
+        }
       }
     }
     ++i;
@@ -80,15 +89,22 @@ void GameModel::initial() {
     int n;
     // reads in an integer as a vertex
     while (true) {
-      cur->chooseInt(n);
-      if (b->validVertex(n)) {
-        // is a valid vertex
-        cur->addBasement(n);
-        b->create(i, n, "Basement");
-        break;
+      if (!(cur->chooseInt(n))) {
+        // end-of-file signale reaches
+        saveFile();
+        return;
+      } else {
+        if (!(b->validVertex(n))) {
+          std::cout << "You cannot build here." << std::endl;
+        } else {
+          // is a valid vertex
+          cur->addBasement(n);
+          b->create(i, n, "Basement");
+          break;
+        }
       }
     }
-    ++i;
+    --i;
   }
 }
 
@@ -139,7 +155,9 @@ void GameModel::buildBasement(int x) { create(x, "Basement"); }
 
 void GameModel::create(int x, std::string type) {
   Player *cur = getPlayer(currentTurn);
-  if (b->canBuild(currentTurn, x, type)) {
+  if (!(b->canBuild(currentTurn, x, type))) {
+    std::cout << "You cannot build here!" << std::endl;
+  } else {
     if (cur->attempbuild(x, type[0])) {
       b->create(currentTurn, x, type);
     }
@@ -160,15 +178,22 @@ void GameModel::update() {
   if (diceNum == 7) {
     for (auto &p : players) {
       if (p->getTotal() >= 10) {
-       p->loseHalf(seed);
+       p->loseHalf();
       }
     }
-    std::cout << "Choose where to place the GEESE.";
+    std::cout << "Choose where to place the GEESE." << std::endl;
     int n;
     while (true) {
-      cur->chooseInt(n);
-      if(b->validVertex(n)) {
-        b->setGeese(n);
+      if (!(cur->chooseInt(n))) {
+        saveFile();
+        return;
+      } else {
+        if (n >= b->getTileNum() || b < 0) {
+          std::cout << "Invalid tile number!Please input again!" << std::endl;
+        } else {
+          b->setGeese(n);
+          break;
+        }
       }
     }
     std::vector<int> neighbours = b->getNeighbours(n);
@@ -200,9 +225,15 @@ void GameModel::update() {
       std::cout << "]" << std::endl;
       std::cout << "Choose a builder to steal from." << std::endl;
       while (true) {
-        cur->chooseInt(n);
-        if (0 <= n && n < (players.size() - 1)) {
-          break;
+        if (!(cur->chooseInt(n))) {
+          saveFile();
+          return;
+        } else {
+          if (0 <= n && n < (players.size() - 1)) {
+            break;
+          } else {
+            std::cout << "Invalid player number!Please input again!" << std::endl;
+          }
         }
       }
       std::string type = getPlayer(n)->loseOneResourceRandomly();
@@ -253,10 +284,12 @@ bool GameModel::ifWin() {
   return false;
 }
 
-void GameModel::saveFile(std::ofstream &out) {
-  out << currentTurn << std::endl;
+void GameModel::saveFile(std::string filename) {
+  std::ofstream fout(filename);
+  fout << currentTurn << std::endl;
   for (auto &p : players) {
-    p->printData(out);
-    out << std::endl;
+    p->printData(fout);
+    fout << std::endl;
   }
+  fout.close();
 }

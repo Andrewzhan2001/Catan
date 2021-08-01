@@ -1,5 +1,8 @@
 #include "Board.h"
 #include "Tile.h"
+
+int Board::getTileNum() { return tiles.size(); }
+
 void Board::setGeese(int x) { tiles[x]->setGeese(true); }
 
 void Board::setVertex(int idx, std::string builder, std::string residence) {

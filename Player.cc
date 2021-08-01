@@ -243,6 +243,6 @@ hasResource.push_back(idx);
   }
  std::uniform_int_distribution<int> dist(0, hasResource.size() - 1);
  std::string random_resource = resources[dist(rng)].first;
- modifyResources(random_resource, -1) // modify
+ modifyResources(random_resource, -1); // modify
  return random_resource;
 }

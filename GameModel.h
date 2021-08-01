@@ -53,6 +53,6 @@ class GameModel{
   void exchange(std::string type, std::string type1, std::string type2);
   bool ifWin();
   void printData();
-  void saveFile(std::ofstream &out);
+  void saveFile(std::string filename = "backup.sv");
 };
 #endif

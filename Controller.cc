@@ -14,9 +14,7 @@ void Controller::loadStrategy(SetBoardStrategy sbs) {
 }
 
 void Controller::saveFile(std::string fname) {
-  ofstream fout(fname);
-  gm->saveFile(fout);
-  fout.close();
+  gm->saveFile(fname);
 }
 
 bool Controller::play() {
