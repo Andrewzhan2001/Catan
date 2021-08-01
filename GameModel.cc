@@ -6,7 +6,7 @@
 #include "DiceFactory.h"
 #include <algorithm>
 
-GameModel::GameModel() {
+GameModel::GameModel() : number{4} {
   for (int i = 0; i < 4; ++i) {
     PlayerFactory pf;
     players.emplace_back(pf.createObject("humanPlayer"));
