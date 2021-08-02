@@ -14,8 +14,13 @@ class computerPlayer : public Player{
   std::vector<int> Player;
  public:
   computerPlayer();
-  bool chooseVertex(int& n) override;
-  bool chooseTile(int &n) override;
-  bool choosePlayer(int &n) override;
+  bool chooseVertex(int& n, Board *board) override;
+  bool chooseTile(int &n, Board *board) override;
+  bool chooseColor(std::string &cmd, std::vector<std::string> v) override;
+  bool chooseRoad(int &n, Board *board) override;
+  bool answer(std::string &cmd) override;
+  bool chooseResource(std::string &cmd) override;
+  bool chooseCommand(std::string &cmd) override;
 };
+  
 #endif

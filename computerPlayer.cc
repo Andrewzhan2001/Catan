@@ -13,15 +13,17 @@ computerPlayer::computerPlayer(){
   }
 }
 
-
-bool computerPlayer::chooseVertex(int& n) {
-  
+bool computerPlayer::chooseVertex(int& n, Board *board) {
+  return true;
 }
+bool computerPlayer::chooseTile(int &n, Board *board) { return true; }
 
-bool computerPlayer::chooseTile(int &n) {
+bool computerPlayer::chooseColor(std::string &cmd, std::vector<std::string> v) { return true; }
 
-}
+bool computerPlayer::chooseRoad(int &n, Board *board) { return true; }
 
-bool computerPlayer::choosePlayer(int &n) {
+bool computerPlayer::answer(std::string &cmd) { return true; }
 
-}
+bool computerPlayer::chooseResource(std::string &cmd) { return true; }
+
+bool computerPlayer::chooseCommand(std::string &cmd) { return true; }

@@ -16,15 +16,14 @@ class GameModel{
   std::default_random_engine rng{seed};
   std::vector<std::unique_ptr<Player>> players;
   std::unique_ptr<Board> b;
-  // d[0] is fair dice, d[1] is loaded dice
-  std::vector<std::unique_ptr<Dice>> d;
-  // 0 represents fair dice, 1 represents loaded dice
-  int currentDice;
   int currentTurn;
   int diceNum;
 
   public:
   GameModel();
+  int getNum();
+  int getCurrentTurn();
+  void rollDice();
   void setSeed(size_t n);
   Player *getPlayer(int idx);
   std::string getCurColor();
@@ -32,7 +31,6 @@ class GameModel{
   Board *getBoard();
   size_t getSeed();
   void setTurn(int turn);
-  void setDice(std::string type);
   // constructor
   // each player chooses two places for basement
   void initial(); 
@@ -42,7 +40,6 @@ class GameModel{
   void create(int x, std::string type);
   // prints current turn
   void printTurn();
-  int rollDice();
   void printPlayers();
   void printBuildings();
   void buildRoad(int x);

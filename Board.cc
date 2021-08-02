@@ -4,7 +4,11 @@
 #include <string>
 #include <vector>
 
+int Board::getPlayerNum() { return playerNum; }
+
 int Board::getTileNum() { return tiles.size(); }
+
+int Board::getRoadNum() { return edge.size(); }
 
 void Board::setGeese(int x) { tiles[x]->setGeese(true); }
 

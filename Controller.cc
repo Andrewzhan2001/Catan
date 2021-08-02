@@ -25,17 +25,17 @@ void Controller::saveFile(std::string fname) {
 bool Controller::play() {
   // at beginning of game, assign each player with two basements
   gm->initial();
+  gm->printBoard();
   while (!gm->ifWin()) {
     cout << "Builder " << gm->getCurColor() << "'s turn." << endl;
     gm->printTurn();
     while (true) {
       std::string cmd;
-      cin >> cmd;
-      if (cin.eof()) {
+      if(!(gm->getCurPlayer()->chooseCommand(cmd))) {
         saveFile();
         return false;
       } else if (cmd == "load" || cmd == "fair") {
-        gm->setDice(cmd);
+        gm->getCurPlayer()->setDice(cmd);
       } else if (cmd == "roll") {
         gm->rollDice();
         // This ends the "Beginning of the turn".
@@ -47,8 +47,7 @@ bool Controller::play() {
     gm->update();
     while (true) {
       std::string cmd;
-      cin >> cmd;
-      if (cin.eof()) {
+      if (!(gm->getCurPlayer()->chooseCommand(cmd))) {
         saveFile();
         return false;
       }
@@ -60,24 +59,25 @@ bool Controller::play() {
         gm->printBuildings();
       } else if (cmd == "build-road") {
         int idx;
-        cin >> idx;
-        if (cin.eof()) {
+        if(!(gm->getCurPlayer()->chooseRoad(idx, gm->getBoard()))) {
           saveFile();
           return false;
         }
-        gm->buildRoad(idx);
+        if (idx >= gm->getBoard()->getRoadNum() || idx < 0) {
+          std::cout << "Invalid road number! Please input again!" << std::endl;
+        } else {
+          gm->buildRoad(idx);
+        }
       } else if (cmd == "build-res") {
         int idx;
-        cin >> idx;
-        if (cin.eof()) {
+        if (!(gm->getCurPlayer()->chooseVertex(idx, gm->getBoard()))) {
           saveFile();
           return false;
         }
         gm->buildBasement(idx);
       } else if (cmd == "improve") {
         int idx;
-        cin >> idx;
-        if (cin.eof()) {
+        if(!(gm->getCurPlayer()->chooseVertex(idx, gm->getBoard()))) {
           saveFile();
           return false;
         }
@@ -86,8 +86,29 @@ bool Controller::play() {
         std::string color;
         std::string give;
         std::string take;
-        cin >> color >> give >> take;
-        if (cin.eof()) {
+        std::vector<std::string> v;
+        for (int i = 0; i < gm->getNum(); ++i) {
+          if (i != gm->getCurrentTurn()) {
+            v.emplace_back(gm->getPlayer(i)->getColor());
+          }
+        }
+        cout << "Player " << gm->getCurPlayer()->getColor();
+        cout << " could choose from [";
+        for (unsigned int j = 0; j < v.size(); ++j) {
+          cout << gm->getPlayer(j)->getColor();
+          if (j != v.size() - 1);
+          cout << ",";
+        }
+        cout << "]" << endl;
+        if (gm->getCurPlayer()->chooseColor(color, v)) {
+          saveFile();
+          return false;
+        }
+        if (gm->getCurPlayer()->chooseResource(give)) {
+          saveFile();
+          return false;
+        }
+        if (gm->getCurPlayer()->chooseResource(take)) {
           saveFile();
           return false;
         }
@@ -116,19 +137,22 @@ bool Controller::play() {
         cout << "next" << endl;
         cout << "save <file>" << endl;
         cout << "help" << endl;
+      } else {
+        cout << "Invalid Command." << endl;
       }
     }
   }
   cout << "Would you like to play again?" << endl;
-  std::string cmd;
-  cin >> cmd;
-  if (cmd == "yes") {
-    return true;
-  } else if (cmd == "no") {
-    return false;
-  } else {
-    return false;
+  std::string cmd2;
+  if (!(gm->getCurPlayer()->answer(cmd2))) {
+    saveFile();
+    return false; 
   }
+  if (cmd2 == "yes") {
+    return true;
+  } else if (cmd2 == "no") {
+    return false;
+  } 
 }
 
 void Controller::print() {

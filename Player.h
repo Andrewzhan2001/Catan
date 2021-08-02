@@ -7,8 +7,13 @@
 #include <set>
 #include <string>
 #include <vector>
+#include "Board.h"
+#include "Dice.h"
 
 class Player {
+  std::string dice;
+  std::vector<std::unique_ptr<Dice>> d;
+  // 0 represents fair dice, 1 represents loaded dice
   int buildpoints;
   int dicenum;
   std::string color;
@@ -17,8 +22,12 @@ class Player {
   std::vector<std::pair<int, char>> residences;
   size_t seed = 0;
   std::default_random_engine rng{seed};
-public:
+  Dice * getDice();
+public:   
   Player();
+  void setDice(std::string type);
+  int rollDice();
+  void pointIncrement();
   // returns the number of certain resources of the player
   int getResources(std::string type);
   // returns the number of total resources of the player
@@ -27,11 +36,11 @@ public:
   int getPoints();
    // returns color
   std::string getColor();
-int getDiceNum();
-void setseed(size_t seed);
-void setDiceNum(int dicenum);
-void setResource (std::vector<std::pair<std::string, int>> &r);
-void setColor(std::string color);
+  int getDiceNum();
+  void setseed(size_t seed);
+  void setDiceNum(int dicenum);
+  void setResource (std::vector<std::pair<std::string, int>> &r);
+  void setColor(std::string color);
   // modifies the certain type of resources by given amounts
   // If amount > 0, then awards the player;
   // If amount < 0, then the player uses resourses;
@@ -65,8 +74,21 @@ void setColor(std::string color);
   // loses one resoucres randomly, return the resource type lost see 3.6
   std::string loseOneResourceRandomly();
   void printData(std::ostream &out);
-  virtual bool chooseVertex(int& n) = 0;
-  virtual bool chooseTile(int &n) = 0;
-  virtual bool choosePlayer(int &n) = 0;
+  bool hasType(std::string type);
+  // choose a vertex
+  virtual bool chooseVertex(int& n, Board *board) = 0;
+  // choose a tile number
+  virtual bool chooseTile(int &n, Board *board) = 0;
+  // choose a color from vector v
+  virtual bool chooseColor(std::string &cmd, std::vector<std::string> v) = 0;
+  // choose a road
+  virtual bool chooseRoad(int &n, Board *board) = 0;
+  // answer yes or no
+  virtual bool answer(std::string &cmd) = 0;
+  // choose a kind of resource
+  virtual bool chooseResource(std::string &cmd) = 0;
+  // choose a kind of command
+  virtual bool chooseCommand(std::string &cmd) = 0;
+  // choose a player's index
 };
 #endif

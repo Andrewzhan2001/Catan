@@ -1,26 +1,50 @@
 #include "Player.h"
 #include <string>
-
-
+#include "DiceFactory.h"
+#include "Dice.h"
 Player::Player()
     : buildpoints{0}, color{""}, resources{{{"BRICK", 0},
                                                {"ENERGY", 0},
                                                {"GLASS", 0},
                                                {"HEAT", 0},
                                                {"WIFI", 0}}},
-      roads{}, residences{} {}
+      roads{}, residences{}, dice{"load"} {
+  DiceFactory df;
+  d.emplace_back(df.createObject("FairDice"));
+  d.emplace_back(df.createObject("LoadedDice"));
+}
 
+void Player::setDice(std::string type) { 
+  dice = type; 
+  std::cout << "Switches to " << type << " dice." << std::endl;
+} 
+
+Dice *Player::getDice() {
+  if (dice == "fair") {
+    return d[0].get();
+  } else {
+    return d[1].get();
+  }
+}
+
+int Player::rollDice() {
+  Dice *d = getDice();
+  int retval = 0;
+  if (dice == "fair") {
+    // fair dice, roll twice
+    retval += d->getNum();
+    retval += d->getNum();
+  } else {
+    retval += d->getNum();
+  }
+  return retval;
+}
+
+
+void Player::pointIncrement() { ++buildpoints; }
 void Player::modifyResources(std::string type, int amount) {
   for (auto &it : resources) {
-    bool same = true;
-    int len = it.first.length();
-    for (int i = 0; i < len; ++i) {
-      if (type[i] != it.first[i]) {
-        same = false;
-        break;
-      }
-    }
-    if (same) {
+    if (it.first == type) {
       it.second += amount;
     }
   }
@@ -253,4 +277,16 @@ hasResource.push_back(idx);
  std::string random_resource = resources[dist(rng)].first;
  modifyResources(random_resource, -1); // modify
  return random_resource;
+}
+
+bool Player::hasType(std::string type) {
+  for (auto i : resources) {
+    if (i.first == type) {
+      if (i.second > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
 }

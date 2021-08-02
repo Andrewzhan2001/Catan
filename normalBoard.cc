@@ -4,6 +4,7 @@
 using namespace std;
 
 normalBoard::normalBoard() : Board{} {
+  playerNum = 4;
   for (int i = 0; i <= 53; i++) {
     if (i < 10) {
       string space = " ";

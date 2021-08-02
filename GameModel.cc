@@ -14,10 +14,11 @@ GameModel::GameModel() : number{4} {
   }
   BoardFactory bf;
   b = bf.createObject("normalBoard");
-  DiceFactory df;
-  d.emplace_back(df.createObject("FairDice"));
-  d.emplace_back(df.createObject("LoadedDice"));
 }
+
+int GameModel::getNum() { return number; }
+
+int GameModel::getCurrentTurn() {return currentTurn; }
 
 Player *GameModel::getPlayer(int idx) {
   return players[idx].get();
@@ -25,6 +26,11 @@ Player *GameModel::getPlayer(int idx) {
 
 Board *GameModel::getBoard() {
   return b.get();
+}
+
+void GameModel::rollDice() {
+  diceNum = getCurPlayer()->rollDice();
+  std::cout << "Player rolls number " << diceNum << "." << std::endl;
 }
 
 std::string GameModel::getCurColor() {
@@ -80,24 +86,13 @@ void GameModel::initial() {
     std::cout << "where do you want to build a basement?" << std::endl;
     int n = -1;
     // reads in an integer as a vertex
-    while (true) {
-      if (!(cur->chooseVertex(n))) {
-        // end-of-file signal reaches
-        saveFile();
-        return;
-      } else {
-        if (!(b->validVertex(n))) {
-          humanPlayer *hp = dynamic_cast<humanPlayer *>(cur);
-          if (hp != nullptr) {
-            std::cout << "You cannot build here." << std::endl;
-          }
-        } else {
-          // is a valid vertex
-          cur->addBasement(n);
-          b->create(color[0], n, "Basement");
-          break;
-        }
-      }
+    if (!cur->chooseVertex(n, b.get())) {
+      saveFile();
+      return;
+    } else {
+      cur->addBasement(n);
+      cur->pointIncrement();
+      b->create(cur->getColor()[0], n, "Basement");
     }
     ++i;
   }
@@ -109,25 +104,13 @@ void GameModel::initial() {
     std::cout << "where do you want to build a basement?" << std::endl;
     int n = -1;
     // reads in an integer as a vertex
-    while (true) {
-      if (!(cur->chooseVertex(n))) {
-        // end-of-file signale reaches
-        saveFile();
-        return;
-      } else {
-        if (!(b->validVertex(n))) {
-          // if curr is an instance of humanPlayer print the message, otherise not
-          humanPlayer *hp = dynamic_cast<humanPlayer *>(cur);
-          if (hp != nullptr) {
-            std::cout << "You cannot build here." << std::endl;
-          }
-        } else {
-          // is a valid vertex
-          cur->addBasement(n);
-          b->create(color[0], n, "Basement");
-          break;
-        }
-      }
+    if (!cur->chooseVertex(n, b.get())) {
+      saveFile();
+      return;
+    } else {
+      cur->addBasement(n);
+      cur->pointIncrement();
+      b->create(cur->getColor()[0], n, "Basement");
     }
     --j;
   }
@@ -144,26 +127,7 @@ void GameModel::printTurn() {
   cur->printStatus();
 }
 
-void GameModel::setDice(std::string type) {
-  if (type == "fair") {
-    currentDice = 0;
-  } else if (type == "load") {
-    currentDice = 1;
-  }
-}
 
-int GameModel::rollDice() {
-  diceNum = 0;
-  Dice *cur = d[currentDice].get();
-  if (currentDice == 0) {
-    // fair dice, roll twice
-    diceNum += cur->getNum();
-    diceNum += cur->getNum();
-  } else {
-    diceNum += cur->getNum();
-  }
-  return diceNum;
-}
 
 void GameModel::printPlayers() {
   for (auto &p : players) {
@@ -202,7 +166,6 @@ void GameModel::upgrade(int x) {
 }
 
 void GameModel::update() {
-  std::cout << diceNum << std::endl;
   Player *cur = getPlayer(currentTurn);
   if (diceNum == 7) {
     for (auto &p : players) {
@@ -212,22 +175,11 @@ void GameModel::update() {
     }
     std::cout << "Choose where to place the GEESE." << std::endl;
     int n = -1;
-    while (true) {
-      if (!(cur->chooseTile(n))) {
-        saveFile();
-        return;
-      } else {
-        if (n >= b->getTileNum() || n < 0) {
-          humanPlayer *hp = dynamic_cast<humanPlayer *>(cur);
-          if (hp != nullptr) {
-            std::cout << "Invalid tile number!Please input again!" << std::endl;
-          }
-          
-        } else {
-          b->setGeese(n);
-          break;
-        }
-      }
+    if (!(cur->chooseTile(n, b.get()))) {
+      saveFile();
+      return;
+    } else {
+      b->setGeese(n);
     }
     std::vector<int> neighbours = b->getNeighbours(n);
     std::vector<std::string> lists;
@@ -239,7 +191,7 @@ void GameModel::update() {
         if (getPlayer(i)->belongs(x, 'B')) {
           std::string col = getPlayer(i)->getColor();
           auto it = find(lists.begin(), lists.end(), col);
-          if (it != lists.end()) {
+          if (it == lists.end()) {
             lists.emplace_back(getPlayer(i)->getColor());
           }
         }   
@@ -248,8 +200,15 @@ void GameModel::update() {
     if (lists.size() == 0) {
       std::cout << "Builder ";
       std::cout << getColor(currentTurn);
-      std::cout << " has no builders to steal from";
+      std::cout << " has no builders to steal from." << std::endl;
     } else {
+      bool exist = false;
+      for (unsigned int i = 0; i < lists.size(); ++i) {
+        if (getPlayer(getPlayerNum(lists[i]))->getTotal() != 0) {
+          exist = true;
+          break;
+        }
+      }
       std::cout << "Builder ";
       std::cout << getColor(currentTurn);
       std::cout << "can choose to steal from ["; 
@@ -260,31 +219,28 @@ void GameModel::update() {
         }
       }
       std::cout << "]" << std::endl;
+      if (!exist) {
+        std::cout << "Unfortunately, all players have none resources!"
+        << std::endl;
+        return;
+      }
       std::cout << "Choose a builder to steal from." << std::endl;
+      std::string cmd = "";
       while (true) {
-        if (!(cur->choosePlayer(n))) {
+        if (!(cur->chooseColor(cmd, lists))) {
           saveFile();
           return;
         } else {
-          if (0 <= n && n < (int)(players.size() - 1)) {
-            std::string c = getPlayer(n)->getColor();
-            auto it = find(lists.begin(), lists.end(), c);
-            if (it == lists.end()) {
-              // not found
-              humanPlayer *hp = dynamic_cast<humanPlayer *>(cur);
-              if (hp != nullptr) {
-                std::cout <<  "You cannot steal from this player.";
-                std::cout << "Please input again." << std::endl;
-              }
-            } else {
-              break;
-            }
+          int idx = getPlayerNum(cmd);
+          if (getPlayer(idx)->getTotal() == 0) {
+            std::cout << "The player has no resources.";
+            std::cout << "Please steal from another player" << std::endl;
           } else {
-            std::cout << "Invalid player number!Please input again!" << std::endl;
+            break;
           }
         }
       }
-      std::string type = getPlayer(n)->loseOneResourceRandomly();
+      std::string type = getPlayer(getPlayerNum(cmd))->loseOneResourceRandomly();
       getPlayer(currentTurn)->modifyResources(type, 1);
       std::cout << "Builder ";
       std::cout << getColor(currentTurn);
@@ -293,13 +249,12 @@ void GameModel::update() {
       std::cout << getColor(n) << " .";
     }
   } else {
-    std::cout << "yes" << std::endl;
     std::vector<std::pair<std::string, int>> neighbours = b->getResidences(diceNum);
-    for (auto n : neighbours) {
+    /*for (auto n : neighbours) {
       std::cout << n.first << std::endl;
       std::cout << n.second << std::endl;
     }
-    std::cout << std::endl;
+    std::cout << std::endl; */
     for (auto n : neighbours) {
       for (auto &p : players) {
         if (p.get()->belongs(n.second, 'B')) {
@@ -315,17 +270,37 @@ void GameModel::exchange(std::string color, std::string type1, std::string type2
   std::cout << " offers " << color;
   std::cout << " one " << type1 << " for one " << type2 << "." << std::endl;
   std::cout << "Does " << color << " accept this offer?" << std::endl;
-  std::string cmd;
-  while (std::cin >> cmd) {
-    if (cmd == "yes") {
-      getPlayer(currentTurn)->modifyResources(type1, -1);
-      getPlayer(currentTurn)->modifyResources(type2, 1);
-      getPlayer(getPlayerNum(color))->modifyResources(type1, 1);
-      getPlayer(getPlayerNum(color))->modifyResources(type2, -1);
-      break;
-    } else if (cmd == "no") {
-      break;
-    }
+  std::string cmd = "";
+  if (getCurPlayer()->hasType(type1)) {
+    std::cout << "Don't be greedy! You don't have enough ";
+    std::cout << type1 << " for trading! Try using another resources!";
+    std::cout << std::endl;
+  }
+  if (getPlayer(getPlayerNum(color))->hasType(type2)) {
+    std::cout << "Don't daydream! Player ";
+    std::cout << color << " does not have enough ";
+    std::cout << type2 << " for trading! Try using another resources!";
+    std::cout << std::endl;
+  }
+  if (!(getPlayer(getPlayerNum(color)))->answer(cmd)) {
+    saveFile();
+    return;
+  }
+  if (cmd == "yes") {
+    getPlayer(currentTurn)->modifyResources(type1, -1);
+    getPlayer(currentTurn)->modifyResources(type2, 1);
+    getPlayer(getPlayerNum(color))->modifyResources(type1, 1);
+    getPlayer(getPlayerNum(color))->modifyResources(type2, -1);
+    std::cout << "Trade completes!" << std::endl;
+    std::cout << "Player " << getCurPlayer()->getColor();
+    std::cout << " gets one " << type2;
+    std::cout << " and loses one " << type1 << std::endl;
+    std::cout << "Player " << getPlayer(getPlayerNum(color))->getColor();
+    std::cout << " gets one " << type1;
+    std::cout << " and loses one " << type2 << std::endl;
+  } else if (cmd == "no") {
+    std::cout << "Player " << color << "does not want to trade with you!";
+    std::cout << std::endl;
   }
 }
 
