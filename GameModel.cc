@@ -7,10 +7,21 @@
 #include "DiceFactory.h"
 #include <algorithm>
 
-GameModel::GameModel() : number{4} {
-  for (int i = 0; i < 4; ++i) {
-    PlayerFactory pf;
-    players.emplace_back(pf.createObject("humanPlayer"));
+GameModel::GameModel(std::string player): number{4} {
+  PlayerFactory pf;
+  if (player == "computerAuto") {
+    for (int i = 0; i < 4; ++i) {
+      players.emplace_back(pf.createObject("computerPlayer"));
+    }
+  } else if (player == "computer") {
+      players.emplace_back(pf.createObject("humanPlayer"));
+    for (int i = 1; i < 4; ++i) {
+      players.emplace_back(pf.createObject("computerPlayer"));
+    }
+  } else {
+    for (int i = 0; i < 4; ++i) {
+      players.emplace_back(pf.createObject("humanPlayer"));
+    }
   }
   BoardFactory bf;
   b = bf.createObject("normalBoard");
@@ -46,6 +57,10 @@ size_t GameModel::getSeed() { return seed; }
 void GameModel::setSeed(size_t n) {
   this->seed = n;
   rng = std::default_random_engine{n};
+  for (auto &&i : players) {
+    i->setseed(n);
+  }
+  
 }
 
 void GameModel::setTurn(int turn) {
@@ -179,7 +194,7 @@ void GameModel::update() {
       saveFile();
       return;
     } else {
-      b->setGeese(n);
+      b->setGeeseOnTile(n);
     }
     std::vector<int> neighbours = b->getNeighbours(n);
     std::vector<std::string> lists;

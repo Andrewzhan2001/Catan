@@ -71,7 +71,7 @@ void Setfromfile::loadBoard(GameModel *bm) {
       }
     } else if (lineNum == 7) {
       ss >> geeseTile;
-      b->setGeese(geeseTile);
+      b->setGeeseOnTile(geeseTile);
     }
     lineNum++;
   }//while

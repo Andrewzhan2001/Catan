@@ -11,18 +11,19 @@
 #include "Dice.h"
 
 class Player {
-  std::string dice;
-  std::vector<std::unique_ptr<Dice>> d;
-  // 0 represents fair dice, 1 represents loaded dice
   int buildpoints;
+  // 0 represents fair dice, 1 represents loaded dice
   int dicenum;
   std::string color;
   std::vector<std::pair<std::string, int>> resources;
   std::vector<int> roads; // store the edges of the roads
   std::vector<std::pair<int, char>> residences;
+  std::string dice;
+  std::vector<std::unique_ptr<Dice>> d;
+  Dice * getDice();
+protected:
   size_t seed = 0;
   std::default_random_engine rng{seed};
-  Dice * getDice();
 public:   
   Player();
   void setDice(std::string type);
@@ -79,7 +80,7 @@ public:
   virtual bool chooseVertex(int& n, Board *board) = 0;
   // choose a tile number
   virtual bool chooseTile(int &n, Board *board) = 0;
-  // choose a color from vector v
+  // choose a color from vector v, v
   virtual bool chooseColor(std::string &cmd, std::vector<std::string> v) = 0;
   // choose a road
   virtual bool chooseRoad(int &n, Board *board) = 0;

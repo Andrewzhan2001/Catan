@@ -42,6 +42,10 @@ bool normalBoard::validVertex(int x) {
   return false;
 }
 
+bool normalBoard::validRoad(int x) {
+  return true;
+}
+
 bool normalBoard::canBuild(char color, int x, std::string type) {
   if (!notOccupied(type, x)) { // if this place is occupied by someone
     return false;

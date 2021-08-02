@@ -20,7 +20,7 @@ class GameModel{
   int diceNum;
 
   public:
-  GameModel();
+  GameModel(std::string players);
   int getNum();
   int getCurrentTurn();
   void rollDice();

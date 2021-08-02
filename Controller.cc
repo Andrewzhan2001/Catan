@@ -7,7 +7,8 @@
 
 using namespace std;
 
-Controller::Controller(): gm{make_unique<GameModel>()}{}
+Controller::Controller(string players): 
+gm{make_unique<GameModel>(players)}, playermod{players}{}
 
 void Controller::setseed(size_t seed) {
   this->seed = seed;
@@ -144,15 +145,25 @@ bool Controller::play() {
   }
   cout << "Would you like to play again?" << endl;
   std::string cmd2;
-  if (!(gm->getCurPlayer()->answer(cmd2))) {
-    saveFile();
-    return false; 
+  // if computer mod, let human choose whether to start again
+  if (playermod == "computer") {
+    if (!(gm->getPlayer(0)->answer(cmd2))) {
+      saveFile();
+      return false; 
+    }
+  } else {
+    if (!(gm->getCurPlayer()->answer(cmd2))) {
+      saveFile();
+      return false; 
+    }
   }
   if (cmd2 == "yes") {
     return true;
   } else if (cmd2 == "no") {
     return false;
-  } 
+  } else {
+    return false;
+  }
 }
 
 void Controller::print() {

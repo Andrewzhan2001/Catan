@@ -11,9 +11,11 @@
 class SetBoardStrategy;
 class Controller{
   std::unique_ptr<GameModel> gm;
+  // current mod of game: computer or human
+  std::string playermod;
   size_t seed = 0;
  public:
-  Controller();
+  Controller(std::string players);
   void setseed(size_t seed); // set the seed for random value;
   void loadStrategy(SetBoardStrategy *sbs); // use stategy sbs to load the board
   void saveFile(std::string fname = "backup.sv");

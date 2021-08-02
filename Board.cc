@@ -10,10 +10,14 @@ int Board::getTileNum() { return tiles.size(); }
 
 int Board::getRoadNum() { return edge.size(); }
 
-void Board::setGeese(int x) { tiles[x]->setGeese(true); }
+int Board::getVertexNum(){ return vertex.size(); }
 
 void Board::setVertex(int idx, std::string builder, std::string residence) {
   vertex[idx] = builder + residence;
+}
+
+bool Board::haveGeese(int tilenum) {
+  return tiles[tilenum]->geese;
 }
 
 void Board::setEdge(int idx, std::string builder) { edge[idx] = builder + "R"; }
@@ -45,6 +49,7 @@ bool Board::notOccupied(std::string type, int x) {
   } else if (type == "edge") {
     retval = (edge[x] == original);
   } else {
+    std::cout << "parameter type: " << type << std::endl;
     std::cerr << "invalid parameter of notOccupied function" << std::endl;
   }
   return retval;

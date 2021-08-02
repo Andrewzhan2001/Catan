@@ -31,7 +31,7 @@ The values on the board will have one tile with value 2, one tile with the value
   auto it = find(resources.begin(), resources.end(), "PARK");
   int index = it - resources.begin();
   b->setTile(index, *it, 7);
-  b->setGeese(index);
+  b->setGeeseOnTile(index);
   // remove park from resources since already set
   /* resources.erase(resources.begin() + index); */
   // set the other 18 tiles

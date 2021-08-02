@@ -90,6 +90,10 @@ void Player::setResource (std::vector<std::pair<std::string, int>> &r) {
 void Player::setseed(size_t seed) {
   this->seed = seed;
   this->rng = std::default_random_engine{seed};
+  for (auto &&i : d) {
+    i->setseed(seed);
+  }
+  
 }
 
 bool Player::attempbuild(int x, char type) {
@@ -269,14 +273,14 @@ std::string Player::loseOneResourceRandomly() {
   int idx = 0;
   for(auto &i: resources) {
     if(i.second > 0) { // player has this resource
-hasResource.push_back(idx);
+      hasResource.push_back(idx);
+    }
+    idx++;
   }
-  idx++;
-  }
- std::uniform_int_distribution<int> dist(0, hasResource.size() - 1);
- std::string random_resource = resources[dist(rng)].first;
- modifyResources(random_resource, -1); // modify
- return random_resource;
+  std::uniform_int_distribution<int> dist(0, hasResource.size() - 1);
+  std::string random_resource = resources[dist(rng)].first;
+  modifyResources(random_resource, -1); // modify
+  return random_resource;
 }
 
 bool Player::hasType(std::string type) {
@@ -289,4 +293,5 @@ bool Player::hasType(std::string type) {
       }
     }
   }
+  return false;
 }

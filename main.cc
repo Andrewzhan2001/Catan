@@ -15,12 +15,10 @@ using namespace std;
 int main(int argc, char const *argv[]) {
   bool state = true;
   while (state) {
-    auto ctr = make_unique<Controller>();
-    Controller *control = ctr.get();
     vector<pair<string,string>> command;
     for (int i = 1; i < argc; i++) { // add command to the vector of pairs
       string first(argv[i]);
-      if (first == "-random-board" || first == "-computer") {
+      if (first == "-random-board" || first == "-computer" || first == "-computerAuto") {
         command.emplace_back(first,"");
       } else if(first == "-seed" || first == "-load" || first == "-board"){
         ++i;
@@ -28,34 +26,51 @@ int main(int argc, char const *argv[]) {
         command.emplace_back(first,second);
       }
     }
+
+
+    unique_ptr<Controller> ctr;
     // use find_if to find specific command in the vector
     auto it = find_if(command.begin(), command.end(),
+      [](const pair<string, string>& element){ return element.first == "-computerAuto";});
+    if(it != command.end()) {
+      ctr = make_unique<Controller>("computerAuto");
+    } else {
+      it = find_if(command.begin(), command.end(),
+        [](const pair<string, string>& element){ return element.first == "-computer";});
+      if(it != command.end()) {
+        ctr = make_unique<Controller>("computer");
+      } else {
+        ctr = make_unique<Controller>("human");
+      }
+    }
+
+    it = find_if(command.begin(), command.end(),
       [](const pair<string, string>& element){ return element.first == "-seed";});
     if(it != command.end()) {
-      control->setseed(stoi(it.base()->second));
+      ctr->setseed(stoi(it.base()->second));
     } else {
-      control->setseed(chrono::system_clock::now().time_since_epoch().count());
+      ctr->setseed(chrono::system_clock::now().time_since_epoch().count());
     }
     it = find_if(command.begin(), command.end(),
       [](const pair<string, string>& element){ return element.first == "-load";});
     if(it != command.end()) {
       auto sf = make_unique<Setfromfile>(it.base()->second);
-      control->loadStrategy(sf.get());
+      ctr->loadStrategy(sf.get());
     } else {
       //if do not find command line -load check whether here is -board
       it = find_if(command.begin(), command.end(),
       [](const pair<string, string>& element){ return element.first == "-board";});
       if(it != command.end()) {
         auto fb = make_unique<loadFromBoard>(it.base()->second);
-        control->loadStrategy(fb.get());
+        ctr->loadStrategy(fb.get());
       } else {
         // if both command not found, default randomboard
         auto rl = make_unique<randomLoad>();
-        control->loadStrategy(rl.get());
+        ctr->loadStrategy(rl.get());
       }
     }
-    control->print();
-    state = control->play();
+    ctr->print();
+    state = ctr->play();
   }
   return 0;
 }

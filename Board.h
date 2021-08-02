@@ -20,15 +20,17 @@ class Board {
    // get number of tiles
    int getTileNum();
    int getRoadNum();
-   // set Geese to tile x
-   virtual void setGeese(int x);
+   int getVertexNum();
    // set vertex at index as builder+residence type
    void setVertex(int idx, std::string builder, std::string residence);
    // set vertex at index as builder+"R"
    void setEdge(int idx, std::string builder);
    // set tile x resource and value
    void setTile(int n, std::string resource, int value);
-
+  
+   // return whether the tile tilenum has geese
+   bool haveGeese(int tilenum);
+   // set Geese to tile tilenum
    void setGeeseOnTile(int tilenum);
    // determines whether int x represents a valid vertex 
    // A valid vertex must satisfy: 
@@ -36,6 +38,10 @@ class Board {
    //   2. The vertex has not been occupied
    // IF INVALID, OUTPUTS "You cannot build here."
    virtual bool validVertex(int x) = 0;
+
+   // determine whether we can build road of edge
+   // detail see 2.6 roads
+   virtual bool validRoad(int x) = 0;
    // gets all residence of tile x  
    virtual std::vector<int> getNeighbours(int x);
    // find all the tiles that has vertex/edge i 
