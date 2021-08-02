@@ -169,11 +169,11 @@ void Player::printBuildings() {
 }
 
 void Player::printStatus() {
-  std::cout << getColor() << " has " << buildpoints << "building points, ";
+  std::cout << getColor() << " has " << buildpoints << " building points, ";
   for (int i = 0; i <= 3; i++) {
     std::cout << resources[i].second << " " << resources[i].first << ", ";
   }
-  std::cout << "and" << resources[4].second << " " << resources[4].first << "."
+  std::cout << "and " << resources[4].second << " " << resources[4].first << "."
             << std::endl;
 }
 
