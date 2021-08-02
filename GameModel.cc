@@ -2,6 +2,7 @@
 #include <random>
 #include <memory>
 #include "PlayerFactory.h"
+#include "humanPlayer.h"
 #include "BoardFactory.h"
 #include "DiceFactory.h"
 #include <algorithm>
@@ -86,7 +87,10 @@ void GameModel::initial() {
         return;
       } else {
         if (!(b->validVertex(n))) {
-          std::cout << "You cannot build here." << std::endl;
+          humanPlayer *hp = dynamic_cast<humanPlayer *>(cur);
+          if (hp != nullptr) {
+            std::cout << "You cannot build here." << std::endl;
+          }
         } else {
           // is a valid vertex
           cur->addBasement(n);
@@ -112,7 +116,11 @@ void GameModel::initial() {
         return;
       } else {
         if (!(b->validVertex(n))) {
-          std::cout << "You cannot build here." << std::endl;
+          // if curr is an instance of humanPlayer print the message, otherise not
+          humanPlayer *hp = dynamic_cast<humanPlayer *>(cur);
+          if (hp != nullptr) {
+            std::cout << "You cannot build here." << std::endl;
+          }
         } else {
           // is a valid vertex
           cur->addBasement(n);
@@ -210,7 +218,11 @@ void GameModel::update() {
         return;
       } else {
         if (n >= b->getTileNum() || n < 0) {
-          std::cout << "Invalid tile number!Please input again!" << std::endl;
+          humanPlayer *hp = dynamic_cast<humanPlayer *>(cur);
+          if (hp != nullptr) {
+            std::cout << "Invalid tile number!Please input again!" << std::endl;
+          }
+          
         } else {
           b->setGeese(n);
           break;
@@ -259,8 +271,11 @@ void GameModel::update() {
             auto it = find(lists.begin(), lists.end(), c);
             if (it == lists.end()) {
               // not found
-              std::cout <<  "You cannot steal from this player.";
-              std::cout << "Please input again." << std::endl;
+              humanPlayer *hp = dynamic_cast<humanPlayer *>(cur);
+              if (hp != nullptr) {
+                std::cout <<  "You cannot steal from this player.";
+                std::cout << "Please input again." << std::endl;
+              }
             } else {
               break;
             }

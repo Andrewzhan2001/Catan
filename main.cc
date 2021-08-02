@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include <algorithm>
+#include <chrono>
 #include "Controller.h"
 #include "SetBoardStrategy.h"
 #include "randomLoad.h"
@@ -19,7 +20,7 @@ int main(int argc, char const *argv[]) {
     vector<pair<string,string>> command;
     for (int i = 1; i < argc; i++) { // add command to the vector of pairs
       string first(argv[i]);
-      if (first == "-random-board") {
+      if (first == "-random-board" || first == "-computer") {
         command.emplace_back(first,"");
       } else if(first == "-seed" || first == "-load" || first == "-board"){
         ++i;
@@ -32,18 +33,20 @@ int main(int argc, char const *argv[]) {
       [](const pair<string, string>& element){ return element.first == "-seed";});
     if(it != command.end()) {
       control->setseed(stoi(it.base()->second));
+    } else {
+      control->setseed(chrono::system_clock::now().time_since_epoch().count());
     }
-    auto itt = find_if(command.begin(), command.end(),
+    it = find_if(command.begin(), command.end(),
       [](const pair<string, string>& element){ return element.first == "-load";});
-    if(itt != command.end()) {
-      auto sf = make_unique<Setfromfile>(itt.base()->second);
+    if(it != command.end()) {
+      auto sf = make_unique<Setfromfile>(it.base()->second);
       control->loadStrategy(sf.get());
     } else {
       //if do not find command line -load check whether here is -board
-      auto ittt = find_if(command.begin(), command.end(),
+      it = find_if(command.begin(), command.end(),
       [](const pair<string, string>& element){ return element.first == "-board";});
-      if(ittt != command.end()) {
-        auto fb = make_unique<loadFromBoard>(ittt.base()->second);
+      if(it != command.end()) {
+        auto fb = make_unique<loadFromBoard>(it.base()->second);
         control->loadStrategy(fb.get());
       } else {
         // if both command not found, default randomboard
