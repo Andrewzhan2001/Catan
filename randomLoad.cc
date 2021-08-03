@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <iostream>
 
-void randomLoad::loadBoard(GameModel *gm) {
+bool randomLoad::loadBoard(GameModel *gm) {
   Board *b = gm->getBoard();
   std::default_random_engine rng{gm->getSeed()};
   // set players color
@@ -42,4 +42,5 @@ The values on the board will have one tile with value 2, one tile with the value
       k--;
     }
   }
+  return true;
 }

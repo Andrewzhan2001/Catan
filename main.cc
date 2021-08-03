@@ -60,8 +60,7 @@ int main(int argc, char const *argv[]) {
       auto sf = make_unique<Setfromfile>(it.base()->second);
       bool check = ctr->loadStrategy(sf.get());
       if (check == false) {
-        cout << "File does not exist" << endl;
-        return;
+        return 1;
       }
       
     } else {
@@ -72,8 +71,7 @@ int main(int argc, char const *argv[]) {
         auto fb = make_unique<loadFromBoard>(it.base()->second);
         bool check = ctr->loadStrategy(fb.get());
         if (check == false) {
-          cout << "File does not exist" << endl;
-          return;
+          return 1;
         }
       } else {
         // if both command not found, default randomboard
@@ -86,8 +84,7 @@ int main(int argc, char const *argv[]) {
           auto fb = make_unique<loadFromBoard>("layout.txt");
           bool check = ctr->loadStrategy(fb.get());
           if (check == false) {
-            cout << "File does not exist" << endl;
-            return;
+            return 1;
           }
         }
       }

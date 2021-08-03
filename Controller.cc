@@ -15,8 +15,8 @@ void Controller::setseed(size_t seed) {
   gm->setSeed(seed);
 }
 
-void Controller::loadStrategy(SetBoardStrategy *sbs) {
-  sbs->loadBoard(gm.get());
+bool Controller::loadStrategy(SetBoardStrategy *sbs) {
+  return sbs->loadBoard(gm.get());
 }
 
 void Controller::saveFile(std::string fname) {

@@ -6,7 +6,7 @@
 #include <string>
 Setfromfile::Setfromfile(std::string file):file{file} {}
 
-void Setfromfile::loadBoard(GameModel *bm) {
+bool Setfromfile::loadBoard(GameModel *bm) {
   Board *b = bm->getBoard();
   int CurTurn, numBricks, numEnergies, numGlass, numHeat, numWifi, road,
       residence_idx, tile_resource, tile_value, geeseTile;
@@ -17,8 +17,8 @@ void Setfromfile::loadBoard(GameModel *bm) {
                                       {3, "HEAT"},  {4, "WIFI"},   {5, "PARK"}};
   std::ifstream infile(file);
   if (!infile) {
-    std::cerr << "Couldn't open input file.\n";
-    return;
+    std::cerr << "Couldn't open input file: " << file << std::endl;
+    return false;
   }
   int lineNum = 1;
   std::string line;
@@ -75,4 +75,5 @@ void Setfromfile::loadBoard(GameModel *bm) {
     }
     lineNum++;
   }//while
+  return true;
 }

@@ -13,6 +13,6 @@ protected:
   std::map<int, std::string> builders;
 public:
   SetBoardStrategy();
-  virtual void loadBoard(GameModel *gm) = 0;
+  virtual bool loadBoard(GameModel *gm) = 0;
 };
 #endif

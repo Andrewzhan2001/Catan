@@ -11,6 +11,6 @@ class loadFromBoard : public SetBoardStrategy{
   std::string file;
  public:
   loadFromBoard(std::string file);
-  void loadBoard(GameModel *gm) override;
+  bool loadBoard(GameModel *gm) override;
 };
 #endif

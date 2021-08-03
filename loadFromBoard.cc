@@ -6,13 +6,13 @@
 
 loadFromBoard::loadFromBoard(std::string file):file{file} {}
 
-void loadFromBoard::loadBoard(GameModel *gm) {
+bool loadFromBoard::loadBoard(GameModel *gm) {
   Board *b = gm->getBoard();
   int tile_resource, tile_value;
   std::ifstream infile(file);
   if (!infile) {
     std::cerr << "Couldn't open input file: " << file << std::endl;
-    return;
+    return false;
   }
   // set players color
   for (auto &i : builders) {
@@ -28,4 +28,5 @@ void loadFromBoard::loadBoard(GameModel *gm) {
     std::string resource = t->second;
     b->setTile(i, resource, tile_value);
   }
+  return true;
 }
