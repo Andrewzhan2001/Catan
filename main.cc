@@ -84,7 +84,7 @@ int main(int argc, char const *argv[]) {
           ctr->loadStrategy(rl.get());
         } else {
           auto fb = make_unique<loadFromBoard>("layout.txt");
-          ctr->loadStrategy(fb.get());
+          bool check = ctr->loadStrategy(fb.get());
           if (check == false) {
             cout << "File does not exist" << endl;
             return;
