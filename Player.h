@@ -13,7 +13,6 @@
 class Player {
   int buildpoints;
   // 0 represents fair dice, 1 represents loaded dice
-  int dicenum;
   std::string color;
   std::vector<std::pair<std::string, int>> resources;
   std::vector<int> roads; // store the edges of the roads
@@ -37,9 +36,7 @@ public:
   int getPoints();
    // returns color
   std::string getColor();
-  int getDiceNum();
   void setseed(size_t seed);
-  void setDiceNum(int dicenum);
   void setResource (std::vector<std::pair<std::string, int>> &r);
   void setColor(std::string color);
   // modifies the certain type of resources by given amounts

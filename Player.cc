@@ -75,10 +75,6 @@ int Player::getTotal() {
 
 int Player::getPoints() { return buildpoints; }
 
-void Player::setDiceNum(int dicenum) { this->dicenum = dicenum;}
-
-int Player::getDiceNum() {return dicenum;}
-
 std::string Player::getColor() { return color; }
 
 void Player::setColor(std::string color) { this->color = color; }
