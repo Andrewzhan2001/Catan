@@ -26,7 +26,7 @@ normalBoard::normalBoard() : Board{} {
   }
   for (int i = 0; i < 42; i++) {
     temp.push_back("");
-    temp[i].assign(60,' ');
+    temp[i].assign(60, ' ');
   }
   for (int i = 0; i < 19; i++) {
     tiles.emplace_back(std::make_unique<Tile>(i));
@@ -35,35 +35,63 @@ normalBoard::normalBoard() : Board{} {
 
 bool normalBoard::validVertex(int x) {
   if ((x >= 0) && (x <= 53)) { // the last vertex is 53
-      if (notOccupied("vertex", x)) {
-        return true;
+    // can't be built on a vertex that is adjacent to a vertex with
+    // an existing residence
+    // find all adjacent vertex
+    std::vector<int> adjV;
+    for (auto &it : findTile("vertex", x)) {
+      std::vector<int> vv = tiles[it]->vertexAdjacentVertex(x);
+      adjV.insert(adjV.end(), vv.begin(), vv.end());
+    }
+    // make sure all adjacent vertex is not occupied
+    for (auto &it : adjV) {
+      if (!notOccupied("vertex", it)) {
+        return false;
+      }
+    }
+    // check the chosen vertex is not occupied
+    if (notOccupied("vertex", x)) {
+      return true;
     }
   }
   return false;
 }
 
 bool normalBoard::validRoad(int x) {
-  return true;
+  if ((x >= 0) && (x <= 71)) { // the last edge is 71
+    if (notOccupied("edge", x)) {
+      return true;
+    }
+  }
+  return false;
 }
 
 bool normalBoard::canBuild(char color, int x, std::string type) {
-  if (!notOccupied(type, x)) { // if this place is occupied by someone
-    return false;
-  }
-  if (type == "Road") {
-    // find all adjacent vertex
-    std::vector<int> adj;
-    for (auto &it : findTile("edge", x)) { // find all tiles that has edge x
-      std::vector<int> b = tiles[it]->getAdjacentVertex(x);
-      adj.insert(adj.end(), b.begin(), b.end());
-    }
-    for (auto i : adj) {
+  bool meet = false;
+  int emptyvertex = 0;
+  if ((type == "Road") && (validRoad(x))) {
+    // find all adjacent vertex: at most two adjacent vertexs for one edge
+    std::vector<int> all_tile = findTile("edge", x);
+    std::vector<int> adjV = (tiles[all_tile[0]])->getAdjacentVertex(x);
+    // condition 1: check if an adjacent residence is built by the same builder
+    for (auto i : adjV) {
       if (!notOccupied("vertex", i)) { // if adjacent vertex is occupied
-        return (vertex[i][0] ==
-                color); // check if it's owned by the same color user
+        // true if it's occupied by the same builder
+        meet = (vertex[i][0] == color);
+      } else {
+        emptyvertex = i;
       }
     }
-  } else if (type == "Basement") {
+    if (meet) {
+      return true;
+    } else {
+      // condition 2: an adjacent road is built by the same builder
+      // it is same as the notoccupied adjacent vertex can be built
+      return canBuild(color, emptyvertex, "Basement");
+    }
+  } else if ((type == "Basement") && validVertex(x)) {
+    // condition 1 already met since it's vaildvertex
+    // condition 2: has an adjacent road that is built by the same builder
     // find all adjacent edges
     std::vector<int> adjE;
     for (auto &it : findTile("vertex", x)) {
@@ -103,46 +131,40 @@ std::vector<std::pair<std::string, int>> normalBoard::getResidences(int x) {
 
 void normalBoard::resettemp() {
   for (int i = 0; i < 41; i++) {
-    temp[i].assign(60,' ');
+    temp[i].assign(60, ' ');
   }
 }
-
 
 void normalBoard::OutputTile(int x, int y, vector<string> tilegraph) {
   for (auto &&i : tilegraph) {
-    temp[x].replace(y,i.length(),i);
+    temp[x].replace(y, i.length(), i);
     ++x;
   }
-  
 }
 
 void normalBoard::printBoard(std::ostream &out) {
-    int x = 0;
-    int y = 26;
-    for (auto &&i : tiles) {
-      vector<string> tilegraph = i->printTile(vertex,edge);
-      OutputTile(x,y,tilegraph);
-      if (x == 0 && y == 26) {
-        x = 4;
-        y = 16;
-      } else if (x == 28 && y == 36){
-        x += 4;
-        y = 26;
-      } else if (y == 36){
-        x += 4;
-        y = 6;
-      } else if (y == 46) {
-        x += 4;
-        y = 16;
-      } else {
-        y += 20;
-      }
+  int x = 0;
+  int y = 26;
+  for (auto &&i : tiles) {
+    vector<string> tilegraph = i->printTile(vertex, edge);
+    OutputTile(x, y, tilegraph);
+    if (x == 0 && y == 26) {
+      x = 4;
+      y = 16;
+    } else if (x == 28 && y == 36) {
+      x += 4;
+      y = 26;
+    } else if (y == 36) {
+      x += 4;
+      y = 6;
+    } else if (y == 46) {
+      x += 4;
+      y = 16;
+    } else {
+      y += 20;
     }
-    for (auto &&i : temp)
-    {
-      out << i << endl;
-    }
-    
-    
-    
+  }
+  for (auto &&i : temp) {
+    out << i << endl;
+  }
 }

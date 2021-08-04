@@ -80,6 +80,7 @@ std::string Player::getColor() { return color; }
 void Player::setColor(std::string color) { this->color = color; }
 
 void Player::setResource (std::vector<std::pair<std::string, int>> &r) {
+  resources.clear();
   resources = r;
 }
 
