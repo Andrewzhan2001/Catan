@@ -2,20 +2,23 @@
 #include "Board.h"
 #include <algorithm>
 
-bool humanPlayer::chooseVertex(int& n, Board *board) {
+bool humanPlayer::chooseBasement(int& n, Board *board) {
+  int temp = -1;
   while (true) {
-    if (!(std::cin >> n)) {
+    if (!(std::cin >> temp)) {
       if (std::cin.eof()) {
         return false;
       }
-      std::cout << "Not an integer!Please input an intger!" << std::endl;
+      std::cout << "Not an integer!" << std::endl;
+      std::cout << "Please input an intger: ";
       std::cin.clear();
       std::cin.ignore();
     } else {
-      if (!(board->validVertex(n))) {
-        std::cout << "You cannot build here. ";
-        std::cout << "Please input a valid intger!" << std::endl;
+      if (!(board->validVertex(temp))) {
+        std::cout << "You cannot build here." << std::endl;
+        std::cout << "Please try another place for basement: ";
       } else {
+        n = temp;
         return true;
       }
     }
@@ -24,18 +27,25 @@ bool humanPlayer::chooseVertex(int& n, Board *board) {
 
 
 bool humanPlayer::chooseTile(int &n, Board *board) {
+  int temp = -1; 
   while (true) {
-    if (!(std::cin >> n)) {
+    if (!(std::cin >> temp)) {
       if (std::cin.eof()) {
         return false;
       }
-      std::cout << "Not an integer!Please input an intger!" << std::endl;
+      std::cout << "Not an integer!" << std::endl;
+      std::cout << "Please input an intger:";
       std::cin.clear();
       std::cin.ignore();
     } else {
-      if (n >= board->getTileNum() || n < 0) {
-        std::cout << "Invalid tile number!Please input again!" << std::endl;
+      if (temp >= board->getTileNum() || temp < 0) {
+        std::cout << "Invalid tile number!" << std::endl;
+        std::cout << "Please try again: ";
+      } else if (temp == board->getGeese()){
+        std::cout << "Oops!You must move geese to another tile!";
+        std::cout << "Please try again: ";
       } else {
+        n = temp;
         return true;
       }
     }
@@ -43,15 +53,15 @@ bool humanPlayer::chooseTile(int &n, Board *board) {
 }
 
 bool humanPlayer::chooseColor(std::string &color, std::vector<std::string> v) {
+  std::string temp = "";
   while (true) {
-    if (!(std::cin >> color)) {
+    if (!(std::cin >> temp)) {
       if (std::cin.eof()) {
         return false;
       }  
     } else {
-      auto it = find(v.begin(), v.end(), color);
+      auto it = find(v.begin(), v.end(), temp);
       if (it == v.end()) {
-        // not found
         std::cout << "You should choose from:";
         std::cout << "[";
         for (unsigned int i = 0; i < v.size(); ++i) {
@@ -61,43 +71,74 @@ bool humanPlayer::chooseColor(std::string &color, std::vector<std::string> v) {
           }
         }
         std::cout << "]" << std::endl;
-        std::cout << "Please input again." << std::endl;
+        std::cout << "Please input again: " << std::endl;
       } else {
+        color = temp;
         return true;
       }
     }
   }
 }
 
-bool humanPlayer::chooseRoad(int &n, Board *board) {
-  while (true) {
-    if (!(std::cin >> n)) {
-      if (std::cin.eof()) {
-        return false;
-      }
-      std::cout << "Not an integer!Please input an intger!" << std::endl;
-      std::cin.clear();
-      std::cin.ignore();
-    } else {
-      return true;
+bool humanPlayer::chooseRoadToBuild(Board *board) {
+  int temp = -1;
+  if (!(std::cin >> temp)) {
+    if (std::cin.eof()) {
+      return false;
     }
+    std::cout << "You do not enter an integer as road!" << std::endl;
+    std::cin.clear();
+    std::cin.ignore();
+    return true;
+  } else {
+    if (temp >= board->getRoadNum() || temp < 0) {
+      std::cout << "Invalid road number!You cannot build here." << std::endl;
+    } else if (!(board->canBuild(getColor()[0], temp, "Road"))) {
+      std::cout << "You cannot build here." << std::endl;
+    } else if (attempbuild(temp, 'R')) {
+      board->create(getColor()[0], temp, "Road");
+    }
+    return true;
+  }
+}
+
+bool humanPlayer::chooseBasementToBuild(Board *board) {
+  int temp = -1;
+  if (!(std::cin >> temp)) {
+    if (std::cin.eof()) {
+      return false;
+    }
+    std::cout << "You do not enter an integer as basement!" << std::endl;
+    std::cin.clear();
+    std::cin.ignore();
+    return true;
+  } else {
+    if (temp >= board->getVertexNum() || temp < 0) {
+      std::cout << "Invalid residence number!";
+      std::cout << "You cannot build here." << std::endl;
+    } else if (!(board->canBuild(getColor()[0], temp, "Basement"))) {
+      std::cout << "You cannot build here." << std::endl;
+    } else if (attempbuild(temp, 'B')) {
+      board->create(getColor()[0], temp, "Basement");
+    }
+    return true;
   }
 }
 
 bool humanPlayer::answer(std::string &cmd) {
+  std::string temp;
   while (true) {
-    if (!(std::cin >> cmd)) {
+    if (!(std::cin >> temp)) {
       if (std::cin.eof()) {
         return false;
       }
-      std::cout << "Please try again! Please answer yes or no!" << std::endl;
-      std::cin.clear();
-      std::cin.ignore();
     } else {
-      if (cmd != "yes" && cmd != "no") {
+      if (temp != "yes" && temp != "no") {
         std::cout << "Ahh! The answer must be either yes or no!";
         std::cout << std::endl;
+        std::cout << "Please try again: ";
       } else {
+        cmd = temp;
         return true;
       }
     }
@@ -126,17 +167,14 @@ bool humanPlayer::chooseResource(std::string &cmd) {
 }
 
 bool humanPlayer::chooseCommand(std::string &cmd) {
-  while (true) {
-    if (!(std::cin >> cmd)) {
-      if (std::cin.eof()) {
-        return false;
-      }
-      std::cout << "Please input a command!" << std::endl;
-      std::cin.clear();
-      std::cin.ignore();
-    } else {
-      return true;
+  std::string temp;
+  if (!(std::cin >> temp)) {
+    if (std::cin.eof()) {
+      return false;
     }
+  } else {
+    cmd = temp;
+    return true;
   }
 }
 

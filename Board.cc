@@ -4,8 +4,6 @@
 #include <string>
 #include <vector>
 
-int Board::getPlayerNum() { return playerNum; }
-
 int Board::getTileNum() { return tiles.size(); }
 
 int Board::getRoadNum() { return edge.size(); }
@@ -14,6 +12,15 @@ int Board::getVertexNum(){ return vertex.size(); }
 
 void Board::setVertex(int idx, std::string builder, std::string residence) {
   vertex[idx] = builder + residence;
+}
+
+int Board::getGeese() {
+  for (int i = 0; i < getTileNum(); ++i) {
+    if (tiles[i]->geese) {
+      return i;
+    }
+  }
+  return -1;
 }
 
 bool Board::haveGeese(int tilenum) {

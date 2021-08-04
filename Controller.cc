@@ -58,27 +58,19 @@ bool Controller::play() {
         gm->printPlayers();
       } else if (cmd == "residences") {
         gm->printBuildings();
-      } else if (cmd == "build-road") {
-        int idx;
-        if(!(gm->getCurPlayer()->chooseRoad(idx, gm->getBoard()))) {
+      } else if (cmd == "build-road") {     
+        if(!(gm->buildRoad())) {
           saveFile();
           return false;
-        }
-        if (idx >= gm->getBoard()->getRoadNum() || idx < 0) {
-          std::cout << "Invalid road number! Please input again!" << std::endl;
-        } else {
-          gm->buildRoad(idx);
         }
       } else if (cmd == "build-res") {
-        int idx;
-        if (!(gm->getCurPlayer()->chooseVertex(idx, gm->getBoard()))) {
+        if (!(gm->buildRoad())) {
           saveFile();
           return false;
         }
-        gm->buildBasement(idx);
       } else if (cmd == "improve") {
         int idx;
-        if(!(gm->getCurPlayer()->chooseVertex(idx, gm->getBoard()))) {
+        if(!(gm->getCurPlayer()->chooseBasement(idx, gm->getBoard()))) {
           saveFile();
           return false;
         }

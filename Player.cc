@@ -131,7 +131,7 @@ bool Player::attempbuild(int x, char type) {
       for (size_t i = 0; i < oldNum.size(); i++) {
         resources[i].second = oldNum[i];
       }
-      std::cout << "You do not have enough resources" << std::endl;
+      std::cout << "You do not have enough resources." << std::endl;
       return false;
     }
   } // loop

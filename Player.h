@@ -74,13 +74,14 @@ public:
   void printData(std::ostream &out);
   bool hasType(std::string type);
   // choose a vertex
-  virtual bool chooseVertex(int& n, Board *board) = 0;
+  virtual bool chooseBasement(int& n, Board *board) = 0;
   // choose a tile number
   virtual bool chooseTile(int &n, Board *board) = 0;
   // choose a color from vector v, v
   virtual bool chooseColor(std::string &cmd, std::vector<std::string> v) = 0;
   // choose a road
-  virtual bool chooseRoad(int &n, Board *board) = 0;
+  virtual bool chooseRoadToBuild(Board *board) = 0;
+  virtual bool chooseBasementToBuild(Board *board) = 0;
   // answer yes or no
   virtual bool answer(std::string &cmd) = 0;
   // choose a kind of resource

@@ -10,13 +10,11 @@
 
 class Board {
  protected:
-  int playerNum;
   std::vector<std::string> vertex;
   std::vector<std::string> edge;
   std::vector<std::unique_ptr<Tile>> tiles;
   bool notOccupied(std::string type, int x);// check whether vertex/road is occupied by other
  public:
-   int getPlayerNum();
    // get number of tiles
    int getTileNum();
    int getRoadNum();
@@ -27,7 +25,8 @@ class Board {
    void setEdge(int idx, std::string builder);
    // set tile x resource and value
    void setTile(int n, std::string resource, int value);
-  
+   
+   int getGeese();
    // return whether the tile tilenum has geese
    bool haveGeese(int tilenum);
    // set Geese to tile tilenum

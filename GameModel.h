@@ -37,13 +37,13 @@ class GameModel{
   // switches turn from 1,2,3,4 
   void switches(); 
   // create a residence/road at location x
-  void create(int x, std::string type);
+  /* void create(int x, std::string type); */
   // prints current turn
   void printTurn();
   void printPlayers();
   void printBuildings();
-  void buildRoad(int x);
-  void buildBasement(int x);
+  bool buildRoad();
+  bool buildBasement();
   void upgrade(int x);
   void update();
   void exchange(std::string type, std::string type1, std::string type2);

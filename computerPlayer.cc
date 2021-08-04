@@ -5,7 +5,7 @@
 using namespace std;
 
 
-bool computerPlayer::chooseVertex(int& n, Board *board) {
+bool computerPlayer::chooseBasement(int& n, Board *board) {
   if (board->getVertexNum() == 0) {
     cout << "computer can not choose anything" << endl;
     return false;
@@ -56,7 +56,7 @@ bool computerPlayer::chooseColor(std::string &color, std::vector<std::string> v)
   return true; 
 }
 
-bool computerPlayer::chooseRoad(int &n, Board *board) { 
+bool computerPlayer::chooseRoadToBuild(Board *board) { 
   if (board->getRoadNum() == 0) {
     cout << "computer can not choose anything" << endl;
     return false;
@@ -67,14 +67,18 @@ bool computerPlayer::chooseRoad(int &n, Board *board) {
     }
   }
   shuffle(edges.begin(), edges.end(), rng);
-  for (auto &&i : edges) {
+  /* for (auto &&i : edges) {
     if (board->validRoad(i)) {
       n = i;
       return true;
     }
-  }
+  } */
   cout << "computer can not choose anything" << endl;
   return false;
+}
+
+bool computerPlayer::chooseBasementToBuild(Board *board) { 
+  return true;
 }
 
 bool computerPlayer::answer(std::string &cmd) { 

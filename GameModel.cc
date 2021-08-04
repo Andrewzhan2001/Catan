@@ -101,7 +101,7 @@ void GameModel::initial() {
     std::cout << "where do you want to build a basement?" << std::endl;
     int n = -1;
     // reads in an integer as a vertex
-    if (!cur->chooseVertex(n, b.get())) {
+    if (!cur->chooseBasement(n, b.get())) {
       saveFile();
       return;
     } else {
@@ -119,7 +119,7 @@ void GameModel::initial() {
     std::cout << "where do you want to build a basement?" << std::endl;
     int n = -1;
     // reads in an integer as a vertex
-    if (!cur->chooseVertex(n, b.get())) {
+    if (!cur->chooseBasement(n, b.get())) {
       saveFile();
       return;
     } else {
@@ -155,11 +155,17 @@ void GameModel::printBuildings() {
   cur->printBuildings();
 }
 
-void GameModel::buildRoad(int x) { create(x, "Road"); }
+bool GameModel::buildRoad() { 
+  Player *cur = getPlayer(currentTurn);
+  return cur->chooseRoadToBuild(getBoard());
+}
 
-void GameModel::buildBasement(int x) { create(x, "Basement"); }
+bool GameModel::buildBasement() { 
+  Player *cur = getPlayer(currentTurn);
+  return cur->chooseBasementToBuild(getBoard());
+}
 
-void GameModel::create(int x, std::string type) {
+/* void GameModel::create(int x, std::string type) {
   Player *cur = getPlayer(currentTurn);
   std::string col = cur->getColor();
   if (!(b->canBuild(currentTurn, x, type))) {
@@ -169,7 +175,7 @@ void GameModel::create(int x, std::string type) {
       b->create(col[0], x, type);
     }
   }
-}
+} */
 
 void GameModel::upgrade(int x) {
   Player *cur = getPlayer(x);
@@ -185,7 +191,7 @@ void GameModel::update() {
   if (diceNum == 7) {
     for (auto &p : players) {
       if (p->getTotal() >= 10) {
-       p->loseHalf();
+        p->loseHalf();
       }
     }
     std::cout << "Choose where to place the GEESE." << std::endl;
@@ -207,7 +213,9 @@ void GameModel::update() {
           std::string col = getPlayer(i)->getColor();
           auto it = find(lists.begin(), lists.end(), col);
           if (it == lists.end()) {
-            lists.emplace_back(getPlayer(i)->getColor());
+            if (getPlayer(getPlayerNum(col))->getTotal() > 0) {
+              lists.emplace_back(getPlayer(i)->getColor());
+            }
           }
         }   
       }
@@ -217,16 +225,9 @@ void GameModel::update() {
       std::cout << getColor(currentTurn);
       std::cout << " has no builders to steal from." << std::endl;
     } else {
-      bool exist = false;
-      for (unsigned int i = 0; i < lists.size(); ++i) {
-        if (getPlayer(getPlayerNum(lists[i]))->getTotal() != 0) {
-          exist = true;
-          break;
-        }
-      }
       std::cout << "Builder ";
       std::cout << getColor(currentTurn);
-      std::cout << "can choose to steal from ["; 
+      std::cout << " can choose to steal from ["; 
       for (size_t i = 0; i < lists.size(); ++i) {
         std::cout << lists[i];
         if (i != lists.size() - 1) {
@@ -234,26 +235,11 @@ void GameModel::update() {
         }
       }
       std::cout << "]" << std::endl;
-      if (!exist) {
-        std::cout << "Unfortunately, all players have none resources!"
-        << std::endl;
-        return;
-      }
       std::cout << "Choose a builder to steal from." << std::endl;
       std::string cmd = "";
-      while (true) {
-        if (!(cur->chooseColor(cmd, lists))) {
-          saveFile();
-          return;
-        } else {
-          int idx = getPlayerNum(cmd);
-          if (getPlayer(idx)->getTotal() == 0) {
-            std::cout << "The player has no resources.";
-            std::cout << "Please steal from another player" << std::endl;
-          } else {
-            break;
-          }
-        }
+      if (!(cur->chooseColor(cmd, lists))) {
+        saveFile();
+        return;
       }
       std::string type = getPlayer(getPlayerNum(cmd))->loseOneResourceRandomly();
       getPlayer(currentTurn)->modifyResources(type, 1);
@@ -261,7 +247,7 @@ void GameModel::update() {
       std::cout << getColor(currentTurn);
       std::cout << " steals ";
       std::cout << type << " from builder ";
-      std::cout << getColor(n) << " .";
+      std::cout << cmd << ".";
     }
   } else {
     std::vector<std::pair<std::string, int>> neighbours = b->getResidences(diceNum);
