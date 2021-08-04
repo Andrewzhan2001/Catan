@@ -70,16 +70,15 @@ bool Controller::play() {
         }
       } else if (cmd == "improve") {
         int idx;
-        if(!(gm->getCurPlayer()->chooseBasement(idx, gm->getBoard()))) {
+        if(!(gm->upgrade())) {
           saveFile();
           return false;
         }
-        gm->upgrade(idx);
       } else if (cmd == "trade") {
         std::string color;
         std::string give;
         std::string take;
-        std::vector<std::string> v;
+       /* std::vector<std::string> v;
         for (int i = 0; i < gm->getNum(); ++i) {
           if (i != gm->getCurrentTurn()) {
             v.emplace_back(gm->getPlayer(i)->getColor());
@@ -92,16 +91,8 @@ bool Controller::play() {
           if (j != v.size() - 1);
           cout << ",";
         }
-        cout << "]" << endl;
-        if (gm->getCurPlayer()->chooseColor(color, v)) {
-          saveFile();
-          return false;
-        }
-        if (gm->getCurPlayer()->chooseResource(give)) {
-          saveFile();
-          return false;
-        }
-        if (gm->getCurPlayer()->chooseResource(take)) {
+        cout << "]" << endl; */
+        if (!(gm->getCurPlayer()->chooseToExchange(color, give, take))) {
           saveFile();
           return false;
         }

@@ -91,7 +91,9 @@ bool computerPlayer::answer(std::string &cmd) {
   return true;
 }
 
-bool computerPlayer::chooseResource(std::string &cmd) { 
+bool computerPlayer::chooseBasementToUpgrade(Board *board) { return true; }
+bool computerPlayer::chooseToExchange(std::string &col, std::string &type1, std::string &type2) { return true; }
+/* bool computerPlayer::chooseResource(std::string &cmd) { 
   if (resources.size() == 0) {
     resources.push_back("BRICK");
     resources.push_back("ENERGY");
@@ -103,7 +105,7 @@ bool computerPlayer::chooseResource(std::string &cmd) {
   shuffle(resources.begin(), resources.end(), rng);
   cmd = resources[0];
   return true;
-}
+} */
 
 bool computerPlayer::chooseCommand(std::string &cmd) { 
   if (commands.size() == 0) {

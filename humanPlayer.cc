@@ -96,7 +96,7 @@ bool humanPlayer::chooseRoadToBuild(Board *board) {
     } else if (!(board->canBuild(getColor()[0], temp, "Road"))) {
       std::cout << "You cannot build here." << std::endl;
     } else if (attempbuild(temp, 'R')) {
-      board->create(getColor()[0], temp, "Road");
+      board->create(getColor()[0], temp, "road");
     }
     return true;
   }
@@ -125,6 +125,29 @@ bool humanPlayer::chooseBasementToBuild(Board *board) {
   }
 }
 
+bool humanPlayer::chooseBasementToUpgrade(Board *board) {
+  int temp = -1;
+  if (!(std::cin >> temp)) {
+    if (std::cin.eof()) {
+      return false;
+    }
+    std::cout << "You do not enter an integer as basement!" << std::endl;
+    std::cin.clear();
+    std::cin.ignore();
+    return true;
+  } else {
+    if (temp >= board->getVertexNum() || temp < 0) {
+      std::cout << "Invalid residence number!";
+      std::cout << "You cannot build here." << std::endl;
+    } else if (!(board->canUpgrade(getColor()[0], temp))) {
+      std::cout << "You cannot upgrade buildings here." << std::endl;
+    } else if (upgradeResidence(temp)) {
+      board->upgradeLevel(getColor()[0], temp);
+    }
+    return true;
+  }
+}
+
 bool humanPlayer::answer(std::string &cmd) {
   std::string temp;
   while (true) {
@@ -145,25 +168,29 @@ bool humanPlayer::answer(std::string &cmd) {
   }
 }
 
-bool humanPlayer::chooseResource(std::string &cmd) {
-  while (true) {
-    if (!(std::cin >> cmd)) {
-      if (std::cin.eof()) {
-        return false;
-      }
-      std::cout << "Please input a kind of resource!" << std::endl;
-      std::cin.clear();
-      std::cin.ignore();
-    } else {
-      if (cmd != "BRICK" && cmd != "ENERGY" && cmd != "GLASS" && 
-          cmd != "HEAT" && cmd != "WIFI") {
-        std::cout << "Your input is not a valid resource! Try again!";
-        std::cout << std::endl;
-      } else {
-        return true;
-      }
+bool humanPlayer::chooseToExchange(std::string &col, std::string &type1, std::string &type2) {
+  std::string temp1 = "";
+  std::string temp2 = "";
+  std::string temp3 = "";
+  if (!(std::cin >> temp1)) {
+    if (std::cin.eof()) {
+      return false;
     }
   }
+  if (!(std::cin >> temp2)) {
+    if (std::cin.eof()) {
+      return false;
+    }
+  }
+  if (!(std::cin >> temp3)) {
+    if (std::cin.eof()) {
+      return false;
+    }
+  }
+  col = temp1;
+  type1 = temp2;
+  type2 = temp3;
+  return true;
 }
 
 bool humanPlayer::chooseCommand(std::string &cmd) {

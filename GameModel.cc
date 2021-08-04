@@ -177,13 +177,9 @@ bool GameModel::buildBasement() {
   }
 } */
 
-void GameModel::upgrade(int x) {
-  Player *cur = getPlayer(x);
-  if (b->canUpgrade(currentTurn, x)) {
-    if (cur->upgradeResidence(x)) {
-      b->upgradeLevel(currentTurn, x);
-    }
-  }
+bool GameModel::upgrade() {
+  Player *cur = getCurPlayer();
+  return cur->chooseBasementToUpgrade(getBoard());
 }
 
 void GameModel::update() {
@@ -266,23 +262,50 @@ void GameModel::update() {
   }
 }
 
+bool validType(std::string type1) {
+  if (type1 != "BRICK" && type1 != "ENERGY" && type1 != "GLASS" &&
+      type1 != "HEAT" && type1 != "WIFI") {
+    return false;
+  } else {
+    return true;
+  }
+}
+
 void GameModel::exchange(std::string color, std::string type1, std::string type2) {
+  if (color != "Blue" && color != "Red" && color != "Orange" && color != "Yellow") {
+    std::cout << "There is no player with color " << color << std::endl;
+    return;
+  }
+  if (color == getCurColor()) {
+    std::cout << "You could not trade with yourself!" << std::endl;
+    return;
+  }
+  if (!validType(type1)) {
+    std::cout << type1 << " is not a valid resource in this game!" << std::endl;
+    return;
+  }
+  if (!validType(type2)) {
+    std::cout << type2 << " is not a valid resource in this game!" << std::endl;
+    return;
+  }
   std::cout << getColor(currentTurn);
   std::cout << " offers " << color;
   std::cout << " one " << type1 << " for one " << type2 << "." << std::endl;
-  std::cout << "Does " << color << " accept this offer?" << std::endl;
   std::string cmd = "";
-  if (getCurPlayer()->hasType(type1)) {
+  if (!getCurPlayer()->hasType(type1)) {
     std::cout << "Don't be greedy! You don't have enough ";
     std::cout << type1 << " for trading! Try using another resources!";
     std::cout << std::endl;
+    return;
   }
-  if (getPlayer(getPlayerNum(color))->hasType(type2)) {
+  if (!getPlayer(getPlayerNum(color))->hasType(type2)) {
     std::cout << "Don't daydream! Player ";
     std::cout << color << " does not have enough ";
     std::cout << type2 << " for trading! Try using another resources!";
     std::cout << std::endl;
+    return;
   }
+  std::cout << "Does " << color << " accept this offer?" << std::endl;
   if (!(getPlayer(getPlayerNum(color)))->answer(cmd)) {
     saveFile();
     return;

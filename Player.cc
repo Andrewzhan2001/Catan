@@ -3,11 +3,11 @@
 #include "DiceFactory.h"
 #include "Dice.h"
 Player::Player()
-    : buildpoints{0}, color{""}, resources{{{"BRICK", 0},
-                                               {"ENERGY", 0},
-                                               {"GLASS", 0},
-                                               {"HEAT", 0},
-                                               {"WIFI", 0}}},
+    : buildpoints{0}, color{""}, resources{{{"BRICK", 10},
+                                               {"ENERGY", 10},
+                                               {"GLASS", 10},
+                                               {"HEAT", 10},
+                                               {"WIFI", 10}}},
       roads{}, residences{}, dice{"load"} {
   DiceFactory df;
   d.emplace_back(df.createObject("FairDice"));

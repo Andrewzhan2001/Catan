@@ -82,10 +82,11 @@ public:
   // choose a road
   virtual bool chooseRoadToBuild(Board *board) = 0;
   virtual bool chooseBasementToBuild(Board *board) = 0;
+  virtual bool chooseBasementToUpgrade(Board *board) = 0;
   // answer yes or no
   virtual bool answer(std::string &cmd) = 0;
   // choose a kind of resource
-  virtual bool chooseResource(std::string &cmd) = 0;
+  virtual bool chooseToExchange(std::string &col, std::string &type1, std::string &type2) = 0;
   // choose a kind of command
   virtual bool chooseCommand(std::string &cmd) = 0;
   // choose a player's index

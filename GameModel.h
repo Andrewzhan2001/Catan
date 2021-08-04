@@ -44,7 +44,7 @@ class GameModel{
   void printBuildings();
   bool buildRoad();
   bool buildBasement();
-  void upgrade(int x);
+  bool upgrade();
   void update();
   void exchange(std::string type, std::string type1, std::string type2);
   bool ifWin();
