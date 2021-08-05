@@ -80,6 +80,7 @@ bool humanPlayer::chooseColor(std::string &color, std::vector<std::string> v) {
   }
 }
 
+
 bool humanPlayer::chooseRoadToBuild(Board *board) {
   int temp = -1;
   if (!(std::cin >> temp)) {
@@ -95,7 +96,9 @@ bool humanPlayer::chooseRoadToBuild(Board *board) {
       std::cout << "Invalid road number!You cannot build here." << std::endl;
     } else if (!(board->canBuild(getColor()[0], temp, "Road"))) {
       std::cout << "You cannot build here." << std::endl;
-    } else if (attempbuild(temp, 'R')) {
+    } else if (!attempbuild(temp, 'R')) {
+      std::cout << "You do not have enough resources." << std::endl;
+    } else {
       board->create(getColor()[0], temp, "road");
     }
     return true;
@@ -118,7 +121,9 @@ bool humanPlayer::chooseBasementToBuild(Board *board) {
       std::cout << "You cannot build here." << std::endl;
     } else if (!(board->canBuild(getColor()[0], temp, "Basement"))) {
       std::cout << "You cannot build here." << std::endl;
-    } else if (attempbuild(temp, 'B')) {
+    } else if (!(attempbuild(temp, 'B'))) {
+      std::cout << "You do not have enough resources." << std::endl;
+    } else {
       board->create(getColor()[0], temp, "Basement");
     }
     return true;

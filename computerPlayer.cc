@@ -117,7 +117,6 @@ bool computerPlayer::chooseCommand(std::string &cmd) {
     commands.push_back("build-road");
     commands.push_back("build-res");
     commands.push_back("improve");
-    commands.push_back("trade");
     commands.push_back("next");
   }
   cmd = commands[0];
