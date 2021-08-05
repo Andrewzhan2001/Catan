@@ -58,7 +58,7 @@ bool Controller::play() {
         gm->printPlayers();
       } else if (cmd == "residences") {
         gm->printBuildings();
-      } else if (cmd == "build-road") {     
+      } else if (cmd == "build-road") {
         if(!(gm->buildRoad())) {
           saveFile();
           return false;

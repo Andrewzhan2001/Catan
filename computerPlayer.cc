@@ -4,7 +4,7 @@
 #include "vector"
 using namespace std;
 
-
+// 一开始的时候用
 bool computerPlayer::chooseBasement(int& n, Board *board) {
   if (board->getVertexNum() == 0) {
     cout << "computer can not choose anything" << endl;
@@ -25,6 +25,8 @@ bool computerPlayer::chooseBasement(int& n, Board *board) {
   cout << "computer can not choose anything" << endl;
   return false;
 }
+
+//扔到7move geese
 bool computerPlayer::chooseTile(int &n, Board *board) { 
   if (board->getTileNum() == 0) {
     cout << "computer can not choose anything" << endl;
@@ -46,6 +48,7 @@ bool computerPlayer::chooseTile(int &n, Board *board) {
   return false;
 }
 
+// v里面随便选一个
 bool computerPlayer::chooseColor(std::string &color, std::vector<std::string> v) {
   if (v.size() == 0) {
     cout << "computer can not choose anything" << endl;
@@ -56,6 +59,7 @@ bool computerPlayer::chooseColor(std::string &color, std::vector<std::string> v)
   return true; 
 }
 
+//attempbuild有没有足够的resource，canbuild是规则允不允许
 bool computerPlayer::chooseRoadToBuild(Board *board) { 
   if (board->getRoadNum() == 0) {
     cout << "computer can not choose anything" << endl;
@@ -67,17 +71,37 @@ bool computerPlayer::chooseRoadToBuild(Board *board) {
     }
   }
   shuffle(edges.begin(), edges.end(), rng);
-   for (auto &&i : edges) {
-    if (board->validRoad(i)) {
+  for (auto &&i : edges) {
+    if (board->canBuild(getColor()[0], i, "Road") && 
+         attempbuild(i, 'R')) {
+      board->create(getColor()[0], i, "road");
       return true;
     }
-  } 
+  }
   cout << "computer can not choose anything" << endl;
   return false;
 }
 
 bool computerPlayer::chooseBasementToBuild(Board *board) { 
-  return true;
+  if (board->getVertexNum() == 0) {
+    cout << "computer can not choose anything" << endl;
+    return false;
+  }
+  if (vertex.size() == 0) {
+    for (int i = 0; i < board->getVertexNum(); i++) {
+      vertex.push_back(i);
+    }
+  }
+  shuffle(vertex.begin(), vertex.end(), rng);
+  for (auto &&i : vertex) {
+    if (board->canBuild(getColor()[0], i, "Basement") && 
+         attempbuild(i, 'B')) {
+      board->create(getColor()[0], i, "Basement");
+      return true;
+    }
+  }
+  cout << "computer can not choose anything" << endl;
+  return false;
 }
 
 bool computerPlayer::answer(std::string &cmd) { 
@@ -90,21 +114,27 @@ bool computerPlayer::answer(std::string &cmd) {
   return true;
 }
 
-bool computerPlayer::chooseBasementToUpgrade(Board *board) { return true; }
-bool computerPlayer::chooseToExchange(std::string &col, std::string &type1, std::string &type2) { return true; }
-/* bool computerPlayer::chooseResource(std::string &cmd) { 
-  if (resources.size() == 0) {
-    resources.push_back("BRICK");
-    resources.push_back("ENERGY");
-    resources.push_back("GLASS");
-    resources.push_back("HEAT");
-    resources.push_back("WIFI");
-    resources.push_back("PARK");
+bool computerPlayer::chooseBasementToUpgrade(Board *board) { 
+  if (board->getVertexNum() == 0) {
+    cout << "computer can not choose anything" << endl;
+    return false;
   }
-  shuffle(resources.begin(), resources.end(), rng);
-  cmd = resources[0];
-  return true;
-} */
+  if (vertex.size() == 0) {
+    for (int i = 0; i < board->getVertexNum(); i++) {
+      vertex.push_back(i);
+    }
+  }
+  shuffle(vertex.begin(), vertex.end(), rng);
+  for (auto &&i : vertex) {
+    if (board->canUpgrade(getColor()[0], i) && 
+         upgradeResidence(i)) {
+      board->upgradeLevel(getColor()[0], i);
+      return true;
+    }
+  }
+  cout << "computer can not choose anything" << endl;
+  return false; }
+bool computerPlayer::chooseToExchange(std::string &col, std::string &type1, std::string &type2) { return true; }
 
 bool computerPlayer::chooseCommand(std::string &cmd) { 
   if (commands.size() == 0) {
