@@ -67,12 +67,11 @@ bool computerPlayer::chooseRoadToBuild(Board *board) {
     }
   }
   shuffle(edges.begin(), edges.end(), rng);
-  /* for (auto &&i : edges) {
+   for (auto &&i : edges) {
     if (board->validRoad(i)) {
-      n = i;
       return true;
     }
-  } */
+  } 
   cout << "computer can not choose anything" << endl;
   return false;
 }
