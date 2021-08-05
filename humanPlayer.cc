@@ -208,5 +208,6 @@ bool humanPlayer::chooseCommand(std::string &cmd) {
     cmd = temp;
     return true;
   }
+  return false;
 }
 

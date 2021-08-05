@@ -149,6 +149,7 @@ bool computerPlayer::chooseCommand(std::string &cmd) {
     commands.push_back("next");
   }
   cmd = commands[0];
+  cout << cmd << endl;
   commands.erase(commands.begin());
   return true; 
 }
