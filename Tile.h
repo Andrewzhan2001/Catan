@@ -30,6 +30,8 @@ std::vector<int> getAdjacentEdge(int vertexIndex);
 std::vector<int> getAdjacentVertex(int edgeIndex); 
 // return all adjacent vertex of vertex i
 std::vector<int> vertexAdjacentVertex(int vertexIndex); 
+// return all adjacent edge of edge i
+std::vector<int> edgeAdjacentEdge(int edgeIndex);
 // check whether the tile has type at index
 // if type is vertex/edge, check if it has vertex/edge index
 bool has(std::string type, int index);

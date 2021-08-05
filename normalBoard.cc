@@ -68,9 +68,9 @@ bool normalBoard::validRoad(int x) {
 bool normalBoard::canBuild(char color, int x, std::string type) {
   bool meet = false;
   int emptyvertex = 0;
+  std::vector<int> all_tile = findTile("edge", x); // all tiles that have edge x
   if ((type == "Road") && (validRoad(x))) {
     // find all adjacent vertex: at most two adjacent vertexs for one edge
-    std::vector<int> all_tile = findTile("edge", x);
     std::vector<int> adjV = (tiles[all_tile[0]])->getAdjacentVertex(x);
     // condition 1: check if an adjacent residence is built by the same builder
     for (auto i : adjV) {
@@ -85,85 +85,95 @@ bool normalBoard::canBuild(char color, int x, std::string type) {
       return true;
     } else {
       // condition 2: an adjacent road is built by the same builder
-      // it is same as the notoccupied adjacent vertex can be built
-      return canBuild(color, emptyvertex, "Basement");
-    }
-  } else if ((type == "Basement") && validVertex(x)) {
-    // condition 1 already met since it's vaildvertex
-    // condition 2: has an adjacent road that is built by the same builder
-    // find all adjacent edges
-    std::vector<int> adjE;
-    for (auto &it : findTile("vertex", x)) {
-      std::vector<int> be = tiles[it]->getAdjacentEdge(x);
-      adjE.insert(adjE.end(), be.begin(), be.end());
-    }
-    for (auto i : adjE) {
-      // if find any one of the adjacent edges is occupied by the same owner
-      if (!notOccupied("edge", i) && (edge[i][0] == color)) {
-        return true;
+      // find all adjacent edges
+      std::vector<int> adjEE;
+      for (auto &it : all_tile) {
+        std::vector<int> ee = tiles[it]->edgeAdjacentEdge(x);
+        adjEE.insert(adjEE.end(), ee.begin(), ee.end());
+      }
+      for (auto i : adjEE) {
+        // if find any one of the adjacent edges is occupied by the same owner
+        if (!notOccupied("edge", i) && (edge[i][0] == color)) {
+          return true;
+        }
       }
     }
-  }
-  // if not satisfied any condition
-  return false;
-}
-
-std::vector<std::pair<std::string, int>> normalBoard::getResidences(int x) {
-  // find all tiles that has value x
-  std::vector<int> tilesV;
-  int n = 0;
-  for (auto &i : tiles) {
-    if (i->getValue() == x) {
-      tilesV.push_back(n);
+    } else if ((type == "Basement") && validVertex(x)) {
+      // condition 1 already met since it's vaildvertex
+      // condition 2: has an adjacent road that is built by the same builder
+      // find all adjacent edges
+      std::vector<int> adjE;
+      for (auto &it : findTile("vertex", x)) {
+        std::vector<int> be = tiles[it]->getAdjacentEdge(x);
+        adjE.insert(adjE.end(), be.begin(), be.end());
+      }
+      for (auto i : adjE) {
+        // if find any one of the adjacent edges is occupied by the same owner
+        if (!notOccupied("edge", i) && (edge[i][0] == color)) {
+          return true;
+        }
+      }
     }
-    n++;
+    // if not satisfied any condition
+    return false;
   }
-  // find all residences of tileV
-  std::vector<std::pair<std::string, int>> result;
-  for (auto &it : tilesV) {
-    for (auto &i : getNeighbours(it)) {
-      result.push_back(std::make_pair(tiles[it]->getResource(), i));
+
+  std::vector<std::pair<std::string, int>> normalBoard::getResidences(int x) {
+    // find all tiles that has value x
+    std::vector<int> tilesV;
+    int n = 0;
+    for (auto &i : tiles) {
+      if (i->getValue() == x) {
+        tilesV.push_back(n);
+      }
+      n++;
     }
+    // find all residences of tileV
+    std::vector<std::pair<std::string, int>> result;
+    for (auto &it : tilesV) {
+      for (auto &i : getNeighbours(it)) {
+        result.push_back(std::make_pair(tiles[it]->getResource(), i));
+      }
+    }
+    return result;
   }
-  return result;
-}
 
-void normalBoard::resettemp() {
-  for (int i = 0; i < 41; i++) {
-    temp[i].assign(60, ' ');
-  }
-}
-
-void normalBoard::OutputTile(int x, int y, vector<string> tilegraph) {
-  for (auto &&i : tilegraph) {
-    temp[x].replace(y, i.length(), i);
-    ++x;
-  }
-}
-
-void normalBoard::printBoard(std::ostream &out) {
-  int x = 0;
-  int y = 26;
-  for (auto &&i : tiles) {
-    vector<string> tilegraph = i->printTile(vertex, edge);
-    OutputTile(x, y, tilegraph);
-    if (x == 0 && y == 26) {
-      x = 4;
-      y = 16;
-    } else if (x == 28 && y == 36) {
-      x += 4;
-      y = 26;
-    } else if (y == 36) {
-      x += 4;
-      y = 6;
-    } else if (y == 46) {
-      x += 4;
-      y = 16;
-    } else {
-      y += 20;
+  void normalBoard::resettemp() {
+    for (int i = 0; i < 41; i++) {
+      temp[i].assign(60, ' ');
     }
   }
-  for (auto &&i : temp) {
-    out << i << endl;
+
+  void normalBoard::OutputTile(int x, int y, vector<string> tilegraph) {
+    for (auto &&i : tilegraph) {
+      temp[x].replace(y, i.length(), i);
+      ++x;
+    }
   }
-}
+
+  void normalBoard::printBoard(std::ostream & out) {
+    int x = 0;
+    int y = 26;
+    for (auto &&i : tiles) {
+      vector<string> tilegraph = i->printTile(vertex, edge);
+      OutputTile(x, y, tilegraph);
+      if (x == 0 && y == 26) {
+        x = 4;
+        y = 16;
+      } else if (x == 28 && y == 36) {
+        x += 4;
+        y = 26;
+      } else if (y == 36) {
+        x += 4;
+        y = 6;
+      } else if (y == 46) {
+        x += 4;
+        y = 16;
+      } else {
+        y += 20;
+      }
+    }
+    for (auto &&i : temp) {
+      out << i << endl;
+    }
+  }

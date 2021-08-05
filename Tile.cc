@@ -154,6 +154,32 @@ std::vector<int> Tile::vertexAdjacentVertex(int vertexIndex) {
   return adjacentVertex;
 }
 
+std::vector<int> Tile::edgeAdjacentEdge(int edgeIndex) {
+  std::vector<int> adjacentEdge;
+  for (size_t i = 0; i < edge.size(); i++) {
+    // find the edge
+    if (edgeIndex == edge[i]) {
+      if (i == 0) { // if it's the first edge
+        adjacentEdge.push_back(edge[1]);
+        adjacentEdge.push_back(edge[2]);
+      } else if (i == 1) {
+        adjacentEdge.push_back(edge[0]);
+        adjacentEdge.push_back(edge[3]);
+      } else if (i == 4) {
+        adjacentEdge.push_back(edge[2]);
+        adjacentEdge.push_back(edge[5]);
+      } else if (i == 5) {
+        adjacentEdge.push_back(edge[3]);
+        adjacentEdge.push_back(edge[4]);
+      } else {
+        adjacentEdge.push_back(edge[i - 2]);
+        adjacentEdge.push_back(edge[i + 2]);
+      }
+    }
+  }
+  return adjacentEdge;
+}
+
 std::vector<int> Tile::getVertex() {
   std::vector<int> vertices;
   for (auto i : vertex) {
