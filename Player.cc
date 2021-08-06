@@ -172,6 +172,7 @@ void Player::loseHalf() {
       if (change != 0) { // losed some resources of this type
         std::cout << change << " " << i.first << std::endl;
       }
+      idx++;
     } // for
   }   // if
 }
