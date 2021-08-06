@@ -16,8 +16,8 @@ class GameModel{
   std::default_random_engine rng{seed};
   std::vector<std::unique_ptr<Player>> players;
   std::unique_ptr<Board> b;
-  int currentTurn;
-  int diceNum;
+  int currentTurn = 0;
+  int diceNum = 0;
 
   public:
   GameModel(std::string players);

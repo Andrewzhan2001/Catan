@@ -131,7 +131,8 @@ bool normalBoard::canBuild(char color, int x, std::string type) {
     // find all residences of tileV
     std::vector<std::pair<std::string, int>> result;
     for (auto &it : tilesV) {
-      for (auto &i : getNeighbours(it)) {
+      std::vector<int> neighbours = getNeighbours(it);
+      for (auto &i : neighbours) {
         result.push_back(std::make_pair(tiles[it]->getResource(), i));
       }
     }

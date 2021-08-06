@@ -50,14 +50,14 @@ int main(int argc, char const *argv[]) {
     it = find_if(command.begin(), command.end(),
       [](const pair<string, string>& element){ return element.first == "-seed";});
     if(it != command.end()) {
-      ctr->setseed(stoi(it.base()->second));
+      ctr->setseed(stoi(it->second));
     } else {
       ctr->setseed(chrono::system_clock::now().time_since_epoch().count());
     }
     it = find_if(command.begin(), command.end(),
       [](const pair<string, string>& element){ return element.first == "-load";});
     if(it != command.end()) {
-      auto sf = make_unique<Setfromfile>(it.base()->second);
+      auto sf = make_unique<Setfromfile>(it->second);
       bool check = ctr->loadStrategy(sf.get());
       if (check == false) {
         return 1;
@@ -68,7 +68,7 @@ int main(int argc, char const *argv[]) {
       it = find_if(command.begin(), command.end(),
       [](const pair<string, string>& element){ return element.first == "-board";});
       if(it != command.end()) {
-        auto fb = make_unique<loadFromBoard>(it.base()->second);
+        auto fb = make_unique<loadFromBoard>(it->second);
         bool check = ctr->loadStrategy(fb.get());
         if (check == false) {
           return 1;

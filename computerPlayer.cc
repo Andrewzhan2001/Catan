@@ -2,6 +2,7 @@
 #include "Board.h"
 #include "algorithm"
 #include "vector"
+
 using namespace std;
 
 // 一开始的时候用
@@ -79,7 +80,7 @@ bool computerPlayer::chooseRoadToBuild(Board *board) {
     }
   }
   cout << "computer can not choose anything" << endl;
-  return false;
+  return true;
 }
 
 bool computerPlayer::chooseBasementToBuild(Board *board) { 
@@ -101,7 +102,7 @@ bool computerPlayer::chooseBasementToBuild(Board *board) {
     }
   }
   cout << "computer can not choose anything" << endl;
-  return false;
+  return true;
 }
 
 bool computerPlayer::answer(std::string &cmd) { 
@@ -133,7 +134,8 @@ bool computerPlayer::chooseBasementToUpgrade(Board *board) {
     }
   }
   cout << "computer can not choose anything" << endl;
-  return false; }
+  return true; 
+}
 bool computerPlayer::chooseToExchange(std::string &col, std::string &type1, std::string &type2) { return true; }
 
 bool computerPlayer::chooseCommand(std::string &cmd) { 

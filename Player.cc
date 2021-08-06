@@ -158,9 +158,10 @@ void Player::loseHalf() {
           max = i.second;
         }
         std::uniform_int_distribution<> distr(0, max); // define the range
-        modifyResources(i.first, -distr(rng)); // generate number and modify
-        std::cout << distr(rng) << " " << i.first << std::endl;
-        total -= distr(rng);
+        int lose = distr(rng);
+        modifyResources(i.first, -lose); // generate number and modify
+        std::cout << lose << " " << i.first << std::endl;
+        total -= lose;
         if (total <= 0) { // half has been deducted
           return;
         }
@@ -210,14 +211,14 @@ bool Player::upgradeResidence(int x) {
         // if has enough resource
         if (attempbuild(x, 'H')) {
           buildpoints--;                      // since one basement deleted
-          residences.erase(residences.end()); // do not add this residence
+          residences.pop_back(); // do not add this residence
           i.second = 'H';                     // upgrade residence
           return true;
         }
       } else if (i.second == 'H') {
         if (attempbuild(x, 'T')) {            // point += 3
           buildpoints -= 2;                   // since one house deleted
-          residences.erase(residences.end()); // do not add this residence
+          residences.pop_back(); // do not add this residence
           i.second = 'T';                     // upgrade residence
           return true;
         }
@@ -274,7 +275,7 @@ std::string Player::loseOneResourceRandomly() {
     idx++;
   }
   std::uniform_int_distribution<int> dist(0, hasResource.size() - 1);
-  std::string random_resource = resources[dist(rng)].first;
+  std::string random_resource = resources[hasResource[dist(rng)]].first;
   modifyResources(random_resource, -1); // modify
   return random_resource;
 }
