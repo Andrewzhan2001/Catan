@@ -69,7 +69,6 @@ bool Controller::play() {
           return false;
         }
       } else if (cmd == "improve") {
-        int idx;
         if(!(gm->upgrade())) {
           saveFile();
           return false;

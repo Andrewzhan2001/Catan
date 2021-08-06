@@ -178,8 +178,9 @@ bool Player::belongs(int x, char type) {
     }
   } else {
     for (auto &i : residences) {
-      if ((i.first == x) && (i.second == type))
+      if (i.first == x) {
         return true;
+      }
     }
   }
   // not found
@@ -210,16 +211,28 @@ bool Player::upgradeResidence(int x) {
       } else if (i.second == 'B') {
         // if has enough resource
         if (attempbuild(x, 'H')) {
-          buildpoints--;                      // since one basement deleted
+          buildpoints--;                   // since one basement delete  
           residences.pop_back(); // do not add this residence
-          i.second = 'H';                     // upgrade residence
+          for (auto &i : residences) {
+            if (i.first == x) {
+              if (i.second == 'B') {
+                i.second = 'H';
+              }
+            }
+          }
           return true;
         }
       } else if (i.second == 'H') {
         if (attempbuild(x, 'T')) {            // point += 3
           buildpoints -= 2;                   // since one house deleted
           residences.pop_back(); // do not add this residence
-          i.second = 'T';                     // upgrade residence
+          for (auto &i : residences) {
+            if (i.first == x) {
+              if (i.second == 'H') {
+                i.second = 'T';
+              }
+            }
+          }
           return true;
         }
       }
