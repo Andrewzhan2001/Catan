@@ -27,6 +27,9 @@ bool loadFromBoard::loadBoard(GameModel *gm) {
     auto t = tiles.find(tile_resource);
     std::string resource = t->second;
     b->setTile(i, resource, tile_value);
+    if(resource == "PARK") {
+      b->setGeeseOnTile(i);
+    }
   }
   return true;
 }

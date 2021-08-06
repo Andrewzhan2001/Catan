@@ -11,10 +11,6 @@ bool Setfromfile::loadBoard(GameModel *bm) {
   int CurTurn, numBricks, numEnergies, numGlass, numHeat, numWifi, road,
       residence_idx, tile_resource, tile_value, geeseTile;
   std::string r, residence_type;
-  std::map<int, std::string> builders = {
-      {0, "Blue"}, {1, "Red"}, {2, "Orange"}, {3, "Yellow"}};
-  std::map<int, std::string> tiles = {{0, "BRICK"}, {1, "ENERGY"}, {2, "GLASS"},
-                                      {3, "HEAT"},  {4, "WIFI"},   {5, "PARK"}};
   std::ifstream infile(file);
   if (!infile) {
     std::cerr << "Couldn't open input file: " << file << std::endl;

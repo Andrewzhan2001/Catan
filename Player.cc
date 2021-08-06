@@ -2,6 +2,8 @@
 #include "Dice.h"
 #include "DiceFactory.h"
 #include <string>
+#include <random>
+#include <algorithm>
 Player::Player()
     : buildpoints{0}, color{""}, resources{{{"BRICK", 10},
                                             {"ENERGY", 10},
@@ -288,17 +290,16 @@ void Player::printData(std::ostream &out) {
 }
 
 std::string Player::loseOneResourceRandomly() {
-  std::vector<int>
-      hasResource; // store the index of resource that builder has num > 0
-  int idx = 0;
+  std::vector<std::string>
+      hasResource; // store the resource that builder has num > 0
   for (auto &i : resources) {
-    if (i.second > 0) { // player has this resource
-      hasResource.push_back(idx);
+    // if player has this resource, add number of this resource times
+    for(int j = 0; j < i.second; j++) { 
+      hasResource.push_back(i.first);
     }
-    idx++;
   }
-  std::uniform_int_distribution<int> dist(0, hasResource.size() - 1);
-  std::string random_resource = resources[hasResource[dist(rng)]].first;
+  std::shuffle(hasResource.begin(), hasResource.end(), rng);
+  std::string random_resource = hasResource[0];
   modifyResources(random_resource, -1); // modify
   return random_resource;
 }
