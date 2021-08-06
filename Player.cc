@@ -1,23 +1,23 @@
 #include "Player.h"
-#include <string>
-#include "DiceFactory.h"
 #include "Dice.h"
+#include "DiceFactory.h"
+#include <string>
 Player::Player()
     : buildpoints{0}, color{""}, resources{{{"BRICK", 10},
-                                               {"ENERGY", 10},
-                                               {"GLASS", 10},
-                                               {"HEAT", 10},
-                                               {"WIFI", 10}}},
+                                            {"ENERGY", 10},
+                                            {"GLASS", 10},
+                                            {"HEAT", 10},
+                                            {"WIFI", 10}}},
       roads{}, residences{}, dice{"load"} {
   DiceFactory df;
   d.emplace_back(df.createObject("FairDice"));
   d.emplace_back(df.createObject("LoadedDice"));
 }
 
-void Player::setDice(std::string type) { 
-  dice = type; 
+void Player::setDice(std::string type) {
+  dice = type;
   std::cout << "Switches to " << type << " dice." << std::endl;
-} 
+}
 
 Dice *Player::getDice() {
   if (dice == "fair") {
@@ -39,7 +39,6 @@ int Player::rollDice() {
   }
   return retval;
 }
-
 
 void Player::pointIncrement() { ++buildpoints; }
 void Player::modifyResources(std::string type, int amount) {
@@ -79,7 +78,7 @@ std::string Player::getColor() { return color; }
 
 void Player::setColor(std::string color) { this->color = color; }
 
-void Player::setResource (std::vector<std::pair<std::string, int>> &r) {
+void Player::setResource(std::vector<std::pair<std::string, int>> &r) {
   resources.clear();
   resources = r;
 }
@@ -90,7 +89,6 @@ void Player::setseed(size_t seed) {
   for (auto &&i : d) {
     i->setseed(seed);
   }
-  
 }
 
 bool Player::attempbuild(int x, char type) {
@@ -146,12 +144,13 @@ bool Player::attempbuild(int x, char type) {
 }
 
 void Player::loseHalf() {
+  std::vector<std::pair<std::string, int>> Oldresources = resources;
   int total = getTotal();
   if (total >= 10) {
     total /= 2;
     std::cout << "Builder " << getColor() << " loses " << total
               << " resources to the geese. They lose:" << std::endl;
-    while (total > 0) {     // make sure the sum of deduction is half
+    while (total > 0) { // make sure the sum of deduction is half
       for (auto &i : resources) {
         int max = total;
         if (i.second < total) {
@@ -160,14 +159,21 @@ void Player::loseHalf() {
         std::uniform_int_distribution<> distr(0, max); // define the range
         int lose = distr(rng);
         modifyResources(i.first, -lose); // generate number and modify
-        std::cout << lose << " " << i.first << std::endl;
         total -= lose;
         if (total <= 0) { // half has been deducted
           return;
         }
       } // for
     }   // while
-  }     // if
+    // print the total lose of each resource
+    int idx = 0;
+    for (auto &i : resources) {
+      int change = (Oldresources[idx].second) - (i.second);
+      if (change != 0) { // losed some resources of this type
+        std::cout << change << " " << i.first << std::endl;
+      }
+    } // for
+  }   // if
 }
 
 bool Player::belongs(int x, char type) {
@@ -211,7 +217,7 @@ bool Player::upgradeResidence(int x) {
       } else if (i.second == 'B') {
         // if has enough resource
         if (attempbuild(x, 'H')) {
-          buildpoints--;                   // since one basement delete  
+          buildpoints--;         // since one basement delete
           residences.pop_back(); // do not add this residence
           for (auto &i : residences) {
             if (i.first == x) {
@@ -223,9 +229,9 @@ bool Player::upgradeResidence(int x) {
           return true;
         }
       } else if (i.second == 'H') {
-        if (attempbuild(x, 'T')) {            // point += 3
-          buildpoints -= 2;                   // since one house deleted
-          residences.pop_back(); // do not add this residence
+        if (attempbuild(x, 'T')) { // point += 3
+          buildpoints -= 2;        // since one house deleted
+          residences.pop_back();   // do not add this residence
           for (auto &i : residences) {
             if (i.first == x) {
               if (i.second == 'H') {
@@ -264,7 +270,8 @@ void Player::award(int x, std::string type) {
 void Player::printData(std::ostream &out) {
   out << resources[0].second << " " << resources[1].second << " ";
   out << resources[2].second << " " << resources[3].second << " ";
-  out << resources[4].second << " " << "r ";
+  out << resources[4].second << " "
+      << "r ";
   for (auto p : roads) {
     out << p << " ";
   }
@@ -279,10 +286,11 @@ void Player::printData(std::ostream &out) {
 }
 
 std::string Player::loseOneResourceRandomly() {
-  std::vector<int> hasResource; // store the index of resource that builder has num > 0
+  std::vector<int>
+      hasResource; // store the index of resource that builder has num > 0
   int idx = 0;
-  for(auto &i: resources) {
-    if(i.second > 0) { // player has this resource
+  for (auto &i : resources) {
+    if (i.second > 0) { // player has this resource
       hasResource.push_back(idx);
     }
     idx++;
