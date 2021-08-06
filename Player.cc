@@ -161,20 +161,21 @@ void Player::loseHalf() {
         modifyResources(i.first, -lose); // generate number and modify
         total -= lose;
         if (total <= 0) { // half has been deducted
+          // print the total lose of each resource
+          int idx = 0;
+          for (auto &i : resources) {
+            int change = (Oldresources[idx].second) - (i.second);
+            if (change != 0) { // losed some resources of this type
+              std::cout << change << " " << i.first << std::endl;
+            }
+            idx++;
+          } 
+
           return;
         }
       } // for
     }   // while
-    // print the total lose of each resource
-    int idx = 0;
-    for (auto &i : resources) {
-      int change = (Oldresources[idx].second) - (i.second);
-      if (change != 0) { // losed some resources of this type
-        std::cout << change << " " << i.first << std::endl;
-      }
-      idx++;
-    } // for
-  }   // if
+  } // if
 }
 
 bool Player::belongs(int x, char type) {
