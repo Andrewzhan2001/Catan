@@ -119,12 +119,16 @@ bool humanPlayer::chooseBasementToBuild(Board *board) {
     if (temp >= board->getVertexNum() || temp < 0) {
       std::cout << "Invalid residence number!";
       std::cout << "You cannot build here." << std::endl;
-    } else if (!(board->canBuild(getColor()[0], temp, "Basement"))) {
-      std::cout << "You cannot build here." << std::endl;
-    } else if (!(attempbuild(temp, 'B'))) {
-      std::cout << "You do not have enough resources." << std::endl;
     } else {
-      board->create(getColor()[0], temp, "Basement");
+      if (!(board->canBuild(getColor()[0], temp, "Basement"))) {
+        std::cout << "You cannot build here." << std::endl;
+      } else {
+        if (!(attempbuild(temp, 'B'))) {
+          std::cout << "You do not have enough resources." << std::endl;
+        } else {
+          board->create(getColor()[0], temp, "Basement");
+        }
+      }
     }
     return true;
   }

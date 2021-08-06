@@ -64,7 +64,7 @@ bool Controller::play() {
           return false;
         }
       } else if (cmd == "build-res") {
-        if (!(gm->buildRoad())) {
+        if (!(gm->buildBasement())) {
           saveFile();
           return false;
         }
