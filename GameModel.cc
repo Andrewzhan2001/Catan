@@ -59,7 +59,7 @@ void GameModel::setSeed(size_t n) {
   this->seed = n;
   rng = std::default_random_engine{n};
   for (auto &&i : players) {
-    i->setseed(std::chrono::system_clock::now().time_since_epoch().count());
+    i->setseed(n);
   }
   
 }

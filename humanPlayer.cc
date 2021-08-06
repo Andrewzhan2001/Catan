@@ -10,7 +10,7 @@ bool humanPlayer::chooseBasement(int& n, Board *board) {
         return false;
       }
       std::cout << "Not an integer!" << std::endl;
-      std::cout << "Please input an intger: ";
+      std::cout << "Please input an integer: ";
       std::cin.clear();
       std::cin.ignore();
     } else {
@@ -152,6 +152,8 @@ bool humanPlayer::chooseBasementToUpgrade(Board *board) {
       std::cout << "You cannot upgrade buildings here." << std::endl;
     } else if (upgradeResidence(temp)) {
       board->upgradeLevel(getColor()[0], temp);
+    } else {
+      std::cout << "Do not have enough resource" << std::endl;
     }
     return true;
   }
