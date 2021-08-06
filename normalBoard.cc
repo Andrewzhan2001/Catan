@@ -178,3 +178,29 @@ bool normalBoard::canBuild(char color, int x, std::string type) {
       out << i << endl;
     }
   }
+
+
+void normalBoard::saveBoard(std::ostream &out) {
+  for (int i = 0; i < tiles.size(); ++i) {
+    Tile *t = tiles[i].get();
+    std::string r = t->getResource();
+    if (r == "BRICK") {
+      out << "0";
+    } else if (r == "ENERGY") {
+      out << "1";
+    } else if (r == "GLASS") {
+      out << "2";
+    } else if (r == "HEAT") {
+      out << "3";
+    } else if (r == "WIFI") {
+      out << "4";
+    } else if (r == "PARK") {
+      out << "5";
+    }
+    out << " ";
+    out << t->getValue();
+    if (i != tiles.size() - 1) {
+      out << " ";
+    }
+  }
+} 

@@ -110,3 +110,4 @@ void Board::upgradeLevel(char color, int x) {
     }
   }
 }
+

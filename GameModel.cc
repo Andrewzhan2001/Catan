@@ -340,11 +340,14 @@ bool GameModel::ifWin() {
 
 void GameModel::saveFile(std::string filename) {
   std::ofstream fout(filename);
-  fout << currentTurn << std::endl;
+  fout << getCurPlayer()->getColor() << std::endl;
   for (auto &p : players) {
     p->printData(fout);
     fout << std::endl;
   }
+  b->saveBoard(fout);
+  fout << std::endl;
+  fout << b->getGeese() << std::endl;
   fout.close();
 }
 
