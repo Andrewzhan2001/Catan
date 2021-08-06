@@ -1,16 +1,10 @@
 #ifndef GAMEFRAME
 #define GAMEFRAME
-#include <iostream>
-#include <string>
-#include <vector>
-#include <map>
-#include <set>
 class GameModel;
 
-class GameFrame{
-
-
- public:
-  void printboard(GameModel *gm);
+class GameFrame {
+public:
+	static void printboard(const GameModel* gm);
+	static void printhelp();
 };
 #endif

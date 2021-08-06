@@ -1,18 +1,16 @@
-#include <iostream>
 #include <random>
 #include <algorithm>
 #include "FairDice.h"
-#include "Dice.h"
 using namespace std;
 
-FairDice::~FairDice(){}
+FairDice::~FairDice() = default;
 
 void FairDice::setseed(size_t seed) {
-  this->seed = seed;
-  this->rng = default_random_engine{seed};
+	this->seed = seed;
+	this->rng = default_random_engine{ seed };
 }
 
-int FairDice::getNum(){
-  shuffle(numbers.begin(), numbers.end(), rng);
-  return numbers[0];
+int FairDice::getNum() {
+	shuffle(numbers.begin(), numbers.end(), rng);
+	return numbers[0];
 }

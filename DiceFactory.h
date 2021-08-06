@@ -1,17 +1,12 @@
 #ifndef DICEFACTORY
 #define DICEFACTORY
-#include <iostream>
 #include <string>
-#include <vector>
-#include <map>
-#include <set>
 #include <memory>
 
 class Dice;
 
-class DiceFactory{
-  
- public:
-  std::unique_ptr<Dice> createObject(std::string objectType);
+class DiceFactory {
+public:
+	static std::unique_ptr<Dice> createObject(const std::string& object_type);
 };
 #endif
