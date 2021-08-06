@@ -4,6 +4,7 @@
 #include "vector"
 
 using namespace std;
+computerPlayer::~computerPlayer(){}
 
 // 一开始的时候用
 bool computerPlayer::chooseBasement(int& n, Board *board) {
@@ -145,9 +146,9 @@ bool computerPlayer::chooseCommand(std::string &cmd) {
     commands.push_back("board");
     commands.push_back("status");
     commands.push_back("residences");
-    commands.push_back("build-road");
     commands.push_back("build-res");
     commands.push_back("improve");
+    commands.push_back("build-road");
     commands.push_back("next");
   }
   cmd = commands[0];

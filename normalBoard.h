@@ -17,6 +17,7 @@ void resettemp();// reset to all blank
 void OutputTile(int x, int y, std::vector<std::string> tilegraph);
  public:
 normalBoard();
+~normalBoard();
 bool validVertex(int x) override;
 bool validRoad(int x) override;
 bool canBuild(char color, int x, std::string type) override;

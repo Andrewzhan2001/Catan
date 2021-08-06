@@ -15,6 +15,7 @@ class Board {
   std::vector<std::unique_ptr<Tile>> tiles;
   bool notOccupied(std::string type, int x);// check whether vertex/road is occupied by other
  public:
+   virtual ~Board();
    // get number of tiles
    int getTileNum();
    int getRoadNum();

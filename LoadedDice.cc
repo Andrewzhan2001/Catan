@@ -5,6 +5,7 @@
 #include "Dice.h"
 using namespace std;
 
+LoadedDice::~LoadedDice(){}
 
 int LoadedDice::getNum(){
   while (true) {

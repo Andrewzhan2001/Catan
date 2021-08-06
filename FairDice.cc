@@ -5,6 +5,8 @@
 #include "Dice.h"
 using namespace std;
 
+FairDice::~FairDice(){}
+
 void FairDice::setseed(size_t seed) {
   this->seed = seed;
   this->rng = default_random_engine{seed};

@@ -2,6 +2,8 @@
 #include "Board.h"
 #include <algorithm>
 
+humanPlayer::~humanPlayer(){}
+
 bool humanPlayer::chooseBasement(int& n, Board *board) {
   int temp = -1;
   while (true) {

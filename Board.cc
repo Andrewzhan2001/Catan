@@ -3,6 +3,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+Board::~Board(){}
 
 int Board::getTileNum() { return tiles.size(); }
 

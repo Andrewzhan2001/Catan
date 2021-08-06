@@ -4,6 +4,8 @@
 #include <string>
 #include <random>
 #include <algorithm>
+Player::~Player(){}
+
 Player::Player()
     : buildpoints{0}, color{""}, resources{{{"BRICK", 10},
                                             {"ENERGY", 10},

@@ -3,6 +3,8 @@
 #include "Tile.h"
 using namespace std;
 
+normalBoard::~normalBoard(){} 
+
 normalBoard::normalBoard() : Board{} {
   for (int i = 0; i <= 53; i++) {
     if (i < 10) {
@@ -181,7 +183,7 @@ bool normalBoard::canBuild(char color, int x, std::string type) {
 
 
 void normalBoard::saveBoard(std::ostream &out) {
-  for (int i = 0; i < tiles.size(); ++i) {
+  for (size_t i = 0; i < tiles.size(); ++i) {
     Tile *t = tiles[i].get();
     std::string r = t->getResource();
     if (r == "BRICK") {

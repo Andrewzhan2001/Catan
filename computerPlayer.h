@@ -15,6 +15,7 @@ class computerPlayer : public Player{
   std::vector<std::string> resources;
   std::vector<std::string> commands;
  public:
+ ~computerPlayer();
  // for all funcitons below, if there are no valid choice then return false
  // and n stay the same as insert, otherwise return true and modify n.
   bool chooseBasement(int& n, Board *board) override;

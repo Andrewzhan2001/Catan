@@ -25,6 +25,7 @@ protected:
   std::default_random_engine rng{seed};
 public:   
   Player();
+  virtual ~Player();
   void setDice(std::string type);
   int rollDice();
   void pointIncrement();

@@ -11,6 +11,7 @@
 class humanPlayer : public Player{
 
  public:
+  ~humanPlayer();
   bool chooseBasement(int& n, Board *board) override;
   bool chooseTile(int &n, Board *board) override;
   bool chooseColor(std::string &cmd, std::vector<std::string> v) override;
