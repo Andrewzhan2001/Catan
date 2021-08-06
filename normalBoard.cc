@@ -69,7 +69,6 @@ bool normalBoard::validRoad(int x) {
 
 bool normalBoard::canBuild(char color, int x, std::string type) {
   bool meet = false;
-  int emptyvertex = 0;
   std::vector<int> all_tile = findTile("edge", x); // all tiles that have edge x
   if ((type == "Road") && (validRoad(x))) {
     // find all adjacent vertex: at most two adjacent vertexs for one edge
@@ -79,8 +78,6 @@ bool normalBoard::canBuild(char color, int x, std::string type) {
       if (!notOccupied("vertex", i)) { // if adjacent vertex is occupied
         // true if it's occupied by the same builder
         meet = (vertex[i][0] == color);
-      } else {
-        emptyvertex = i;
       }
     }
     if (meet) {

@@ -125,6 +125,7 @@ bool Controller::play() {
       }
     }
   }
+  cout << gm->getCurColor() << "Win ^:^ !!!" << endl;
   cout << "Would you like to play again? (yes/ other answers will exit)" << endl;
   std::string cmd2;
   // if computer mod, let human choose whether to start again
