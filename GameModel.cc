@@ -30,7 +30,6 @@ GameModel::GameModel(std::string player) : number{ 4 } {
 	b = BoardFactory::createObject("normalBoard");
 }
 
-int GameModel::getNum() const { return number; }
 
 int GameModel::getCurrentTurn() const { return currentTurn; }
 
@@ -172,18 +171,6 @@ bool GameModel::buildBasement() {
 	return cur->chooseBasementToBuild(getBoard());
 }
 
-/* void GameModel::create(int x, std::string type) {
-  Player *cur = getPlayer(currentTurn);
-  std::string col = cur->getColor();
-  if (!(b->canBuild(currentTurn, x, type))) {
-	std::cout << "You cannot build here!" << std::endl;
-  } else {
-	if (cur->attempbuild(x, type[0])) {
-	  b->create(col[0], x, type);
-	}
-  }
-} */
-
 bool GameModel::upgrade() {
 	Player* cur = getCurPlayer();
 	return cur->chooseBasementToUpgrade(getBoard());
@@ -257,11 +244,6 @@ void GameModel::update() {
 	}
 	else {
 		const std::vector<std::pair<std::string, int>> neighbours = b->getResidences(diceNum);
-		/*for (auto n : neighbours) {
-		  std::cout << n.first << std::endl;
-		  std::cout << n.second << std::endl;
-		}
-		std::cout << std::endl; */
 		for (auto n : neighbours) {
 			for (auto& p : players) {
 				if (p->belongs(n.second, 'B')) {

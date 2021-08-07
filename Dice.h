@@ -1,6 +1,8 @@
 #ifndef DICE
 #define DICE
 
+#include <cstddef>
+
 class Dice {
 public:
 	virtual ~Dice();

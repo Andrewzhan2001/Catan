@@ -1,2 +1,2 @@
-Controller.o: Controller.cc SetBoardStrategy.h Controller.h GameModel.h \
- Board.h Tile.h Dice.h Player.h
+Controller.o: Controller.cc Controller.h GameModel.h Board.h Tile.h \
+ Player.h Dice.h GameFrame.h SetBoardStrategy.h

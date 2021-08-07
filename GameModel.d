@@ -1,2 +1,2 @@
-GameModel.o: GameModel.cc GameModel.h Board.h Tile.h Dice.h Player.h \
- PlayerFactory.h humanPlayer.h BoardFactory.h DiceFactory.h
+GameModel.o: GameModel.cc GameModel.h Board.h Tile.h Player.h Dice.h \
+ BoardFactory.h humanPlayer.h PlayerFactory.h
