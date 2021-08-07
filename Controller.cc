@@ -91,20 +91,6 @@ bool Controller::play() const
 				std::string color;
 				std::string give;
 				std::string take;
-				/* std::vector<std::string> v;
-				 for (int i = 0; i < gm->getNum(); ++i) {
-				   if (i != gm->getCurrentTurn()) {
-					 v.emplace_back(gm->getPlayer(i)->getColor());
-				   }
-				 }
-				 cout << "Player " << gm->getCurPlayer()->getColor();
-				 cout << " could choose from [";
-				 for (unsigned int j = 0; j < v.size(); ++j) {
-				   cout << gm->getPlayer(j)->getColor();
-				   if (j != v.size() - 1);
-				   cout << ",";
-				 }
-				 cout << "]" << endl; */
 				if (!(gm->getCurPlayer()->chooseToExchange(color, give, take))) {
 					saveFile();
 					return false;
