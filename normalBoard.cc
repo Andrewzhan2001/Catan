@@ -141,6 +141,8 @@ std::vector<std::pair<std::string, int>> normalBoard::getResidences(int x) {
 	return result;
 }
 
+
+
 void normalBoard::resettemp() {
 	for (int i = 0; i < 41; i++) {
 		temp[i].assign(60, ' ');

@@ -26,17 +26,18 @@ int main(int argc, char const* argv[]) {
 				command.emplace_back(first, second);
 			}
 		}
-
+		
 		unique_ptr<Controller> ctr;
 		// use find_if to find specific command in the vector
 
 		// here is for player options
 		auto it = find_if(command.begin(), command.end(),
-			[](const pair<string, string>& element) { return element.first == "-computerAuto"; });
+			[](const pair<string, string>& element){ return element.first == "-computerAuto"; });
 		if (it != command.end()) {
 			ctr = make_unique<Controller>("computerAuto");
 		}
 		else {
+			// if computerAuto not fount, check computer(bonus)
 			it = find_if(command.begin(), command.end(),
 				[](const pair<string, string>& element) { return element.first == "-computer"; });
 			if (it != command.end()) {
@@ -46,15 +47,17 @@ int main(int argc, char const* argv[]) {
 				ctr = make_unique<Controller>("human");
 			}
 		}
-
+		// set seed of this game
 		it = find_if(command.begin(), command.end(),
 			[](const pair<string, string>& element) { return element.first == "-seed"; });
 		if (it != command.end()) {
 			ctr->setseed(stoi(it->second));
 		}
 		else {
+			// if command line do not set seed, set random seed to game
 			ctr->setseed(chrono::system_clock::now().time_since_epoch().count());
 		}
+		// check -load first
 		it = find_if(command.begin(), command.end(),
 			[](const pair<string, string>& element) { return element.first == "-load"; });
 		if (it != command.end()) {
@@ -76,7 +79,7 @@ int main(int argc, char const* argv[]) {
 				}
 			}
 			else {
-				// if both command not found, default randomboard
+				// if both command not find, check randomboard
 				it = find_if(command.begin(), command.end(),
 					[](const pair<string, string>& element) { return element.first == "-random-board"; });
 				if (it != command.end()) {
@@ -84,6 +87,7 @@ int main(int argc, char const* argv[]) {
 					ctr->loadStrategy(rl.get());
 				}
 				else {
+					// if all three not find, use layout.txt to set board.
 					auto fb = make_unique<loadFromBoard>("layout.txt");
 					const bool check = ctr->loadStrategy(fb.get());
 					if (check == false) {

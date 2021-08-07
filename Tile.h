@@ -32,6 +32,7 @@ public:
 	// if type is vertex/edge, check if it has vertex/edge index
 	bool has(const std::string& type, int index);
 
+	// output the graph of this tile as a list of string(2d graph)
 	std::vector<std::string> printTile(const std::vector<std::string>& vertexs,
 	                                   std::vector<std::string> edges);
 

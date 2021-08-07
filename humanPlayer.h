@@ -13,7 +13,8 @@ public:
 	bool chooseRoadToBuild(Board* board) override;
 	bool chooseBasementToBuild(Board* board) override;
 	bool answer(std::string& cmd) override;
-	bool chooseToExchange(std::string& col, std::string& type1, std::string& type2) override;
+	bool chooseToExchange(std::string& col, std::string& type1, 
+		                                    std::string& type2) override;
 	bool chooseCommand(std::string& cmd) override;
 	bool chooseBasementToUpgrade(Board* board) override;
 };

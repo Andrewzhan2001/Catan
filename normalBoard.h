@@ -7,7 +7,7 @@
 #include "Board.h"
 
 class normalBoard : public Board {
-	std::vector<std::string> temp; // just use to temporary store printing staff
+	std::vector<std::string> temp; //just use to temporary store printing staff
 	void resettemp();// reset to all blank
 
 	// put each tile at specific location in temp

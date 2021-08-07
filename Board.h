@@ -12,7 +12,8 @@ protected:
 	std::vector<std::string> vertex;
 	std::vector<std::string> edge;
 	std::vector<std::unique_ptr<Tile>> tiles;
-	bool notOccupied(std::string type, int x);// check whether vertex/road is occupied by other
+	// check whether vertex/road is occupied by other
+	bool notOccupied(std::string type, int x);
 public:
 	virtual ~Board();
 	// get number of tiles
@@ -64,6 +65,7 @@ public:
 	//  will be awarded for this location
 	virtual std::vector<std::pair<std::string, int>> getResidences(int x) = 0;
 
+	// print this board to out
 	virtual void printBoard(std::ostream& out) = 0;
 	virtual void saveBoard(std::ostream& out) = 0;
 };

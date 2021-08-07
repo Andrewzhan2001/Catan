@@ -85,7 +85,8 @@ public:
 	// answer yes or no
 	virtual bool answer(std::string& cmd) = 0;
 	// choose a kind of resource
-	virtual bool chooseToExchange(std::string& col, std::string& type1, std::string& type2) = 0;
+	virtual bool chooseToExchange(std::string& col, std::string& type1, 
+		                                            std::string& type2) = 0;
 	// choose a kind of command
 	virtual bool chooseCommand(std::string& cmd) = 0;
 	// choose a player's index

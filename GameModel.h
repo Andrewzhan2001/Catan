@@ -45,6 +45,7 @@ public:
 	bool ifWin();
 	// void printData();
 	void saveFile(std::string filename = "backup.sv");
+	// print the board to cout
 	void printBoard() const;
 };
 #endif
