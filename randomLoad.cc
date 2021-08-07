@@ -31,8 +31,6 @@ bool randomLoad::loadBoard(GameModel* gm) {
 	const int index = it - resources.begin();
 	b->setTile(index, *it, 7);
 	b->setGeeseOnTile(index);
-	// remove park from resources since already set
-	/* resources.erase(resources.begin() + index); */
 	// set the other 18 tiles
 	for (int i = 0, k = 0; i < 19; i++, k++) {
 		if (i != index) {

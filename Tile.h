@@ -28,14 +28,11 @@ public:
 	std::vector<int> vertexAdjacentVertex(int vertexIndex);
 	// return all adjacent edge of edge i
 	std::vector<int> edgeAdjacentEdge(int edgeIndex);
-	// check whether the tile has type at index
-	// if type is vertex/edge, check if it has vertex/edge index
+	// check whether the tile has vertex/edge at index
 	bool has(const std::string& type, int index);
-
 	// output the graph of this tile as a list of string(2d graph)
 	std::vector<std::string> printTile(const std::vector<std::string>& vertexs,
 	                                   std::vector<std::string> edges);
-
 	friend class Board;
 };
 #endif

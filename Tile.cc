@@ -104,9 +104,6 @@ bool Tile::has(const std::string& type, int index) {
 	else if (type == "edge") {
 		retval = (find(edge.begin(), edge.end(), index) != edge.end());
 	}
-	else {
-		std::cerr << "wrong use of has function" << std::endl;
-	}
 	return retval;
 }
 

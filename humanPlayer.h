@@ -7,6 +7,9 @@
 class humanPlayer : public Player {
 public:
 	~humanPlayer() override;
+	// for all funcitons below, read the player's choice from input, 
+	// if their input is not vaild, output needed messages then return false
+	// and n stay the same as insert, otherwise return true and modify n.
 	bool chooseBasement(int& n, Board* board) override;
 	bool chooseTile(int& n, Board* board) override;
 	bool chooseColor(std::string& cmd, std::vector<std::string> v) override;

@@ -18,6 +18,7 @@ bool computerPlayer::chooseBasement(int& n, Board* board) {
 	}
 	shuffle(vertex.begin(), vertex.end(), rng);
 	for (auto&& i : vertex) {
+		// find a vaild vertex 
 		if (board->validVertex(i)) {
 			n = i;
 			return true;
@@ -38,7 +39,7 @@ bool computerPlayer::chooseTile(int& n, Board* board) {
 		}
 	}
 	shuffle(tiles.begin(), tiles.end(), rng);
-	for (auto&& i : tiles) {
+	for (auto&& i : tiles) {         
 		if (!board->haveGeese(i)) {
 			n = i;
 			return true;
@@ -125,6 +126,7 @@ bool computerPlayer::chooseBasementToUpgrade(Board* board) {
 	}
 	shuffle(vertex.begin(), vertex.end(), rng);
 	for (auto&& i : vertex) {
+		// upgrade if find any residence that can be upgrade
 		if (board->canUpgrade(getColor()[0], i) &&
 			upgradeResidence(i)) {
 			board->upgradeLevel(getColor()[0], i);

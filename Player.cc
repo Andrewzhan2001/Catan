@@ -283,8 +283,6 @@ void Player::award(int x, const std::string type) {
 			return;
 		}
 	}
-	// for debug:
-	std::cout << "no residence build at " << x << std::endl;
 }
 
 void Player::printData(std::ostream& out) {

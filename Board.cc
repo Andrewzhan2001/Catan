@@ -59,10 +59,6 @@ bool Board::notOccupied(std::string type, int x) {
 	else if (type == "edge") {
 		retval = (edge[x] == original);
 	}
-	else {
-		std::cout << "parameter type: " << type << std::endl;
-		std::cerr << "invalid parameter of notOccupied function" << std::endl;
-	}
 	return retval;
 }
 

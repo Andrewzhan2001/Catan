@@ -22,8 +22,6 @@ bool Setfromfile::loadBoard(GameModel* bm) {
 	int lineNum = 1;
 	std::string line;
 	while (std::getline(infile, line)) {
-		// note this version is only for 4 players, needs to add countlines function
-		// for extra builders
 		std::istringstream ss{ line };
 		if (lineNum == 1) {
 			ss >> CurTurn;

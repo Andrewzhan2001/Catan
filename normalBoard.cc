@@ -7,6 +7,7 @@ using namespace std;
 normalBoard::~normalBoard() = default;
 
 normalBoard::normalBoard() : Board{} {
+	// initialize the vertex/edge as their index
 	for (int i = 0; i <= 53; i++) {
 		if (i < 10) {
 			string space = " " + to_string(i);
