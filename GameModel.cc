@@ -333,7 +333,7 @@ bool GameModel::ifWin() {
 
 void GameModel::saveFile(std::string filename) {
 	std::ofstream fout(filename);
-	fout << getCurPlayer()->getColor() << std::endl;
+	fout << getPlayerNum(getCurColor()) << std::endl;
 	for (auto& p : players) {
 		p->printData(fout);
 		fout << std::endl;
