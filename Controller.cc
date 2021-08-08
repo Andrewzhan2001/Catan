@@ -50,7 +50,7 @@ bool Controller::play() const
 				break;
 			}
 			else {
-				cout << "Invalid command." << endl;
+				cout << "Invalid Command." << endl;
 			}
 		}
 		gm->update();

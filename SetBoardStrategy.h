@@ -11,6 +11,7 @@ protected:
 public:
 	virtual ~SetBoardStrategy() = default;
 	SetBoardStrategy();
+	// load the game to GameModel which contians all players, board, dices.
 	virtual bool loadBoard(GameModel* gm) = 0;
 };
 #endif

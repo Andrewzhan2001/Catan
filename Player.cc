@@ -10,11 +10,11 @@
 Player::~Player() {}
 
 Player::Player()
-	: buildpoints{ 0 }, color{ "" }, resources{ {{"BRICK", 10},
-													{"ENERGY", 10},
-													{"GLASS", 10},
-													{"HEAT", 10},
-													{"WIFI", 10}} },
+	: buildpoints{ 0 }, color{ "" }, resources{ {{"BRICK", 0},
+													{"ENERGY", 0},
+													{"GLASS", 0},
+													{"HEAT", 0},
+													{"WIFI", 0}} },
 	roads{}, residences{}, dice{ "load" } {
 	d.emplace_back(DiceFactory::createObject("FairDice"));
 	d.emplace_back(DiceFactory::createObject("LoadedDice"));
@@ -263,8 +263,6 @@ bool Player::upgradeResidence(int x) {
 			break;
 		}
 	}
-	// for debug: doesn't find location x
-	std::cout << "Invalid location" << std::endl;
 	return false;
 }
 

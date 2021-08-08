@@ -24,8 +24,7 @@ bool computerPlayer::chooseBasement(int& n, Board* board) {
 			return true;
 		}
 	}
-	cout << "computer can not choose anything" << endl;
-	return false;
+	return true;
 }
 
 bool computerPlayer::chooseTile(int& n, Board* board) {
@@ -45,8 +44,7 @@ bool computerPlayer::chooseTile(int& n, Board* board) {
 			return true;
 		}
 	}
-	cout << "computer can not choose anything" << endl;
-	return false;
+	return true;
 }
 
 bool computerPlayer::chooseColor(std::string& color, std::vector<std::string> v) {
@@ -77,7 +75,6 @@ bool computerPlayer::chooseRoadToBuild(Board* board) {
 			return true;
 		}
 	}
-	cout << "computer can not choose anything" << endl;
 	return true;
 }
 
@@ -99,7 +96,6 @@ bool computerPlayer::chooseBasementToBuild(Board* board) {
 			return true;
 		}
 	}
-	cout << "computer can not choose anything" << endl;
 	return true;
 }
 
@@ -133,7 +129,6 @@ bool computerPlayer::chooseBasementToUpgrade(Board* board) {
 			return true;
 		}
 	}
-	cout << "computer can not choose anything" << endl;
 	return true;
 }
 bool computerPlayer::chooseToExchange(std::string& col, std::string& type1, std::string& type2) { return true; }
