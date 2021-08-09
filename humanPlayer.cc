@@ -95,14 +95,17 @@ bool humanPlayer::chooseRoadToBuild(Board* board) {
 		if (std::cin.eof()) {
 			return false;
 		}
-		std::cout << "You do not enter an integer as road!" << std::endl;
+		std::cout << "You do not enter an integer as a road!" << std::endl;
 		std::cin.clear();
 		std::cin.ignore();
 		return true;
 	}
 	else {
 		if (temp >= board->getRoadNum() || temp < 0) {
-			std::cout << "Invalid road number!You cannot build here." << std::endl;
+			std::cout << "Road number ";
+			std::cout << temp;
+	        std::cout << " is not in range!"; 
+			std::cout << "You cannot build here." << std::endl;
 		}
 		else if (!(board->canBuild(getColor()[0], temp, "Road"))) {
 			std::cout << "You cannot build here." << std::endl;
@@ -123,14 +126,16 @@ bool humanPlayer::chooseBasementToBuild(Board* board) {
 		if (std::cin.eof()) {
 			return false;
 		}
-		std::cout << "You do not enter an integer as basement!" << std::endl;
+		std::cout << "You do not enter an integer as a basement!" << std::endl;
 		std::cin.clear();
 		std::cin.ignore();
 		return true;
 	}
 	else {
 		if (temp >= board->getVertexNum() || temp < 0) {
-			std::cout << "Invalid residence number!";
+			std::cout << "Basement number ";
+			std::cout << temp;
+			std::cout << " is not in range!";
 			std::cout << "You cannot build here." << std::endl;
 		}
 		else {
@@ -156,15 +161,17 @@ bool humanPlayer::chooseBasementToUpgrade(Board* board) {
 		if (std::cin.eof()) {
 			return false;
 		}
-		std::cout << "You do not enter an integer as basement!" << std::endl;
+		std::cout << "You do not enter an integer as a basement!" << std::endl;
 		std::cin.clear();
 		std::cin.ignore();
 		return true;
 	}
 	else {
 		if (temp >= board->getVertexNum() || temp < 0) {
-			std::cout << "Invalid residence number!";
-			std::cout << "You cannot build here." << std::endl;
+			std::cout << "Basement number ";
+			std::cout << temp; 
+			std::cout << " is not in range!";
+			std::cout << "You cannot upgrade here." << std::endl;
 		}
 		else if (!(board->canUpgrade(getColor()[0], temp))) {
 			std::cout << "You cannot upgrade buildings here." << std::endl;
@@ -173,7 +180,7 @@ bool humanPlayer::chooseBasementToUpgrade(Board* board) {
 			board->upgradeLevel(getColor()[0], temp);
 		}
 		else {
-			std::cout << "Do not have enough resource" << std::endl;
+			std::cout << "You do not have enough resources." << std::endl;
 		}
 		return true;
 	}

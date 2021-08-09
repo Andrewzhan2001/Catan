@@ -237,7 +237,7 @@ void GameModel::update() {
 			getPlayer(currentTurn)->modifyResources(type, 1);
 			std::cout << "Builder ";
 			std::cout << getColor(currentTurn);
-			std::cout << " steals ";
+			std::cout << " steals a ";
 			std::cout << type << " from builder ";
 			std::cout << cmd << ".";
 		}
@@ -266,7 +266,8 @@ bool validType(std::string type1) {
 
 void GameModel::exchange(std::string color, std::string type1, std::string type2) {
 	if (color != "Blue" && color != "Red" && color != "Orange" && color != "Yellow") {
-		std::cout << "There is no player with color " << color << std::endl;
+		std::cout << "There is no player with color "; 
+		std::cout << color << "!" << std::endl;
 		return;
 	}
 	if (color == getCurColor()) {

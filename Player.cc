@@ -49,6 +49,7 @@ int Player::rollDice() {
 }
 
 void Player::pointIncrement() { ++buildpoints; }
+
 void Player::modifyResources(const std::string type, int amount) {
 	for (auto& it : resources) {
 		if (it.first == type) {
@@ -210,7 +211,7 @@ bool Player::belongs(int x, char type) {
 }
 
 void Player::printBuildings() {
-	std::cout << getColor() << " has built" << std::endl;
+	std::cout << getColor() << " has built:" << std::endl;
 	for (auto& i : residences) {
 		std::cout << i.first << " " << i.second << std::endl;
 	}
