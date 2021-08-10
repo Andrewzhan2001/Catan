@@ -13,7 +13,7 @@ bool Setfromfile::loadBoard(GameModel *bm) {
   Board *b = bm->getBoard();
   bm->setStarted(true);
   int CurTurn, numBricks, numEnergies, numGlass, numHeat, numWifi, road,
-      residence_idx, tile_resource, tile_value, geeseTile, buildingpoint = 0;
+      residence_idx, tile_resource, tile_value, geeseTile = 0;
   std::string r, residence_type;
   std::ifstream infile(file);
   if (!infile) {
@@ -28,6 +28,7 @@ bool Setfromfile::loadBoard(GameModel *bm) {
       ss >> CurTurn;
       bm->setTurn(CurTurn);
     } else if ((lineNum >= 2) && (lineNum <= 5)) { // builders data
+      int buildingpoint = 0;
       int builderNum = lineNum - 2;
       Player *builder = bm->getPlayer(builderNum);
       auto it = builders.find(builderNum);
