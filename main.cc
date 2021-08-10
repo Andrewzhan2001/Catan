@@ -96,6 +96,8 @@ int main(int argc, char const* argv[]) {
 				}
 			}
 		}
+		std::cout << "Initial Board:" << std::endl;
+		ctr->print();
 		state = ctr->play();
 	}
 	return 0;

@@ -32,8 +32,8 @@ bool Controller::play() const
 	if (!gm->getStarted()) {
 	  // at beginning of game, assign each player with two basements
 	  gm->initial();
+	  GameFrame::printboard(gm.get());
 	}
-	GameFrame::printboard(gm.get());
 	while (!gm->ifWin()) {
 		cout << "Builder " << gm->getCurColor() << "'s turn." << endl;
 		gm->printTurn();
