@@ -75,21 +75,6 @@ void GameModel::setStarted(bool started) {
 	ifStarted = started;
 }
 
-std::string getColor(int idx) {
-	if (idx == 0) {
-		return "Blue";
-	}
-	else if (idx == 1) {
-		return "Red";
-	}
-	else if (idx == 2) {
-		return "Orange";
-	}
-	else {
-		return "Yellow";
-	}
-}
-
 int getPlayerNum(std::string type) {
 	if (type == "Blue") {
 		return 0;
@@ -109,7 +94,7 @@ void GameModel::initial() {
 	int i = 0;
 	while (i < number) {
 		Player* cur = getPlayer(i);
-		std::string color = getColor(i);
+		std::string color = cur->getColor();
 		std::cout << "Builder " << color << ", ";
 		std::cout << "where do you want to build a basement?" << std::endl;
 		int n = -1;
@@ -128,7 +113,7 @@ void GameModel::initial() {
 	int j = 3;
 	while (j >= 0) {
 		Player* cur = getPlayer(j);
-		std::string color = getColor(j);
+		std::string color = cur->getColor();
 		std::cout << "Builder " << color << ", ";
 		std::cout << "where do you want to build a basement?" << std::endl;
 		int n = -1;
@@ -219,12 +204,12 @@ void GameModel::update() {
 		}
 		if (lists.empty()) {
 			std::cout << "Builder ";
-			std::cout << getColor(currentTurn);
+			std::cout << getCurPlayer()->getColor();
 			std::cout << " has no builders to steal from." << std::endl;
 		}
 		else {
 			std::cout << "Builder ";
-			std::cout << getColor(currentTurn);
+			std::cout << getCurPlayer()->getColor();
 			std::cout << " can choose to steal from [";
 			for (size_t i = 0; i < lists.size(); ++i) {
 				std::cout << lists[i];
@@ -242,7 +227,7 @@ void GameModel::update() {
 			const std::string type = getPlayer(getPlayerNum(cmd))->loseOneResourceRandomly();
 			getPlayer(currentTurn)->modifyResources(type, 1);
 			std::cout << "Builder ";
-			std::cout << getColor(currentTurn);
+			std::cout << getCurPlayer()->getColor();
 			std::cout << " steals a ";
 			std::cout << type << " from builder ";
 			std::cout << cmd << ".";
@@ -288,7 +273,7 @@ void GameModel::exchange(std::string color, std::string type1, std::string type2
 		std::cout << type2 << " is not a valid resource in this game!" << std::endl;
 		return;
 	}
-	std::cout << getColor(currentTurn);
+	std::cout << getCurPlayer()->getColor();
 	std::cout << " offers " << color;
 	std::cout << " one " << type1 << " for one " << type2 << "." << std::endl;
 	std::string cmd;
