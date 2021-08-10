@@ -40,6 +40,8 @@ public:
 	std::string getColor() const;
 	// sets the seed with given number
 	void setseed(size_t seed);
+	// set buildpoint
+	void setBuildPoints(int point);
 	// sets resources of the player
 	void setResource(const std::vector<std::pair<std::string, int>>& r);
 	// sets color of the player

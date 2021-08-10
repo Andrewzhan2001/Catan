@@ -25,6 +25,10 @@ void Player::setDice(std::string type) {
 	std::cout << "Switches to " << type << " dice." << std::endl;
 }
 
+void Player::setBuildPoints(int point) {
+	buildpoints = point;
+}
+
 Dice* Player::getDice() {
 	if (dice == "fair") {
 		return d[0].get();
