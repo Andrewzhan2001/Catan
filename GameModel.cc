@@ -9,7 +9,7 @@
 #include "humanPlayer.h"
 #include "PlayerFactory.h"
 
-GameModel::GameModel(std::string player) : number{ 4 } {
+GameModel::GameModel(std::string player) : number{ 4 }, ifStarted{ false } {
 	if (player == "computerAuto") {
 		for (int i = 0; i < 4; ++i) {
 			players.emplace_back(PlayerFactory::createObject("computerPlayer"));
@@ -57,6 +57,8 @@ Player* GameModel::getCurPlayer() {
 
 size_t GameModel::getSeed() const { return seed; }
 
+bool GameModel::getStarted() const { return ifStarted; }
+
 void GameModel::setSeed(size_t n) {
 	this->seed = n;
 	rng = std::default_random_engine{ n };
@@ -67,6 +69,10 @@ void GameModel::setSeed(size_t n) {
 
 void GameModel::setTurn(int turn) {
 	currentTurn = turn;
+}
+
+void GameModel::setStarted(bool started) {
+	ifStarted = started;
 }
 
 std::string getColor(int idx) {

@@ -17,7 +17,7 @@ class GameModel {
 	int currentTurn = 0;
 	// the dice number the current player rolls
 	int diceNum = 0;
-
+    bool ifStarted = false;
 public:
 	GameModel(std::string players); // constructor
 	// returns the number represents current turn
@@ -36,6 +36,10 @@ public:
 	Board* getBoard() const;
 	// gets seed 
 	size_t getSeed() const;
+	// gets ifStarted
+	bool getStarted() const;
+	// sets ifStarted fields
+	void setStarted(bool start);
 	// sets currentTurn with turn 
 	void setTurn(int turn);
 	// chooses two places for basement for each player

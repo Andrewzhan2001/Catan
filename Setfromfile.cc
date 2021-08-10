@@ -11,6 +11,7 @@ Setfromfile::Setfromfile(std::string file) :file{std::move(file)} {}
 
 bool Setfromfile::loadBoard(GameModel* bm) {
 	Board* b = bm->getBoard();
+	bm->setStarted(true);
 	int CurTurn, numBricks, numEnergies, numGlass, numHeat, numWifi, road,
 		residence_idx, tile_resource, tile_value, geeseTile;
 	std::string r, residence_type;

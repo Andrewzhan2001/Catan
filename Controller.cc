@@ -29,8 +29,10 @@ void Controller::saveFile(std::string filename) const
 
 bool Controller::play() const
 {
-	// at beginning of game, assign each player with two basements
-	gm->initial();
+	if (!gm->getStarted()) {
+	  // at beginning of game, assign each player with two basements
+	  gm->initial();
+	}
 	GameFrame::printboard(gm.get());
 	while (!gm->ifWin()) {
 		cout << "Builder " << gm->getCurColor() << "'s turn." << endl;
