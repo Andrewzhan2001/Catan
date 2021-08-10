@@ -62,8 +62,8 @@ bool GameModel::getStarted() const { return ifStarted; }
 void GameModel::setSeed(size_t n) {
 	this->seed = n;
 	rng = std::default_random_engine{ n };
-	for (auto&& i : players) {
-		i->setseed(n);
+	for (size_t i = 0; i < players.size(); ++i) {
+		players[i]->setseed(n + i);
 	}
 }
 

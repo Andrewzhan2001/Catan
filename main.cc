@@ -17,7 +17,7 @@ int main(int argc, char const* argv[]) {
 		vector<pair<string, string>> command;
 		for (int i = 1; i < argc; i++) { // add command to the vector of pairs
 			string first(argv[i]);
-			if (first == "-random-board" || first == "-computer" || first == "-computerAuto") {
+			if (first == "-random-board" || first == "-computer" ) {
 				command.emplace_back(first, "");
 			}
 			else if (first == "-seed" || first == "-load" || first == "-board") {
@@ -96,7 +96,6 @@ int main(int argc, char const* argv[]) {
 				}
 			}
 		}
-		ctr->print();
 		state = ctr->play();
 	}
 	return 0;

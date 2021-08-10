@@ -1,2 +1,5 @@
-﻿  computerPlayer.cc
+﻿  normalBoard.cc
+  Player.cc
+  Setfromfile.cc
+  Generating Code...
   final.vcxproj -> C:\Users\zhan\Desktop\c++\final project\cs246-0error\Debug\final.exe
