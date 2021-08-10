@@ -100,7 +100,6 @@ void GameModel::initial() {
 		int n = -1;
 		// reads in an integer as a vertex
 		if (!cur->chooseBasement(n, b.get())) {
-			saveFile();
 			return;
 		}
 		else {
@@ -119,7 +118,6 @@ void GameModel::initial() {
 		int n = -1;
 		// reads in an integer as a vertex
 		if (!cur->chooseBasement(n, b.get())) {
-			saveFile();
 			return;
 		}
 		else {
