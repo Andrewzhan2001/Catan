@@ -82,12 +82,18 @@ bool Controller::play() const
 					saveFile();
 					return false;
 				}
+				if (gm->ifWin()) {
+			       break;
+		        }
 			}
 			else if (cmd == "improve") {
 				if (!(gm->upgrade())) {
 					saveFile();
 					return false;
 				}
+				if (gm->ifWin()) {
+			       break;
+		        }
 			}
 			else if (cmd == "trade") {
 				std::string color;
