@@ -46,6 +46,10 @@ public:
 	void setResource(const std::vector<std::pair<std::string, int>>& r);
 	// sets color of the player
 	void setColor(std::string color);
+	// set residences
+	void setResidence(int x, char type);
+	// set road
+	void setRoad(int x);
 	// modifies the certain type of resources by given amounts
 	// If amount > 0, then awards the player;
 	// If amount < 0, then the player uses resourses;

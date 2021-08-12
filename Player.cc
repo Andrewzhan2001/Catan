@@ -104,6 +104,14 @@ void Player::setseed(size_t seed) {
 	}
 }
 
+void Player::setResidence(int x, char type) {
+	residences.push_back(std::make_pair(x, type));
+}
+
+void Player::setRoad(int x) {
+	roads.push_back(x);
+}
+
 bool Player::attempbuild(int x, char type) {
 	// store the buildingpoint that needs to be added, only add
 	// if has enough resource

@@ -53,6 +53,7 @@ bool Setfromfile::loadBoard(GameModel *bm) {
           ss.ignore();
           break;
         }
+        builder->setRoad(road);
         b->setEdge(road, color);
       }
       // set residence
@@ -66,6 +67,7 @@ bool Setfromfile::loadBoard(GameModel *bm) {
           buildingpoint += 3;
         }
         b->setVertex(residence_idx, color, residence_type);
+        builder->setResidence(residence_idx, residence_type[0]);
       }
       // set building points
       builder->setBuildPoints(buildingpoint);
