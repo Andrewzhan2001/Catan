@@ -1,0 +1,27 @@
+fair
+roll
+next
+load
+roll
+9
+next
+roll
+9
+board
+status
+residences
+build-road 22
+build-road 25
+build-road 18
+build-res 13
+build-res 14
+build-res 51
+next
+roll
+2
+board
+improve 30
+help
+trade Red BRICK ENERGY
+yes
+save temp.txt

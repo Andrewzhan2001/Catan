@@ -228,7 +228,7 @@ void GameModel::update() {
 			std::cout << getCurPlayer()->getColor();
 			std::cout << " steals a ";
 			std::cout << type << " from builder ";
-			std::cout << cmd << ".";
+			std::cout << cmd << "." << std::endl;
 		}
 	}
 	else {
