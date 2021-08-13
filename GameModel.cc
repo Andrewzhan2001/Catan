@@ -233,12 +233,70 @@ void GameModel::update() {
 	}
 	else {
 		const std::vector<std::pair<std::string, int>> neighbours = b->getResidences(diceNum);
+		if (neighbours.size() == 0) {
+			std::cout << "No builders gained resources." << std::endl;
+			return;
+		}
+		std::vector<std::vector<int>> original;
+		for (size_t i = 0; i < 4; ++i) {
+		  std::vector<int> r;
+		  r.emplace_back(getPlayer(i)->getResources("BRICK"));
+		  r.emplace_back(getPlayer(i)->getResources("ENERGY"));
+		  r.emplace_back(getPlayer(i)->getResources("GLASS"));
+		  r.emplace_back(getPlayer(i)->getResources("HEAT"));
+		  r.emplace_back(getPlayer(i)->getResources("WIFI"));
+		  original.emplace_back(r);
+		}
 		for (auto n : neighbours) {
 			for (auto& p : players) {
 				if (p->belongs(n.second, 'B')) {
 					p->award(n.second, n.first);
 				}
 			}
+		}
+		std::vector<std::vector<int>> after;
+		for (size_t i = 0; i < 4; ++i) {
+			std::vector<int> r;
+		    r.emplace_back(getPlayer(i)->getResources("BRICK"));
+		    r.emplace_back(getPlayer(i)->getResources("ENERGY"));
+		    r.emplace_back(getPlayer(i)->getResources("GLASS"));
+		    r.emplace_back(getPlayer(i)->getResources("HEAT"));
+		    r.emplace_back(getPlayer(i)->getResources("WIFI"));
+		    after.emplace_back(r);
+		}
+		for (size_t i = 0; i < 4; ++i) {
+		  if (after[i][0] == original[i][0] && after[i][1] == original[i][1]
+		    && after[i][2] == original[i][2] && after[i][3] == original[i][3]
+			&& after[i][4] == original[i][4]) {
+				std::cout <<  "Builder " << getPlayer(i)->getColor();
+			    std::cout <<  " gained no resources." << std::endl;
+			}
+	       else {
+			   std::cout << "Builder " << getPlayer(i)->getColor();
+			   std::cout << " gained: ";
+			   for (size_t j = 0; j < 5; ++j) {
+				   if (after[i][j] == original[i][j]) {
+					   continue;
+				   } else {
+					   std::cout << (after[i][j] - original[i][j]);
+					   std::cout << " ";
+					   if (j == 0) {
+						   std::cout << "BRICK";
+					   } else if (j == 1) {
+						   std::cout << "ENERGY";
+					   } else if (j == 2) {
+						   std::cout << "GLASS";
+					   } else if (j == 3) {
+						   std::cout << "HEAT";
+					   } else if (j == 4) {
+						   std::cout << "WIFI";
+					   }
+					   std::cout << " ";
+				   }
+				   std::cout << std::endl; 
+			   }
+		
+		   }
 		}
 	}
 }
