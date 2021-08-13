@@ -70,55 +70,75 @@ bool normalBoard::validRoad(int x) {
 }
 
 bool normalBoard::canBuild(char color, int x, std::string type) {
-	bool meet = false;
-	const std::vector<int> all_tile = findTile("edge", x); // all tiles that have edge x
-	if ((type == "Road") && (validRoad(x))) {
-		// find all adjacent vertex: at most two adjacent vertexs for one edge
-		std::vector<int> adjV = (tiles[all_tile[0]])->getAdjacentVertex(x);
-		// condition 1: check if an adjacent residence is built by the same builder
-		for (auto i : adjV) {
-			if (!notOccupied("vertex", i)) { // if adjacent vertex is occupied
-			  // true if it's occupied by the same builder
-				meet = (vertex[i][0] == color);
-			}
-		}
-		if (meet) {
-			return true;
-		}
-		else {
-			// condition 2: an adjacent road is built by the same builder
-			// find all adjacent edges
-			std::vector<int> adjEE;
-			for (auto& it : all_tile) {
-				std::vector<int> ee = tiles[it]->edgeAdjacentEdge(x);
-				adjEE.insert(adjEE.end(), ee.begin(), ee.end());
-			}
-			for (auto i : adjEE) {
-				// if find any one of the adjacent edges is occupied by the same owner
-				if (!notOccupied("edge", i) && (edge[i][0] == color)) {
-					return true;
-				}
-			}
-		}
-	}
-	else if ((type == "Basement") && validVertex(x)) {
-		// condition 1 already met since it's vaildvertex
-		// condition 2: has an adjacent road that is built by the same builder
-		// find all adjacent edges
-		std::vector<int> adjE;
-		for (auto& it : findTile("vertex", x)) {
-			std::vector<int> be = tiles[it]->getAdjacentEdge(x);
-			adjE.insert(adjE.end(), be.begin(), be.end());
-		}
-		for (auto i : adjE) {
-			// if find any one of the adjacent edges is occupied by the same owner
-			if (!notOccupied("edge", i) && (edge[i][0] == color)) {
-				return true;
-			}
-		}
-	}
-	// if not satisfied any condition
-	return false;
+  bool meet = false;
+  int emptyVertex = 0;
+  bool oneEmptyVertex = false;
+  const std::vector<int> all_tile =
+      findTile("edge", x); // all tiles that have edge x
+  if ((type == "Road") && (validRoad(x))) {
+    // find all adjacent vertex: at most two adjacent vertexs for one edge
+    std::vector<int> adjV = (tiles[all_tile[0]])->getAdjacentVertex(x);
+    // condition 1: check if an adjacent residence is built by the same builder
+    for (auto i : adjV) {
+      if (!notOccupied("vertex", i)) { // if adjacent vertex is occupied
+        // true if it's occupied by the same builder
+        meet = (vertex[i][0] == color);
+        oneEmptyVertex = true;
+      } else {
+        emptyVertex = i;
+      }
+    }
+    if (meet) {
+      return true;
+    } else {
+      // condition 2: an adjacent road is built by the same builder
+      // if only one adjacent vertex is empty, check the adjacent edges of that
+      // one
+      if (oneEmptyVertex) {
+        std::vector<int> adE;
+        for (auto &it : findTile("vertex", emptyVertex)) {
+          std::vector<int> be = tiles[it]->getAdjacentEdge(emptyVertex);
+          adE.insert(adE.end(), be.begin(), be.end());
+        }
+        for (auto i : adE) {
+          // if find any one of the adjacent edges is occupied by the same owner
+          if (!notOccupied("edge", i) && (edge[i][0] == color)) {
+            return true;
+          }
+        }
+      } else {
+        // if two vertex are empty find all adjacent edges
+        std::vector<int> adjEE;
+        for (auto &it : all_tile) {
+          std::vector<int> ee = tiles[it]->edgeAdjacentEdge(x);
+          adjEE.insert(adjEE.end(), ee.begin(), ee.end());
+        }
+        for (auto i : adjEE) {
+          // if find any one of the adjacent edges is occupied by the same owner
+          if (!notOccupied("edge", i) && (edge[i][0] == color)) {
+            return true;
+          }
+        }
+      }
+    }
+  } else if ((type == "Basement") && validVertex(x)) {
+    // condition 1 already met since it's vaildvertex
+    // condition 2: has an adjacent road that is built by the same builder
+    // find all adjacent edges
+    std::vector<int> adjE;
+    for (auto &it : findTile("vertex", x)) {
+      std::vector<int> be = tiles[it]->getAdjacentEdge(x);
+      adjE.insert(adjE.end(), be.begin(), be.end());
+    }
+    for (auto i : adjE) {
+      // if find any one of the adjacent edges is occupied by the same owner
+      if (!notOccupied("edge", i) && (edge[i][0] == color)) {
+        return true;
+      }
+    }
+  }
+  // if not satisfied any condition
+  return false;
 }
 
 std::vector<std::pair<std::string, int>> normalBoard::getResidences(int x) {
