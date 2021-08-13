@@ -292,10 +292,9 @@ void GameModel::update() {
 						   std::cout << "WIFI";
 					   }
 					   std::cout << " ";
-				   }
-				   std::cout << std::endl; 
+				   } 
 			   }
-		
+		       std::cout << std::endl;
 		   }
 		}
 	}
